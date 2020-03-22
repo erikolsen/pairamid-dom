@@ -1,21 +1,59 @@
 import React from 'react';
+import DailyView from './components/DailyView'
+
+const faker = require('faker')
+const pairs = [
+  [
+    {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      avatar: faker.internet.avatar() 
+    },
+    {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      avatar: faker.internet.avatar() 
+    },
+  ],
+  [
+    {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      avatar: faker.internet.avatar() 
+    },
+    {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      avatar: faker.internet.avatar() 
+    },
+    {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      avatar: faker.internet.avatar() 
+    },
+  ],
+  [
+    {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      avatar: faker.internet.avatar() 
+    },
+    {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      avatar: faker.internet.avatar() 
+    },
+  ],
+
+]
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p className='text-blue-600'>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="">
+      <header className="bg-black text-white p-2 text-2xl">
+        <h1>Pairamid</h1>
       </header>
+      <DailyView pairs={pairs} />
     </div>
   );
 }
