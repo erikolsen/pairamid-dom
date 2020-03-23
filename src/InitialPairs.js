@@ -104,19 +104,6 @@ const InitialPairs = {
       },
     }
   },
+  [uuid()]: { users: {}}
 }
-//   [uuid()]: [
-//     {
-//       firstName: faker.name.firstName(),
-//       lastName: faker.name.lastName(),
-//       avatar: faker.internet.avatar() 
-//     },
-//     {
-//       firstName: faker.name.firstName(),
-//       lastName: faker.name.lastName(),
-//       avatar: faker.internet.avatar() 
-//     },
-//   ],
-
-// }
 export default InitialPairs
