@@ -1,33 +1,20 @@
 import React, { Component } from 'react'
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import InitialPairs from '../InitialPairs'
 
-const SQUARE_SIZE = 25
-
-// const User = ({ firstName, avatar }) => {
-//     return (
-//         <div>
-//             <Draggable>
-//                 <div className="flex flex-col items-center px-6 py-4">
-//                     <img className="h-16 h-24 rounded-full" src={avatar} alt="Woman's Face" />
-//                     <p className="text-xl leading-tight">{firstName}</p>
-//                 </div>
-//             </Draggable>
-//         </div>
-//     )
-// }
-const User = ({ firstName, avatar, index }) => {
+const User = ({ id, user, index }) => {
     return (
         <div>
-            <Draggable draggableId={firstName} index={index}>
+            <Draggable draggableId={id} index={index}>
                 {provided => (
                     <div 
-                        className="flex flex-col items-center px-6 py-4"
+                        className="flex flex-col items-center px-2 py-2"
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
                     >
-                        <img className="h-16 h-24 rounded-full" src={avatar} alt="Woman's Face" />
-                        <p className="text-xl leading-tight">{firstName}</p>
+                        <img className="h-12 h-12 rounded-full" src={user.avatar} alt='user icon' title={`${user.firstName} ${user.lastName}`}/>
+                        <p className="leading-tight">{user.firstName[0] + user.lastName[0]}</p>
                     </div>
                 )}
             </Draggable>
@@ -35,15 +22,21 @@ const User = ({ firstName, avatar, index }) => {
     )
 }
 
-const Pair = ({pair}) => {
-    let users =  pair.map((user, i)=> <User index={i} firstName={user.firstName} avatar={user.avatar} key={i}/>)
+const Pair = ({pair, id}) => {
+    console.log('in pair', pair)
+    let users =  Object.entries(pair.users).map(([id, user], i)=> <User index={i} id={id} user={user} key={id}/>)
     return (
-        <div className="flex max-w-md bg-white shadow-lg rounded-lg m-2">
-            <Droppable droppableId={'list-1'}>
+        <div className="bg-white shadow-lg rounded-lg m-2 max-w-xs">
+            <Droppable droppableId={id} direction='horizontal'>
                 {(provided, snapshot)=> {
                     return(
-                        <div ref={provided.innerRef}>
+                        <div 
+                            className="flex flex-row"
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                        >
                             {users}
+                            {provided.placeholder}
                         </div>
                     )
                 }}
@@ -52,22 +45,63 @@ const Pair = ({pair}) => {
     ) 
 }
 
+const PairNames = ({pair})=> {
+    let names = Object.entries(pair.users).map(([id, user]) => `${user.firstName} ${user.lastName}`)
+    return (
+        <li>{names.join(' & ')}</li>
+    )
+}
+
 class DailyView extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            pairs: { ...InitialPairs } 
+        }
+        console.log('in const', this.state.pairs)
+    }
 
-    onDragEnd(result){ 
+    onDragEnd = (result) => { 
+        const { destination, source, draggableId } = result;
+        if(!destination || destination.droppableId === source.droppableId){ return }
 
+        const descUsers = this.state.pairs[destination.droppableId].users
+        const sourceUsers = this.state.pairs[source.droppableId].users
+
+        descUsers[draggableId] = sourceUsers[draggableId]
+        delete sourceUsers[draggableId]
+
+        this.setState({
+        ...this.state.pairs,
+        [source.droppableId]: {
+            users: sourceUsers 
+        },
+        [destination.droppableId]: {
+            users: descUsers
+        }
+        });
     }
 
     render() {
+        console.log('in Render', this.state.pairs)
         let today = new Date();
         // let date = `${today.getMonth()+1}-${today.getDate()}-${today.getFullYear()}`
         let date = today.toDateString()
         return (
             <div>
-                <DragDropContext onDragEnd={onDragEnd}>
-                    <p className="text-2xl m-2">Pairs for {date}</p>
-                    { this.props.pairs.map( (pair, i)=> <Pair pair={pair} key={i} /> ) }
-                </DragDropContext>
+                <p className="text-2xl m-2">Pairs for {date}</p>
+                <div className='flex'>
+                    <div>
+                        <DragDropContext onDragEnd={this.onDragEnd}>
+                            { Object.entries(this.state.pairs).map( ([id, pair])=> <Pair id={id} pair={pair} key={id} /> ) }
+                        </DragDropContext>
+                        <ul className='m-2'>
+                            { Object.entries(this.state.pairs).map( ([id, pair])=> <PairNames pair={pair} key={id} /> ) }
+                        </ul>
+                    </div>
+                    <div>
+                    </div>
+                </div>
             </div>
         )
     }
