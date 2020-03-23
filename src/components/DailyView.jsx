@@ -1,46 +1,14 @@
 import React, { Component } from 'react'
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import InitialPairs from '../InitialPairs'
-import _ from 'lodash'
-
-const faker = require('faker')
-const FakePair = ()=> {
-    let first = {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
-    }
-    let second = {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
-    }
-    return (
-        <div className='flex flex-row items-center'>
-            <UserDataNoImage user={first}/>
-            <p>&</p>
-            <UserDataNoImage user={second}/>
-        </div>
-    )
-}
-
-const UserDataNoImage = ({user}) => {
-    return (
-        <div className="flex flex-col items-center px-2 py-2">
-            <p className="leading-tight">{user.firstName[0] + user.lastName[0]}</p>
-        </div>
-    )
-}
 
 const UserData = ({user}) => {
     return (
-        <div className="flex flex-col items-center px-2 py-2">
-            <img className="h-12 h-12 rounded-full" src={user.avatar} alt='user icon' title={`${user.firstName} ${user.lastName}`}/>
-            <p className="leading-tight">{user.firstName[0] + user.lastName[0]}</p>
+        <div className={`w-12 h-12 m-2 border rounded-full bg-${user.team}-400 flex items-center justify-center`}>
+            <p className="text-white text-xs">{user.initials}</p>
         </div>
     )
 }
-
 const User = ({ id, user, index }) => {
     return (
         <div>
@@ -60,10 +28,9 @@ const User = ({ id, user, index }) => {
 }
 
 const Pair = ({pair, id}) => {
-    console.log('in pair', pair)
     let users =  Object.entries(pair.users).map(([id, user], i)=> <User index={i} id={id} user={user} key={id}/>)
     return (
-        <div className="bg-white shadow-lg rounded-lg m-2 max-w-xs">
+        <div className="bg-white shadow-lg rounded-lg m-2">
             <Droppable droppableId={id} direction='horizontal'>
                 {(provided, snapshot)=> {
                     return(
@@ -83,10 +50,16 @@ const Pair = ({pair, id}) => {
 }
 
 const PairNames = ({pair})=> {
-    let names = Object.entries(pair.users).map(([id, user]) => `${user.firstName} ${user.lastName}`)
-    return (
-        <li>{names.join(' & ')}</li>
-    )
+    let names = Object.entries(pair.users).map(([id, user]) => `${user.initials}`)
+    if(names.length === 1){
+        return (
+            <li>{names[0]} (solo)</li>
+        )
+    } else {
+        return (
+            <li>{names.join(' & ')}</li>
+        )
+    }
 }
 
 class DailyView extends Component {
@@ -95,7 +68,6 @@ class DailyView extends Component {
         this.state = {
             pairs: { ...InitialPairs } 
         }
-        console.log('in const', this.state.pairs)
     }
 
     onDragEnd = (result) => { 
@@ -120,42 +92,20 @@ class DailyView extends Component {
     }
 
     render() {
-        console.log('in Render', this.state.pairs)
-        let days = ['TUE', 'WED', 'THUR', 'FRI', 'MON']
         let today = new Date();
-        // let date = `${today.getMonth()+1}-${today.getDate()}-${today.getFullYear()}`
         let date = today.toDateString()
         return (
-            <div className='flex'>
-                <div>
-                    <p className="text-2xl m-2">Pairs for {date}</p>
-                    <div className='flex'>
-                        <div>
-                            <DragDropContext onDragEnd={this.onDragEnd}>
-                                { Object.entries(this.state.pairs).map( ([id, pair])=> <Pair id={id} pair={pair} key={id} /> ) }
-                            </DragDropContext>
-                        </div>
+            <div>
+                <p className="text-2xl m-2">Pairs for {date}</p>
+                <div className='flex'>
+                    <div className=''>
+                        <DragDropContext onDragEnd={this.onDragEnd}>
+                            { Object.entries(this.state.pairs).map( ([id, pair])=> <Pair id={id} pair={pair} key={id} /> ) }
+                        </DragDropContext>
                     </div>
-                </div>
-                <div>
-                    <div>
-                        <p className='text-2xl m-2'>Pairing History</p>
-                        <table className=''>
-                            <tbody>
-                                <tr>
-                                    {days.map((day, i) => <td className='text-center' key={i}>{day}</td>)}
-                                </tr>
-                                {_.range(8).map(()=> 
-                                    <tr>
-                                        {_.range(5).map(() => <td className=' border border-solid-black'><FakePair /></td>)}
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        <p className='text-2xl m-2'>Todays Pairings</p>
-                        <ul className='m-2'>
+                    <div className='ml-4'>
+                        <p className=''>Pairs: </p>
+                        <ul className=''>
                             { Object.entries(this.state.pairs).map( ([id, pair])=> <PairNames pair={pair} key={id} /> ) }
                         </ul>
                     </div>

@@ -1,109 +1,104 @@
 import { v4 as uuid }  from 'uuid'
-const faker = require('faker')
+// const faker = require('faker')
+const HOME = 'indigo'
+const VISITOR = 'blue'
+
 const InitialPairs = {
   [uuid()]: {
     users: {
       [uuid()]: {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
+        initials: 'CD',
+        team: VISITOR
       },
       [uuid()]: {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
+        initials: 'JH',
+        team: HOME
       },
     }
   },
   [uuid()]: {
     users: {
       [uuid()]: {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
+        initials: 'MS',
+        team: HOME
       },
       [uuid()]: {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
+        initials: 'TP',
+        team: VISITOR
       },
     }
   },
   [uuid()]: {
     users: {
       [uuid()]: {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
+        initials: 'MR',
+        team: VISITOR
       },
       [uuid()]: {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
+        initials: 'ES',
+        team: HOME
       },
     }
   },
   [uuid()]: {
     users: {
       [uuid()]: {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
+        initials: 'BD',
+        team: HOME
       },
       [uuid()]: {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
+        initials: 'RP',
+        team: VISITOR
       },
     }
   },
   [uuid()]: {
     users: {
       [uuid()]: {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
+        initials: 'NH',
+        team: HOME
       },
       [uuid()]: {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
+        initials: 'EO',
+        team: HOME
       },
     }
   },
   [uuid()]: {
     users: {
       [uuid()]: {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
+        initials: 'KD',
+        team: HOME
       },
       [uuid()]: {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
+        initials: 'RJ',
+        team: VISITOR
       },
-      [uuid()]: {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
-      },
-    },
+    }
   },
   [uuid()]: {
     users: {
       [uuid()]: {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
-      },
-      [uuid()]: {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        avatar: faker.internet.avatar() 
+        initials: 'MVS',
+        team: HOME
       },
     }
   },
-  [uuid()]: { users: {}}
+  [uuid()]: {
+    users: {
+      [uuid()]: {
+        initials: 'AR',
+        team: HOME
+      },
+    }
+  },
+  [uuid()]: {
+    users: {
+      [uuid()]: {
+        initials: 'CP',
+        team: VISITOR
+      },
+    }
+  },
 }
 export default InitialPairs
