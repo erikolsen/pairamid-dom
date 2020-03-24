@@ -5,7 +5,7 @@ class App extends React.Component {
   render(){
     return (
       <div className="">
-        <header className="bg-black text-white p-2 text-2xl">
+        <header className="bg-blue-500 text-white p-2 text-2xl">
           <h1>Pairamid</h1>
         </header>
         <DailyView />

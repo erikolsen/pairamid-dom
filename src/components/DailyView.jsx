@@ -29,7 +29,6 @@ const User = ({ id, user, index }) => {
 
 const Pair = ({pair, id, onChange}) => {
     let users =  Object.entries(pair.users).map(([id, user], i)=> <User index={i} id={id} user={user} key={id}/>)
-    console.log('Working', pair)
     return (
         <div className="bg-white shadow-lg rounded-lg m-2">
             <Droppable droppableId={id} direction='horizontal'>
@@ -66,6 +65,7 @@ const PairNames = ({pair})=> {
 
 class DailyView extends Component {
     STORAGE_NAME = 'pairamid-data'
+
     constructor(props) {
         super(props)
         this.state = {
@@ -73,16 +73,16 @@ class DailyView extends Component {
         }
     }
 
-    // componentDidMount(){
-    //     let pairs = localStorage.getItem(this.STORAGE_NAME)
-    //     if(!!pairs){
-    //         return 
-    //     } else {
-    //         console.log('here')
-    //         pairs = {...InitialPairs}
-    //         this.setState({pairs})
-    //     }
-    // }
+    componentDidMount(){
+        let pairs = JSON.parse(localStorage.getItem(this.STORAGE_NAME))
+        if(pairs){
+            this.setState({pairs})
+        }
+    }
+
+    updateLocal(){
+        localStorage.setItem(this.STORAGE_NAME, JSON.stringify(this.state.pairs))
+    }
 
     onDragEnd = (result) => { 
         const { destination, source, draggableId } = result;
@@ -103,7 +103,7 @@ class DailyView extends Component {
             users: descUsers
         }
         });
-        // localStorage.setItem(this.STORAGE_NAME, this.state)
+        this.updateLocal()
     }
 
     onWorkingChange = (event, id) => {
@@ -114,13 +114,12 @@ class DailyView extends Component {
             ...this.state.pairs,
             [id]: newPair,
         });
-        // localStorage.setItem(this.STORAGE_NAME, this.state)
+        this.updateLocal()
     }
 
     render() {
         let today = new Date();
         let date = today.toDateString()
-        console.log('state', this.state)
         return (
             <div>
                 <p className="text-2xl m-2">Pairs for {date}</p>
