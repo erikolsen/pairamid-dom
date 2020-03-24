@@ -5,7 +5,7 @@ const VISITOR = 'blue'
 
 const InitialPairs = {
   [uuid()]: {
-    working: '',
+    working: '24609',
     users: {
       [uuid()]: {
         initials: 'CD',
@@ -70,7 +70,7 @@ const InitialPairs = {
     },
   },
   [uuid()]: {
-    working: '24609',
+    working: '',
     users: {
       [uuid()]: {
         initials: 'KD',
