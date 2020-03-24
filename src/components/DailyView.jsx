@@ -76,8 +76,8 @@ class DailyView extends Component {
                     <p className="text-2xl m-4">Pairs Today</p>
                     <p className="text-2xl m-4"><span className='font-bold'>{days[today.getDay()]}</span>, <span className='text-gray-600'>{today.getDate()}<sup>{getGetOrdinal(today.getDate())}</sup></span></p>
                 </div>
-                <div className='flex'>
-                    <div className=''>
+                <div className=''>
+                    <div className='grid grid-cols-3 gap-4'>
                         <DragDropContext onDragEnd={this.onDragEnd}>
                             { pairs }
                         </DragDropContext>

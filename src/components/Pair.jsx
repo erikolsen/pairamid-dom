@@ -18,8 +18,8 @@ const Pair = ({pair, id, onChange}) => {
                                 {users}
                                 {provided.placeholder}
                             </div>
-                            <div>
-                                <input onChange={(e) => onChange(e, id)} placeholder='Working on...' className='px-2 border border-solid' type='text' value={pair.working} />
+                            <div className='m-2'>
+                                <input onChange={(e) => onChange(e, id)} placeholder='Working on...' className='w-full px-2 border border-solid' type='text' value={pair.working} />
                             </div>
                         </div>
                     )
