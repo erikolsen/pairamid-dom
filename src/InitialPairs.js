@@ -5,6 +5,7 @@ const VISITOR = 'blue'
 
 const InitialPairs = {
   [uuid()]: {
+    working: '',
     users: {
       [uuid()]: {
         initials: 'CD',
@@ -17,6 +18,7 @@ const InitialPairs = {
     }
   },
   [uuid()]: {
+    working: '',
     users: {
       [uuid()]: {
         initials: 'MS',
@@ -29,6 +31,7 @@ const InitialPairs = {
     }
   },
   [uuid()]: {
+    working: '',
     users: {
       [uuid()]: {
         initials: 'MR',
@@ -41,6 +44,7 @@ const InitialPairs = {
     }
   },
   [uuid()]: {
+    working: '',
     users: {
       [uuid()]: {
         initials: 'BD',
@@ -53,6 +57,7 @@ const InitialPairs = {
     }
   },
   [uuid()]: {
+    working: '',
     users: {
       [uuid()]: {
         initials: 'NH',
@@ -62,9 +67,10 @@ const InitialPairs = {
         initials: 'EO',
         team: HOME
       },
-    }
+    },
   },
   [uuid()]: {
+    working: '24609',
     users: {
       [uuid()]: {
         initials: 'KD',
@@ -77,6 +83,7 @@ const InitialPairs = {
     }
   },
   [uuid()]: {
+    working: '',
     users: {
       [uuid()]: {
         initials: 'MVS',
@@ -85,6 +92,7 @@ const InitialPairs = {
     }
   },
   [uuid()]: {
+    working: '',
     users: {
       [uuid()]: {
         initials: 'AR',
@@ -93,6 +101,7 @@ const InitialPairs = {
     }
   },
   [uuid()]: {
+    working: '',
     users: {
       [uuid()]: {
         initials: 'CP',
