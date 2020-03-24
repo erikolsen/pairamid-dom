@@ -95,6 +95,33 @@ const InitialPairs = {
     working: '',
     users: {
       [uuid()]: {
+        initials: 'MJ',
+        team: HOME
+      },
+    }
+  },
+  [uuid()]: {
+    working: '',
+    users: {
+      [uuid()]: {
+        initials: 'JW',
+        team: HOME
+      },
+    }
+  },
+  [uuid()]: {
+    working: '',
+    users: {
+      [uuid()]: {
+        initials: 'JL',
+        team: VISITOR
+      },
+    }
+  },
+  [uuid()]: {
+    working: '',
+    users: {
+      [uuid()]: {
         initials: 'AR',
         team: HOME
       },
