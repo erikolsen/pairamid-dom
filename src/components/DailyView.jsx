@@ -4,6 +4,12 @@ import InitialPairs from '../InitialPairs'
 import Pair from './Pair'
 import PairNames from './PairNames'
 
+function getGetOrdinal(n) {
+    var s=["th","st","nd","rd"],
+        v=n%100;
+    return (s[(v-20)%10]||s[v]||s[0]);
+ }
+
 class DailyView extends Component {
     STORAGE_NAME = 'pairamid-data'
 
@@ -60,13 +66,16 @@ class DailyView extends Component {
 
     render() {
         let today = new Date();
-        let date = today.toDateString()
+        var days = ['Sun','Mon','Tue','Wed','Thur','Fri','Sat'];
         let pairs =  Object.entries(this.state.pairs).map( ([id, pair])=> <Pair onChange={this.onWorkingChange} id={id} pair={pair} key={id} /> ) 
         let pairNames =  Object.entries(this.state.pairs).map( ([id, pair])=> <PairNames pair={pair} key={id} /> ) 
 
         return (
             <div>
-                <p className="text-2xl m-2">Pairs for {date}</p>
+                <div className='flex justify-between border border-bottom mb-4'>
+                    <p className="text-2xl m-4">Pairs Today</p>
+                    <p className="text-2xl m-4"><span className='font-bold'>{days[today.getDay()]}</span>, <span className='text-gray-600'>{today.getDate()}<sup>{getGetOrdinal(today.getDate())}</sup></span></p>
+                </div>
                 <div className='flex'>
                     <div className=''>
                         <DragDropContext onDragEnd={this.onDragEnd}>
