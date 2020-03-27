@@ -16,7 +16,7 @@ class DailyView extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            pairs: {...InitialPairs}
+            pairs: InitialPairs 
         }
     }
 
@@ -33,22 +33,26 @@ class DailyView extends Component {
 
     onDragEnd = (result) => { 
         const { destination, source, draggableId } = result;
-        if(!destination || destination.droppableId === source.droppableId){ return }
+        if(!destination){ return }
 
-        const descUsers = this.state.pairs[destination.droppableId].users
-        const sourceUsers = this.state.pairs[source.droppableId].users
+        const sourcePair = this.state.pairs.find((pair)=> pair.uuid === source.droppableId)
+        const descPair = this.state.pairs.find((pair)=> pair.uuid === destination.droppableId)
 
-        descUsers[draggableId] = sourceUsers[draggableId]
-        delete sourceUsers[draggableId]
+        const sourceIndex = this.state.pairs.indexOf(sourcePair) 
+        const descIndex = this.state.pairs.indexOf(descPair)
 
+        const sourceUsers = this.state.pairs[sourceIndex].users 
+        const descUsers = destination.droppableId === source.droppableId ? sourceUsers : this.state.pairs[descIndex].users
+
+        let user = sourceUsers.find((user)=> user.uuid === draggableId)
+        let pairsClone = this.state.pairs
+
+        sourceUsers.splice(source.index, 1)
+        descUsers.splice(destination.index, 0, user)
+        pairsClone[descIndex] = descPair
+        pairsClone[sourceIndex] = sourcePair
         this.setState({
-        ...this.state.pairs,
-        [source.droppableId]: {
-            users: sourceUsers 
-        },
-        [destination.droppableId]: {
-            users: descUsers
-        }
+            pairs: pairsClone
         });
         this.updateLocal()
     }
@@ -67,8 +71,8 @@ class DailyView extends Component {
     render() {
         let today = new Date();
         var days = ['Sun','Mon','Tue','Wed','Thur','Fri','Sat'];
-        let pairs =  Object.entries(this.state.pairs).map( ([id, pair])=> <Pair onChange={this.onWorkingChange} id={id} pair={pair} key={id} /> ) 
-        let pairNames =  Object.entries(this.state.pairs).map( ([id, pair])=> <PairNames pair={pair} key={id} /> ) 
+        let pairs =  this.state.pairs.map( (pair)=> <Pair onChange={this.onWorkingChange} pair={pair} key={pair.uuid} /> ) 
+        let pairNames =  this.state.pairs.map((pair)=> <PairNames pair={pair} key={pair.uuid} /> ) 
 
         return (
             <div>

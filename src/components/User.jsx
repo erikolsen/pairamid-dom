@@ -2,10 +2,10 @@ import React from 'react'
 import { Draggable } from "react-beautiful-dnd";
 import UserData from './UserData'
 
-const User = ({ id, user, index }) => {
+const User = ({ user, index }) => {
     return (
         <div>
-            <Draggable draggableId={id} index={index}>
+            <Draggable draggableId={user.uuid} index={index}>
                 {provided => (
                     <div 
                         {...provided.draggableProps}

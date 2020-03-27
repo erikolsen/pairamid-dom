@@ -2,11 +2,11 @@ import React from 'react'
 import { Droppable } from "react-beautiful-dnd";
 import User from './User'
 
-const Pair = ({pair, id, onChange}) => {
-    let users =  Object.entries(pair.users).map(([id, user], i)=> <User index={i} id={id} user={user} key={id}/>)
+const Pair = ({pair, onChange}) => {
+    let users =  pair.users.map((user, i)=> <User index={i} user={user} key={user.uuid}/>)
     return (
         <div className="bg-white shadow-lg rounded-lg m-2">
-            <Droppable droppableId={id} direction='horizontal'>
+            <Droppable droppableId={pair.uuid} direction='horizontal'>
                 {(provided, snapshot)=> {
                     return(
                         <div>
@@ -19,7 +19,7 @@ const Pair = ({pair, id, onChange}) => {
                                 {provided.placeholder}
                             </div>
                             <div className='m-2'>
-                                <input onChange={(e) => onChange(e, id)} placeholder='Working on...' className='w-full px-2 border border-solid' type='text' value={pair.working} />
+                                <input onChange={(e) => onChange(e, pair.uuid)} placeholder='Working on...' className='w-full px-2 border border-solid' type='text' value={pair.working} />
                             </div>
                         </div>
                     )
