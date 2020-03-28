@@ -3,16 +3,25 @@ import { DragDropContext } from "react-beautiful-dnd";
 import InitialPairs from '../InitialPairs'
 import Pair from './Pair'
 import PairNames from './PairNames'
+import axios from 'axios'
 
-function getGetOrdinal(n) {
-    var s=["th","st","nd","rd"],
+const getGetOrdinal = (n) => {
+    const s = ["th","st","nd","rd"],
         v=n%100;
     return (s[(v-20)%10]||s[v]||s[0]);
  }
 
-class DailyView extends Component {
-    STORAGE_NAME = 'pairamid-data'
+const getPairData = (pairs, pairUuid) => {
+    const pair =  pairs.find((p)=> p.uuid === pairUuid)
+    const index = pairs.indexOf(pair)
+    return {
+        pair: pair,
+        index: index,
+        users: pairs[index].users,
+    }
+}
 
+class DailyView extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -21,10 +30,10 @@ class DailyView extends Component {
     }
 
     componentDidMount(){
-        let pairs = JSON.parse(localStorage.getItem(this.STORAGE_NAME))
-        if(pairs){
-            this.setState({pairs})
-        }
+        axios.get('http://localhost:5000/pairing_sessions')
+            .then((response) => {
+                this.setState({ pairs: response.data })
+            })
     }
 
     updateLocal(){
@@ -35,44 +44,36 @@ class DailyView extends Component {
         const { destination, source, draggableId } = result;
         if(!destination){ return }
 
-        const sourcePair = this.state.pairs.find((pair)=> pair.uuid === source.droppableId)
-        const descPair = this.state.pairs.find((pair)=> pair.uuid === destination.droppableId)
+        const sourceData = getPairData(this.state.pairs, source.droppableId)
+        const descData = getPairData(this.state.pairs, destination.droppableId)
+        const descUsers = destination.droppableId === source.droppableId ? sourceData.users : descData.users
+        const user = sourceData.users.find((user)=> user.uuid === draggableId)
 
-        const sourceIndex = this.state.pairs.indexOf(sourcePair) 
-        const descIndex = this.state.pairs.indexOf(descPair)
-
-        const sourceUsers = this.state.pairs[sourceIndex].users 
-        const descUsers = destination.droppableId === source.droppableId ? sourceUsers : this.state.pairs[descIndex].users
-
-        let user = sourceUsers.find((user)=> user.uuid === draggableId)
-        let pairsClone = this.state.pairs
-
-        sourceUsers.splice(source.index, 1)
+        sourceData.users.splice(source.index, 1)
         descUsers.splice(destination.index, 0, user)
-        pairsClone[descIndex] = descPair
-        pairsClone[sourceIndex] = sourcePair
+
         this.setState({
-            pairs: pairsClone
+            ...this.state.pairs, 
+            [sourceData.index]: sourceData.pair,
+            [descData.index]: descData.pair,
         });
-        this.updateLocal()
     }
 
-    onWorkingChange = (event, id) => {
+    onWorkingChange = (event, uuid) => {
         event.preventDefault()
-        let newPair = this.state.pairs[id]
-        newPair.working = event.target.value
+        const pairData = getPairData(this.state.pairs, uuid)
+        pairData.pair.info = event.target.value
         this.setState({
             ...this.state.pairs,
-            [id]: newPair,
+            [pairData.index]: pairData.pair
         });
-        this.updateLocal()
     }
 
     render() {
-        let today = new Date();
-        var days = ['Sun','Mon','Tue','Wed','Thur','Fri','Sat'];
-        let pairs =  this.state.pairs.map( (pair)=> <Pair onChange={this.onWorkingChange} pair={pair} key={pair.uuid} /> ) 
-        let pairNames =  this.state.pairs.map((pair)=> <PairNames pair={pair} key={pair.uuid} /> ) 
+        const today = new Date();
+        const days = ['Sun','Mon','Tue','Wed','Thur','Fri','Sat'];
+        const pairs =  this.state.pairs.map( (pair, i)=> <Pair onChange={this.onWorkingChange} pair={pair} key={pair.uuid} /> ) 
+        const pairNames =  this.state.pairs.map((pair)=> <PairNames pair={pair} key={pair.uuid} /> ) 
 
         return (
             <div>
