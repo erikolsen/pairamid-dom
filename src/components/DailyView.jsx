@@ -4,6 +4,7 @@ import InitialPairs from '../InitialPairs'
 import Pair from './Pair'
 import PairNames from './PairNames'
 import axios from 'axios'
+import { API_URL } from '../constants'
 
 const getGetOrdinal = (n) => {
     const s = ["th","st","nd","rd"],
@@ -30,14 +31,17 @@ class DailyView extends Component {
     }
 
     componentDidMount(){
-        axios.get('http://localhost:5000/pairing_sessions')
+        axios.get(`${API_URL}/pairing_sessions`)
             .then((response) => {
                 this.setState({ pairs: response.data })
             })
     }
 
-    updateLocal(){
-        localStorage.setItem(this.STORAGE_NAME, JSON.stringify(this.state.pairs))
+    savePairs = () => {
+        axios.post(`${API_URL}/pairing_sessions`, this.state.pairs)
+            .then((response) => {
+                console.log('response', response.data)
+            })
     }
 
     onDragEnd = (result) => { 
@@ -87,7 +91,8 @@ class DailyView extends Component {
                             { pairs }
                         </DragDropContext>
                     </div>
-                    <div className='ml-4'>
+                    <div className='m-2'>
+                        <button onClick={this.savePairs} className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded'>Save</button>
                         <p className=''>Pairs: </p>
                         <ul className=''>
                             { pairNames }

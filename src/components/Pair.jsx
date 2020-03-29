@@ -19,7 +19,7 @@ const Pair = ({pair, onChange}) => {
                                 {provided.placeholder}
                             </div>
                             <div className='m-2'>
-                                <input onChange={(e) => onChange(e, pair.uuid)} placeholder='Working on...' className='w-full px-2 border border-solid' type='text' value={pair.working} />
+                                <input onChange={(e) => onChange(e, pair.uuid)} placeholder='Working on...' className='w-full px-2 border border-solid' type='text' value={pair.info || ''} />
                             </div>
                         </div>
                     )
