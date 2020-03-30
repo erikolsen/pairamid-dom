@@ -22,11 +22,20 @@ const getPairData = (pairs, pairUuid) => {
     }
 }
 
+const SaveButton = ({saved, onSave}) => {
+    if (saved){
+        return <p className='text-sm border-solid border-2 border-white text-green-500 font-bold py-2 px-4 rounded m-4' >Saved!</p>
+    } else {
+        return <button onClick={onSave} className='text-sm hover:bg-blue-600 hover:text-white border-solid border-2 border-blue-500 text-blue-500 font-bold py-2 px-4 rounded m-4' >Save</button>
+    }
+}
+
 class DailyView extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            pairs: InitialPairs 
+            pairs: InitialPairs,
+            saved: false
         }
     }
 
@@ -40,7 +49,7 @@ class DailyView extends Component {
     savePairs = () => {
         axios.post(`${API_URL}/pairing_sessions`, this.state.pairs)
             .then((response) => {
-                console.log('response', response.data)
+                this.setState({saved: true})
             })
     }
 
@@ -57,6 +66,7 @@ class DailyView extends Component {
         descUsers.splice(destination.index, 0, user)
 
         this.setState({
+            saved: false,
             ...this.state.pairs, 
             [sourceData.index]: sourceData.pair,
             [descData.index]: descData.pair,
@@ -68,6 +78,7 @@ class DailyView extends Component {
         const pairData = getPairData(this.state.pairs, uuid)
         pairData.pair.info = event.target.value
         this.setState({
+            saved: false,
             ...this.state.pairs,
             [pairData.index]: pairData.pair
         });
@@ -82,7 +93,10 @@ class DailyView extends Component {
         return (
             <div>
                 <div className='flex justify-between border border-bottom mb-4'>
-                    <p className="text-2xl m-4">Pairs Today</p>
+                    <div className='flex'>
+                        <p className="text-2xl m-4">Pairs Today</p>
+                        <SaveButton onSave={this.savePairs} saved={this.state.saved} />
+                    </div>
                     <p className="text-2xl m-4"><span className='font-bold'>{days[today.getDay()]}</span>, <span className='text-gray-600'>{today.getDate()}<sup>{getGetOrdinal(today.getDate())}</sup></span></p>
                 </div>
                 <div className=''>
@@ -92,7 +106,6 @@ class DailyView extends Component {
                         </DragDropContext>
                     </div>
                     <div className='m-2'>
-                        <button onClick={this.savePairs} className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded'>Save</button>
                         <p className=''>Pairs: </p>
                         <ul className=''>
                             { pairNames }
