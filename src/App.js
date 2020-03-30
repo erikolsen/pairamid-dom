@@ -7,7 +7,7 @@ class App extends React.Component {
     return (
       <div className="">
         <header className="flex bg-blue-100 text-white items-center">
-          <img src={logo} alt='logo' className='mx-4'/>
+          <img src={logo} alt='logo' className='mx-4 h-10'/>
         </header>
         <DailyView />
       </div>
