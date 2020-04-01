@@ -135,8 +135,8 @@ class DailyView extends Component {
         const pairNames =  this.state.pairs.map((pair)=> <PairNames pair={pair} key={pair.uuid} /> ) 
 
         return (
-            <div>
-                <div className='flex justify-between border border-bottom mb-4'>
+            <section>
+                <div className='flex justify-between mb-4'>
                     <div className='flex'>
                         <p className="text-2xl my-4 ml-4">Pairs Today</p>
                         <SaveStatus saved={this.state.saved} />
@@ -163,7 +163,7 @@ class DailyView extends Component {
                         </ul>
                     </div>
                 </div>
-            </div>
+            </section>
         )
     }
 }

@@ -1,15 +1,16 @@
 import React from 'react';
-import DailyView from './components/DailyView'
-import logo from './assets/pairamid-logo.png'
+import './App.scss';
+import Header from './components/Header';
+import DailyView from './components/DailyView';
 
 class App extends React.Component {
   render(){
     return (
-      <div className="">
-        <header className="flex bg-blue-100 text-white items-center">
-          <img src={logo} alt='logo' className='mx-4 h-10'/>
-        </header>
-        <DailyView />
+      <div className="grid grid-cols-1 md:grid-cols-5">
+        <Header />
+        <main className="pym-main col-span-4 p-12">
+          <DailyView />
+        </main>
       </div>
     );
   }
