@@ -3,8 +3,10 @@ import logo from '../../assets/pairamid-logo.png';
 import './Header.scss';
 
 const Header = (props) => (
-    <header className="pym-header flex justify-center p-12">
-        <img src={logo} alt='logo' className='h-10'/>
+    <header className="pmd-header flex md:justify-center p-4 md:p-12">
+        <div>
+            <img src={logo} alt='logo' width="169" height="40" />
+        </div>
     </header>
 );
 

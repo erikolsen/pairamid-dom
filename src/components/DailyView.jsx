@@ -136,16 +136,17 @@ class DailyView extends Component {
 
         return (
             <section>
-                <div className='flex justify-between mb-4'>
-                    <div className='flex'>
-                        <p className="text-2xl my-4 ml-4">Pairs Today</p>
-                        <SaveStatus saved={this.state.saved} />
+                <header className='pmd-section-header flex flex-wrap justify-between items-baseline py-2 mb-4'>
+                    <div className='flex items-center'>
+                        <h1>Today's Pairs</h1>
+                        <SaveButton onSave={this.savePairs} saved={this.state.saved} />
                     </div>
                     <p className="m-4 text-2xl">{getTodaysDate()}</p>
-                </div>
-                { this.state.error && <ErrorMessage message={this.state.error} /> }
-                <div className=''>
-                    <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
+                    <p className="pmd-heading-meta">{this.getTodaysDate()}</p>
+                </header>
+                
+                <div className="pmd-section-content grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <div className='col-span-2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4'>
                         <DragDropContext onDragEnd={this.onDragEnd}>
                             { pairs }
                         </DragDropContext>
@@ -156,8 +157,8 @@ class DailyView extends Component {
                             <span className='mx-2 text-lg text-gray-600'>Add Pair</span>
                         </button>
                     </div>
-                    <div className='m-2'>
-                        <p className=''>Pairs: </p>
+                    <div className='col-span-2 m-2'>
+                        <h2>Daily Pair List</h2>
                         <ul className=''>
                             { pairNames }
                         </ul>

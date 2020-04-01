@@ -1,8 +1,19 @@
 @import '../../constants/variables.scss';
-.pym-header {
-    height: 100vh;
+.pmd-header {
+    border-bottom: $border;    
+
+    @media (min-width: 768px) {
+        height: 100vh;
+        border-right: $border;
+    }
 
     img {
-        margin-top: 32px;
+        width: 100%;
+        height: auto;
+        max-width: 168px;
+        
+        @media (min-width: 768px) {
+            margin-top: 32px;
+        }
     }
 }

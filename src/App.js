@@ -8,7 +8,7 @@ class App extends React.Component {
     return (
       <div className="grid grid-cols-1 md:grid-cols-5">
         <Header />
-        <main className="pym-main col-span-4 p-12">
+        <main className="pmd-main col-span-4 p-12">
           <DailyView />
         </main>
       </div>

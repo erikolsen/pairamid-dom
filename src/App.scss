@@ -1,5 +1,10 @@
 @import './constants/variables.scss';
+@import './constants/typography.scss';
 
-.pym-main {
+.pmd-main {
   background-color: $grey-light;
+}
+
+.pmd-section-header {
+  border-bottom: $border;
 }
