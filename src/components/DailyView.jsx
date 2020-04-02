@@ -6,11 +6,17 @@ import PairNames from './PairNames'
 import axios from 'axios'
 import { API_URL } from '../constants'
 
-const getGetOrdinal = (n) => {
-    const s = ["th","st","nd","rd"],
-        v=n%100;
-    return (s[(v-20)%10]||s[v]||s[0]);
- }
+
+const getTodaysDate = () => {
+    const today = new Date();
+    const dateFormatOptions = {
+        month: 'long',
+        weekday: 'long',
+        year: 'numeric',
+        day: 'numeric',
+    };
+    return new Intl.DateTimeFormat('en-US', dateFormatOptions).format(today);
+}
 
 const getPairData = (pairs, pairUuid) => {
     const pair =  pairs.find((p)=> p.uuid === pairUuid)
@@ -49,7 +55,7 @@ class DailyView extends Component {
     savePairs = () => {
         axios.post(`${API_URL}/pairing_sessions`, this.state.pairs)
             .then((response) => {
-                this.setState({saved: true})
+                this.setState({ saved: true })
             })
     }
 
@@ -85,8 +91,6 @@ class DailyView extends Component {
     }
 
     render() {
-        const today = new Date();
-        const days = ['Sun','Mon','Tue','Wed','Thur','Fri','Sat'];
         const pairs =  this.state.pairs.map( (pair, i)=> <Pair onChange={this.onWorkingChange} pair={pair} key={pair.uuid} /> ) 
         const pairNames =  this.state.pairs.map((pair)=> <PairNames pair={pair} key={pair.uuid} /> ) 
 
@@ -97,7 +101,7 @@ class DailyView extends Component {
                         <p className="text-2xl m-4">Pairs Today</p>
                         <SaveButton onSave={this.savePairs} saved={this.state.saved} />
                     </div>
-                    <p className="text-2xl m-4"><span className='font-bold'>{days[today.getDay()]}</span>, <span className='text-gray-600'>{today.getDate()}<sup>{getGetOrdinal(today.getDate())}</sup></span></p>
+                    <p className="m-4 text-2xl">{getTodaysDate()}</p>
                 </div>
                 <div className=''>
                     <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
