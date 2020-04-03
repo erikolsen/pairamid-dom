@@ -53,7 +53,7 @@ class DailyView extends Component {
     }
 
     savePairs = () => {
-        axios.post(`${API_URL}/pairing_sessions`, this.state.pairs)
+        axios.put(`${API_URL}/pairing_sessions`, this.state.pairs)
             .then((response) => {
                 this.setState({ saved: true })
             })
@@ -90,8 +90,26 @@ class DailyView extends Component {
         });
     }
 
+    addPair = ()=> {
+        axios.post(`${API_URL}/pairing_sessions`)
+            .then((response) => {
+                this.setState({ 
+                    pairs: [...this.state.pairs, response.data] 
+                });
+            })
+    }
+
+    deletePair = (pair)=> {
+        axios.delete(`${API_URL}/pairing_session/${pair.uuid}`)
+            .then((response) => {
+                this.setState({ 
+                    pairs: this.state.pairs.filter((p)=> p.uuid !== pair.uuid)
+                });
+            })
+    }
+
     render() {
-        const pairs =  this.state.pairs.map( (pair, i)=> <Pair onChange={this.onWorkingChange} pair={pair} key={pair.uuid} /> ) 
+        const pairs =  this.state.pairs.map( (pair, i)=> <Pair onChange={this.onWorkingChange} onDelete={this.deletePair} pair={pair} key={pair.uuid} /> ) 
         const pairNames =  this.state.pairs.map((pair)=> <PairNames pair={pair} key={pair.uuid} /> ) 
 
         return (
@@ -108,6 +126,12 @@ class DailyView extends Component {
                         <DragDropContext onDragEnd={this.onDragEnd}>
                             { pairs }
                         </DragDropContext>
+                    </div>
+                    <div className='m-4'>
+                        <button onClick={this.addPair} className='flex items-center'>
+                            <span className='text-lg text-gray-600'>&#8853;</span>
+                            <span className='mx-2 text-lg text-gray-600'>Add Pair</span>
+                        </button>
                     </div>
                     <div className='m-2'>
                         <p className=''>Pairs: </p>
