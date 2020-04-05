@@ -139,18 +139,17 @@ class DailyView extends Component {
                 <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
                     <div className='flex items-center'>
                         <h1>Today's Pairs</h1>
-                        <SaveButton onSave={this.savePairs} saved={this.state.saved} />
+                        <SaveStatus saved={this.state.saved} />
                     </div>
                     <p className="font-normal text-teal-dark text-xl">{getTodaysDate()}</p>
                 </header>
-                
-                <div className="pmd-section-content grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+                { this.state.error && <ErrorMessage message={this.state.error} /> }
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     <div className='col-span-2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4'>
                         <DragDropContext onDragEnd={this.onDragEnd}>
                             { pairs }
                         </DragDropContext>
-                    </div>
-                    <div className='m-4'>
                         <button onClick={this.addPair} className='flex items-center'>
                             <span className='text-xl text-gray-600'>&#8853;</span>
                             <span className='mx-2 text-lg text-gray-600'>Add Pair</span>
