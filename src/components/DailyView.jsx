@@ -64,12 +64,9 @@ class DailyView extends Component {
     onDragEnd = (result) => { 
         const { destination, source, draggableId } = result;
         if(!destination){ return }
-
+        const dupPairs = _.cloneDeep(this.state.pairs)
         const sourceData = getPairData(this.state.pairs, source.droppableId)
         const descData = getPairData(this.state.pairs, destination.droppableId)
-        const dupPairs = _.cloneDeep(this.state.pairs)
-        const sourceClone = _.cloneDeep(sourceData)
-        const descClone = _.cloneDeep(descData)
 
         const descUsers = destination.droppableId === source.droppableId ? sourceData.users : descData.users
         const user = sourceData.users.find((user)=> user.uuid === draggableId)
@@ -85,19 +82,13 @@ class DailyView extends Component {
         })
         axios.put(`${API_URL}/pairing_sessions/batch`, [sourceData.pair, descData.pair])
             .then((response) => { this.setState({saved: true})})
-            .catch((error) => { 
-                dupPairs[sourceClone.index] = sourceClone.pair
-                dupPairs[descClone.index] = descClone.pair
-                this.setState({pairs: dupPairs, error: error.response.data.message})
-
-            })
+            .catch((error) => { this.setState({pairs: dupPairs, error: error.response.data.message}) })
     }
 
     onWorkingChange = (event, uuid) => {
         event.preventDefault()
         const pairData = getPairData(this.state.pairs, uuid)
         const dupPairs = _.cloneDeep(this.state.pairs)
-        const pairClone = _.cloneDeep(pairData)
         pairData.pair.info = event.target.value
         this.setState({
             saved: false,
@@ -106,10 +97,7 @@ class DailyView extends Component {
         })
         axios.put(`${API_URL}/pairing_sessions/batch`, [pairData.pair])
             .then((response) => { this.setState({saved: true})})
-            .catch((error) => { 
-                dupPairs[pairClone.index] = pairClone.pair
-                this.setState({pairs: dupPairs, error: error.response.data.message})
-            })
+            .catch((error) => { this.setState({pairs: dupPairs, error: error.response.data.message}) })
     }
 
     addPair = ()=> {
