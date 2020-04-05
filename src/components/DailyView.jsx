@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { DragDropContext } from "react-beautiful-dnd";
-import InitialPairs from '../InitialPairs'
 import Pair from './Pair'
 import PairNames from './PairNames'
 import axios from 'axios'
 import { API_URL } from '../constants'
+import _ from 'lodash'
 
 
 const getTodaysDate = () => {
@@ -28,20 +28,29 @@ const getPairData = (pairs, pairUuid) => {
     }
 }
 
-const SaveButton = ({saved, onSave}) => {
+const SaveStatus = ({saved}) => {
     if (saved){
-        return <p className='text-sm border-solid border-2 border-white text-green-500 font-bold py-2 px-4 rounded m-4' >Saved!</p>
+        return <p className='text-sm text-green-500 font-bold px-2 my-6' >&#10003;</p>
     } else {
-        return <button onClick={onSave} className='text-sm hover:bg-blue-600 hover:text-white border-solid border-2 border-blue-500 text-blue-500 font-bold py-2 px-4 rounded m-4' >Save</button>
+        return <p className='text-sm text-black font-bold px-2 my-6' >Saving...</p>
     }
+}
+
+const ErrorMessage = ({message}) => {
+    return (
+        <div className='m-4 bg-red-200'>
+            <p className='text-bold p-2'>{message}</p>
+        </div>
+    )
 }
 
 class DailyView extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            pairs: InitialPairs,
-            saved: false
+            pairs: [],
+            saved: true,
+            error: ''
         }
     }
 
@@ -52,19 +61,16 @@ class DailyView extends Component {
             })
     }
 
-    savePairs = () => {
-        axios.put(`${API_URL}/pairing_sessions`, this.state.pairs)
-            .then((response) => {
-                this.setState({ saved: true })
-            })
-    }
-
     onDragEnd = (result) => { 
         const { destination, source, draggableId } = result;
         if(!destination){ return }
 
         const sourceData = getPairData(this.state.pairs, source.droppableId)
         const descData = getPairData(this.state.pairs, destination.droppableId)
+        const dupPairs = _.cloneDeep(this.state.pairs)
+        const sourceClone = _.cloneDeep(sourceData)
+        const descClone = _.cloneDeep(descData)
+
         const descUsers = destination.droppableId === source.droppableId ? sourceData.users : descData.users
         const user = sourceData.users.find((user)=> user.uuid === draggableId)
 
@@ -76,18 +82,34 @@ class DailyView extends Component {
             ...this.state.pairs, 
             [sourceData.index]: sourceData.pair,
             [descData.index]: descData.pair,
-        });
+        })
+        axios.put(`${API_URL}/pairing_sessions/batch`, [sourceData.pair, descData.pair])
+            .then((response) => { this.setState({saved: true})})
+            .catch((error) => { 
+                dupPairs[sourceClone.index] = sourceClone.pair
+                dupPairs[descClone.index] = descClone.pair
+                this.setState({pairs: dupPairs, error: error.response.data.message})
+
+            })
     }
 
     onWorkingChange = (event, uuid) => {
         event.preventDefault()
         const pairData = getPairData(this.state.pairs, uuid)
+        const dupPairs = _.cloneDeep(this.state.pairs)
+        const pairClone = _.cloneDeep(pairData)
         pairData.pair.info = event.target.value
         this.setState({
             saved: false,
             ...this.state.pairs,
             [pairData.index]: pairData.pair
-        });
+        })
+        axios.put(`${API_URL}/pairing_sessions/batch`, [pairData.pair])
+            .then((response) => { this.setState({saved: true})})
+            .catch((error) => { 
+                dupPairs[pairClone.index] = pairClone.pair
+                this.setState({pairs: dupPairs, error: error.response.data.message})
+            })
     }
 
     addPair = ()=> {
@@ -100,7 +122,7 @@ class DailyView extends Component {
     }
 
     deletePair = (pair)=> {
-        axios.delete(`${API_URL}/pairing_session/${pair.uuid}`)
+        axios.delete(`${API_URL}/pairing_sessions/${pair.uuid}`)
             .then((response) => {
                 this.setState({ 
                     pairs: this.state.pairs.filter((p)=> p.uuid !== pair.uuid)
@@ -116,11 +138,12 @@ class DailyView extends Component {
             <div>
                 <div className='flex justify-between border border-bottom mb-4'>
                     <div className='flex'>
-                        <p className="text-2xl m-4">Pairs Today</p>
-                        <SaveButton onSave={this.savePairs} saved={this.state.saved} />
+                        <p className="text-2xl my-4 ml-4">Pairs Today</p>
+                        <SaveStatus saved={this.state.saved} />
                     </div>
                     <p className="m-4 text-2xl">{getTodaysDate()}</p>
                 </div>
+                { this.state.error && <ErrorMessage message={this.state.error} /> }
                 <div className=''>
                     <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
                         <DragDropContext onDragEnd={this.onDragEnd}>
@@ -129,7 +152,7 @@ class DailyView extends Component {
                     </div>
                     <div className='m-4'>
                         <button onClick={this.addPair} className='flex items-center'>
-                            <span className='text-lg text-gray-600'>&#8853;</span>
+                            <span className='text-xl text-gray-600'>&#8853;</span>
                             <span className='mx-2 text-lg text-gray-600'>Add Pair</span>
                         </button>
                     </div>
