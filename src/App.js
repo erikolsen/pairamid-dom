@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.scss';
 import Header from './components/Header';
 import DailyView from './components/DailyView';
 
@@ -8,7 +7,7 @@ class App extends React.Component {
     return (
       <div className="grid grid-cols-1 md:grid-cols-5">
         <Header />
-        <main className="pmd-main col-span-4 p-12">
+        <main className="bg-gray-light col-span-4 p-12">
           <DailyView />
         </main>
       </div>
