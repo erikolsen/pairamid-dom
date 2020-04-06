@@ -13,7 +13,9 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
     "react-window": "^1.8.5",
-    "uuid": "^7.0.2"
+    "sass": "^1.26.3",
+    "uuid": "^7.0.2",
+    "webfontloader": "^1.6.28"
   },
   "scripts": {
     "start": "npm run watch:css && react-scripts start",

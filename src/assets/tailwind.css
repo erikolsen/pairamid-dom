@@ -1,5 +1,17 @@
 @tailwind base;
 
+html {
+    @apply font-arimo text-gray-dark;
+}
+
+h1 {
+    @apply text-3xl font-bold text-teal-dark;
+}
+
+h2 {
+    @apply text-xl font-bold text-teal-dark;
+}
+
 @tailwind components;
 
 @tailwind utilities;

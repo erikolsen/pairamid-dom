@@ -135,35 +135,34 @@ class DailyView extends Component {
         const pairNames =  this.state.pairs.map((pair)=> <PairNames pair={pair} key={pair.uuid} /> ) 
 
         return (
-            <div>
-                <div className='flex justify-between border border-bottom mb-4'>
-                    <div className='flex'>
-                        <p className="text-2xl my-4 ml-4">Pairs Today</p>
+            <section>
+                <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
+                    <div className='flex items-center'>
+                        <h1>Today's Pairs</h1>
                         <SaveStatus saved={this.state.saved} />
                     </div>
-                    <p className="m-4 text-2xl">{getTodaysDate()}</p>
-                </div>
+                    <p className="font-normal text-teal-dark text-xl">{getTodaysDate()}</p>
+                </header>
+
                 { this.state.error && <ErrorMessage message={this.state.error} /> }
-                <div className=''>
-                    <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <div className='col-span-2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4'>
                         <DragDropContext onDragEnd={this.onDragEnd}>
                             { pairs }
                         </DragDropContext>
-                    </div>
-                    <div className='m-4'>
                         <button onClick={this.addPair} className='flex items-center'>
                             <span className='text-xl text-gray-600'>&#8853;</span>
                             <span className='mx-2 text-lg text-gray-600'>Add Pair</span>
                         </button>
                     </div>
-                    <div className='m-2'>
-                        <p className=''>Pairs: </p>
+                    <div className='col-span-2 m-2'>
+                        <h2>Daily Pair List</h2>
                         <ul className=''>
                             { pairNames }
                         </ul>
                     </div>
                 </div>
-            </div>
+            </section>
         )
     }
 }
