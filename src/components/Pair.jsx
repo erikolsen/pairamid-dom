@@ -5,7 +5,7 @@ import User from './User'
 const Empty = ({pair, onDelete}) => {
     return (
         <div>
-            <button onClick={()=> onDelete(pair)} className='text-xl text-red absolute top-0 right-0 mr-2' title='Delete Pair'>&#8854;</button>
+            <button onClick={()=> onDelete(pair)} className='text-2xl text-red absolute top-0 right-0 mr-2' title='Delete Pair'>&#8854;</button>
             <div className={`w-12 h-12 m-2 border-4 border-dashed border-gray-med rounded-full bg-white flex items-center justify-center`}>
                 <p className="text-gray-med font-bold text-xl">+</p>
             </div>
