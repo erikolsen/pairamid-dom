@@ -32,7 +32,7 @@ const Pair = ({pair, onChange, onDelete}) => {
                                 </div>
                             </div>
                             <div className='m-2'>
-                                <input onChange={(e) => onChange(e, pair.uuid)} placeholder='Working on...' className='w-full px-2 border border-solid' type='text' value={pair.info || ''} />
+                                <input onChange={(e) => onChange(e, pair.uuid)} placeholder='Working on...' className='w-full px-2 border border-gray-light' type='text' value={pair.info || ''} />
                             </div>
                         </div>
                     )
