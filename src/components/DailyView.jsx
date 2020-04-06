@@ -30,7 +30,7 @@ const getPairData = (pairs, pairUuid) => {
 
 const SaveStatus = ({saved}) => {
     if (saved){
-        return <p className='text-sm text-green-500 font-bold px-2 my-6' >&#10003;</p>
+        return <p className='text-sm text-green font-bold px-2 my-6' >&#10003;</p>
     } else {
         return <p className='text-sm text-black font-bold px-2 my-6' >Saving...</p>
     }
@@ -38,7 +38,7 @@ const SaveStatus = ({saved}) => {
 
 const ErrorMessage = ({message}) => {
     return (
-        <div className='m-4 bg-red-200'>
+        <div className='m-4 bg-red'>
             <p className='text-bold p-2'>{message}</p>
         </div>
     )
