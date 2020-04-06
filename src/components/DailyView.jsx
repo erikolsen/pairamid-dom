@@ -133,16 +133,16 @@ class DailyView extends Component {
                 </header>
 
                 { this.state.error && <ErrorMessage message={this.state.error} /> }
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <div className="">
                     <div className='col-span-2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4'>
                         <DragDropContext onDragEnd={this.onDragEnd}>
                             { pairs }
                         </DragDropContext>
-                        <button onClick={this.addPair} className='flex items-center'>
-                            <span className='text-xl text-gray-600'>&#8853;</span>
-                            <span className='mx-2 text-lg text-gray-600'>Add Pair</span>
-                        </button>
                     </div>
+                    <button onClick={this.addPair} className='flex items-center m-2'>
+                        <span className='text-2xl text-gray leading-tight'>&#8853;</span>
+                        <span className='mx-2 text-lg text-gray'>Add Pair</span>
+                    </button>
                     <div className='col-span-2 m-2'>
                         <h2>Daily Pair List</h2>
                         <ul className=''>
