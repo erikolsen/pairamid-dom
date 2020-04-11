@@ -5,6 +5,8 @@ import PairNames from './PairNames'
 import axios from 'axios'
 import { API_URL } from '../constants'
 import _ from 'lodash'
+import io from 'socket.io-client';
+const socket = io(API_URL);
 
 
 const getTodaysDate = () => {
@@ -55,16 +57,35 @@ class DailyView extends Component {
     }
 
     componentDidMount(){
+        socket.on('add pair', (pair) => {
+            this.setState({ pairs: [...this.state.pairs, pair] });
+        });
+        socket.on('delete pair', (uuid) => {
+            this.setState({ pairs: this.state.pairs.filter((p)=> p.uuid !== uuid) });
+        });
+        socket.on('batch update pairs', (response) => {
+            let dupPairs = _.cloneDeep(this.state.pairs)
+            response.forEach((data)=> { dupPairs.splice(data.index, 1, data.pair) })
+            this.setState({
+                saved: true,
+                pairs: dupPairs
+            })
+        });
         axios.get(`${API_URL}/pairing_sessions`)
             .then((response) => {
                 this.setState({ pairs: response.data })
             })
     }
 
+    componentWillUnmount(){
+        socket.off('add pair');
+        socket.off('delete pair');
+        socket.off('batch update pairs');
+    }
+
     onDragEnd = (result) => { 
         const { destination, source, draggableId } = result;
         if(!destination){ return }
-        const dupPairs = _.cloneDeep(this.state.pairs)
         const sourceData = getPairData(this.state.pairs, source.droppableId)
         const descData = getPairData(this.state.pairs, destination.droppableId)
 
@@ -74,48 +95,24 @@ class DailyView extends Component {
         sourceData.users.splice(source.index, 1)
         descUsers.splice(destination.index, 0, user)
 
-        this.setState({
-            saved: false,
-            ...this.state.pairs, 
-            [sourceData.index]: sourceData.pair,
-            [descData.index]: descData.pair,
-        })
-        axios.put(`${API_URL}/pairing_sessions/batch`, [sourceData.pair, descData.pair])
-            .then((response) => { this.setState({saved: true})})
-            .catch((error) => { this.setState({pairs: dupPairs, error: error.response.data.message}) })
+        this.setState({saved: false})
+        socket.emit('batch update pairs', [sourceData, descData]);
     }
 
     onWorkingChange = (event, uuid) => {
         event.preventDefault()
         const pairData = getPairData(this.state.pairs, uuid)
-        const dupPairs = _.cloneDeep(this.state.pairs)
         pairData.pair.info = event.target.value
-        this.setState({
-            saved: false,
-            ...this.state.pairs,
-            [pairData.index]: pairData.pair
-        })
-        axios.put(`${API_URL}/pairing_sessions/batch`, [pairData.pair])
-            .then((response) => { this.setState({saved: true})})
-            .catch((error) => { this.setState({pairs: dupPairs, error: error.response.data.message}) })
+        this.setState({saved: false})
+        socket.emit('batch update pairs', [pairData] );
     }
 
     addPair = ()=> {
-        axios.post(`${API_URL}/pairing_sessions`)
-            .then((response) => {
-                this.setState({ 
-                    pairs: [...this.state.pairs, response.data] 
-                });
-            })
+        socket.emit('add pair', {});
     }
 
     deletePair = (pair)=> {
-        axios.delete(`${API_URL}/pairing_sessions/${pair.uuid}`)
-            .then((response) => {
-                this.setState({ 
-                    pairs: this.state.pairs.filter((p)=> p.uuid !== pair.uuid)
-                });
-            })
+        socket.emit('delete pair', {uuid: pair.uuid});
     }
 
     render() {
