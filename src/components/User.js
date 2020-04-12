@@ -1,6 +1,9 @@
 import React from 'react'
 import { Draggable } from "react-beautiful-dnd";
-import UserData from './UserData'
+const colorMapper = {
+    "HOME": 'indigo',
+    "VISITOR": 'blue'
+}
 
 const User = ({ user, index }) => {
     return (
@@ -12,7 +15,9 @@ const User = ({ user, index }) => {
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
                     >
-                        <UserData user={user} />
+                        <div className={`w-12 h-12 m-2 rounded-full bg-${colorMapper[user.role]}-400 flex items-center justify-center`}>
+                            <p className="text-white font-bold text-xs">{user.username.toUpperCase()}</p>
+                        </div>
                     </div>
                 )}
             </Draggable>
