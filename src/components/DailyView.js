@@ -22,26 +22,23 @@ const DailyView = () => {
     }, [])
 
     useEffect(()=> {
-        try {
-            socket.on('add pair', (pair) => { setPairs([...pairs, pair]) });
-            socket.on('delete pair', (uuid) => { setPairs(pairs.filter((p)=> p.uuid !== uuid)) });
-            socket.on('batch update pairs', (response) => {
-                let dupPairs = _.cloneDeep(pairs)
-                response.forEach((data)=> { dupPairs.splice(data.index, 1, data.pair) })
-                setPairs(dupPairs)
-                setSaved(true)
-            });
+        socket.on('server error', (e) => { setError(e.message) } );
+        socket.on('add pair', (pair) => { setPairs([...pairs, pair]) });
+        socket.on('delete pair', (uuid) => { setPairs(pairs.filter((p)=> p.uuid !== uuid)) });
+        socket.on('batch update pairs', (response) => {
+            let dupPairs = _.cloneDeep(pairs)
+            response.forEach((data)=> { dupPairs.splice(data.index, 1, data.pair) })
+            setPairs(dupPairs)
+            setSaved(true)
+        });
 
-        } catch(e) {
-            setError(e)
-        }
         return ()=> {
+            socket.off('server error');
             socket.off('add pair');
             socket.off('delete pair');
             socket.off('batch update pairs');
         }
     }, [pairs])
-
 
     return (
         <section>
