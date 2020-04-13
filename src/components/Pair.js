@@ -14,25 +14,25 @@ const Empty = ({pair, onDelete}) => {
 }
 
 const Pair = ({pair, onChange, onDelete}) => {
-    let users =  pair.users.length ? pair.users.map((user, i)=> <User index={i} user={user} key={user.uuid}/>) : <Empty pair={pair} onDelete={onDelete} />
+    const users =  pair.users.length ? pair.users.map((user, i)=> <User index={i} user={user} key={user.uuid}/>) : <Empty pair={pair} onDelete={onDelete} />
     return (
-        <div className="bg-white shadow-lg rounded-lg m-2">
+        <div className="col-span-1 bg-white shadow-lg rounded-lg p-4">
             <Droppable droppableId={pair.uuid} direction='horizontal'>
-                {(provided, snapshot)=> {
+                {(provided, _)=> {
                     return(
-                        <div>
+                        <div className="flex flex-col justify-between h-full">
                             <div 
-                                className="flex flex-row relative"
+                                className="flex flex-row flex-wrap relative"
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}
                             >
                                 {users.length ? users : <Empty pair={pair} onDelete={onDelete} />}
-                                <div className='h-12 m-2'>
+                                <div className='h-12 mr-2'>
                                     { provided.placeholder }
                                 </div>
                             </div>
-                            <div className='m-2'>
-                                <input onChange={(e) => onChange(e, pair.uuid)} placeholder='Working on...' className='w-full px-2 border border-gray-light' type='text' value={pair.info || ''} />
+                            <div className='mt-2'>
+                                <input onChange={(e) => onChange(e, pair.uuid)} placeholder='Working on...' className='w-full px-2 border border-solid border-gray-light' type='text' value={pair.info || ''} />
                             </div>
                         </div>
                     )
