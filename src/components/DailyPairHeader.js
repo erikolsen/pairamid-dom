@@ -22,7 +22,9 @@ const SaveStatus = ({saved}) => {
 const ErrorMessage = ({message}) => {
     return (
         <div className='m-4 bg-red'>
-            <p className='text-bold p-2'>{message}</p>
+            <p className='text-bold p-2'>
+                { `${message} - Please refresh your browser and try again.` }
+            </p>
         </div>
     )
 }

@@ -13,7 +13,12 @@ const getPairData = (pairs, pairUuid) => {
     }
 }
 
-const PairGrid = ({pairs, setSaved}) => {
+
+const PairGrid = ({pairs, setSaved, setError}) => {
+    const handleError = (response) => {
+        if(response.error){ setError(response.message) }
+    }
+
     const onDragEnd = (result) => { 
         const { destination, source, draggableId } = result;
         if(!destination){ return }
@@ -26,7 +31,7 @@ const PairGrid = ({pairs, setSaved}) => {
         descUsers.splice(destination.index, 0, user)
 
         setSaved(false)
-        socket.emit('batch update pairs', [sourceData, descData])
+        socket.emit('batch update pairs', [sourceData, descData], (response) => handleError(response))
     }
 
     const onWorkingChange = (event, uuid) => {
@@ -34,15 +39,15 @@ const PairGrid = ({pairs, setSaved}) => {
         const pairData = getPairData(pairs, uuid)
         pairData.pair.info = event.target.value
         setSaved(false)
-        socket.emit('batch update pairs', [pairData] )
+        socket.emit('batch update pairs', [pairData], (response) => handleError(response))
     }
 
     const deletePair = (pair)=> {
-        socket.emit('delete pair', {uuid: pair.uuid})
+        socket.emit('delete pair', {uuid: pair.uuid}, (response) => handleError(response))
     }
 
     const addPair = ()=> {
-        socket.emit('add pair', {})
+        socket.emit('add pair', {}, (response) => handleError(response))
     }
 
     return (

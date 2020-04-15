@@ -22,7 +22,6 @@ const DailyView = () => {
     }, [])
 
     useEffect(()=> {
-        socket.on('server error', (e) => { setError(e.message) } );
         socket.on('add pair', (pair) => { setPairs([...pairs, pair]) });
         socket.on('delete pair', (uuid) => { setPairs(pairs.filter((p)=> p.uuid !== uuid)) });
         socket.on('batch update pairs', (response) => {
@@ -33,7 +32,6 @@ const DailyView = () => {
         });
 
         return ()=> {
-            socket.off('server error');
             socket.off('add pair');
             socket.off('delete pair');
             socket.off('batch update pairs');
@@ -43,7 +41,7 @@ const DailyView = () => {
     return (
         <section>
             <DailyPairHeader saved={saved} error={error} />
-            <PairGrid pairs={pairs} setSaved={setSaved} />
+            <PairGrid pairs={pairs} setSaved={setSaved} setError={setError} />
             <DailyPairList pairs={pairs} />
         </section>
     )
