@@ -34,10 +34,9 @@ const PairGrid = ({pairs, setSaved, setError}) => {
         socket.emit('batch update pairs', [sourceData, descData], (response) => handleError(response))
     }
 
-    const onWorkingChange = (event, uuid) => {
-        event.preventDefault()
+    const updatePairInfo = (text, uuid) => {
         const pairData = getPairData(pairs, uuid)
-        pairData.pair.info = event.target.value
+        pairData.pair.info = text
         setSaved(false)
         socket.emit('batch update pairs', [pairData], (response) => handleError(response))
     }
@@ -54,7 +53,7 @@ const PairGrid = ({pairs, setSaved, setError}) => {
         <div>
             <div className='col-span-2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4'>
                 <DragDropContext onDragEnd={onDragEnd}>
-                    { pairs.map( (pair)=> <Pair onChange={onWorkingChange} onDelete={deletePair} pair={pair} key={pair.uuid} /> ) }
+                    { pairs.map( (pair)=> <Pair updatePairInfo={updatePairInfo} onDelete={deletePair} pair={pair} key={pair.uuid} /> ) }
                 </DragDropContext>
             </div>
             <div>
