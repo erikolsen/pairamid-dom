@@ -14,7 +14,12 @@ const getPairData = (pairs, pairUuid) => {
     }
 }
 
-const PairGrid = ({pairs, setSaved}) => {
+
+const PairGrid = ({pairs, setSaved, setError}) => {
+    const handleError = (response) => {
+        if(response.error){ setError(response.message) }
+    }
+
     const onDragEnd = (result) => { 
         const { destination, source, draggableId } = result;
         if(!destination){ return }
@@ -27,29 +32,28 @@ const PairGrid = ({pairs, setSaved}) => {
         descUsers.splice(destination.index, 0, user)
 
         setSaved(false)
-        socket.emit('batch update pairs', [sourceData, descData])
+        socket.emit('batch update pairs', [sourceData, descData], (response) => handleError(response))
     }
 
-    const onWorkingChange = (event, uuid) => {
-        event.preventDefault()
+    const updatePairInfo = (text, uuid) => {
         const pairData = getPairData(pairs, uuid)
-        pairData.pair.info = event.target.value
+        pairData.pair.info = text
         setSaved(false)
-        socket.emit('batch update pairs', [pairData] )
+        socket.emit('batch update pairs', [pairData], (response) => handleError(response))
     }
 
     const deletePair = (pair)=> {
-        socket.emit('delete pair', {uuid: pair.uuid})
+        socket.emit('delete pair', {uuid: pair.uuid}, (response) => handleError(response))
     }
 
     const addPair = ()=> {
-        socket.emit('add pair', {})
+        socket.emit('add pair', {}, (response) => handleError(response))
     }
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             <div className='col-span-1 lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6'>
-                { pairs.map((pair, i) => <Pair onChange={onWorkingChange} onDelete={deletePair} pair={pair} key={pair.uuid} />) }
+                { pairs.map((pair, i) => <Pair updatePairInfo={updatePairInfo} onDelete={deletePair} pair={pair} key={pair.uuid} />) }
                 <button onClick={addPair} className='flex items-center m-2 col-span-1 sm:col-span-2 xl:col-span-3'>
                     <span className='text-2xl text-gray leading-tight'>&#8853;</span>
                     <span className='mx-2 text-lg text-gray'>Add Pair</span>

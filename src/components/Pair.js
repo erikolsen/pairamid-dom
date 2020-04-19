@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { Droppable } from "react-beautiful-dnd";
 import User from './User'
 
@@ -13,8 +13,16 @@ const Empty = ({pair, onDelete}) => {
     )
 }
 
-const Pair = ({pair, onChange, onDelete}) => {
-    const users =  pair.users.length ? pair.users.map((user, i)=> <User index={i} user={user} key={user.uuid}/>) : <Empty pair={pair} onDelete={onDelete} />
+const Pair = ({pair, updatePairInfo, onDelete}) => {
+    const [text, setText ] = useState(pair.info)
+    useEffect(()=> { 
+        if(pair.info !== text){
+            setText(pair.info)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pair.info])
+
+    let users =  pair.users.length ? pair.users.map((user, i)=> <User index={i} user={user} key={user.uuid}/>) : <Empty pair={pair} onDelete={onDelete} />
     return (
         <div className="col-span-1 bg-white shadow-lg rounded-lg p-4">
             <Droppable droppableId={pair.uuid} direction='horizontal'>
@@ -31,8 +39,14 @@ const Pair = ({pair, onChange, onDelete}) => {
                                     { provided.placeholder }
                                 </div>
                             </div>
-                            <div className='mt-2'>
-                                <input onChange={(e) => onChange(e, pair.uuid)} placeholder='Working on...' className='w-full px-2 border border-solid border-gray-light' type='text' value={pair.info || ''} />
+                            <div className='m-2'>
+                                <input onBlur={() => updatePairInfo(text, pair.uuid)} 
+                                       onChange={(e)=> setText(e.target.value)} 
+                                       placeholder='Working on...' 
+                                       className='w-full px-2 border border-gray-light' 
+                                       type='text' 
+                                       value={text} 
+                                />
                             </div>
                         </div>
                     )
