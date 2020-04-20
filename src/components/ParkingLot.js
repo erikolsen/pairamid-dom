@@ -1,38 +1,33 @@
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import User from './User'
-import Pair from './Pair';
 
 const ParkingLot = ({unpaired}) => {
-    let users =  !!unpaired ? unpaired.users.map((user, i)=> <User index={i} user={user} key={user.uuid}/>) : <h1>Everyone is Paired</h1>
-    if(!!unpaired) {
-        return (
-            <div className="bg-white px-6 py-2 rounded-lg">
-                <h2 className='m-2'>Unpaired Members</h2>
+    let users = unpaired.users.length > 0 ? unpaired.users.map((user, i)=> <User index={i} user={user} key={user.uuid}/>) : <h1 className='text-center w-full'>Full House Today</h1>
+    return (
+        <div className="bg-white px-4 py-2 rounded-lg">
+            <h2 className='m-2 text-center'>Available Team Members</h2>
 
-                <Droppable droppableId={unpaired.uuid} direction='horizontal'>
-                    {(provided, _) => {
-                        return (
-                            <div>
-                                <div
-                                    className='flex flex-row flex-wrap relative'
-                                    ref={provided.innerRef}
-                                    {...provided.droppableProps}
-                                >
-                                    { users }
-                                    <div className='h-12 m-2 w-full'>
-                                        {provided.placeholder}
-                                    </div>
+            <Droppable droppableId={unpaired.uuid} direction='horizontal'>
+                {(provided, _) => {
+                    return (
+                        <div>
+                            <div
+                                className='flex flex-row flex-wrap relative'
+                                ref={provided.innerRef}
+                                {...provided.droppableProps}
+                            >
+                                { users }
+                                <div className='h-12 m-2 w-full'>
+                                    {provided.placeholder}
                                 </div>
                             </div>
-                        )
-                    }}
-                </Droppable>
-            </div>
-        )
-    } else {
-        return ( <h1>hi</h1> )
-    }
+                        </div>
+                    )
+                }}
+            </Droppable>
+        </div>
+    )
 }
 
 export default ParkingLot;

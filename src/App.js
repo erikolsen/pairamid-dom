@@ -4,9 +4,9 @@ import DailyView from './components/DailyView';
 
 const App = () => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-5">
+    <div className="grid grid-cols-1 lg:grid-cols-8">
       <Header />
-      <main className="bg-gray-light col-span-4 p-12">
+      <main className="bg-gray-light col-span-7 p-12">
         <DailyView />
       </main>
     </div>

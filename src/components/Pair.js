@@ -54,11 +54,11 @@ const Pair = ({pair, updatePairInfo, onDelete}) => {
                                 </div>
                             </div>
                             <div className='m-2 flex justify-between'>
-                                <p>Day {pair.history}</p>
+                                <p className='text-xs flex items-center'>Day {pair.history}</p>
                                 <input onBlur={() => updatePairInfo(text, pair.uuid)} 
                                        onChange={(e)=> setText(e.target.value)} 
                                        placeholder='Working on...' 
-                                       className='px-2 border border-gray-light' 
+                                       className='px-2 border border-gray-light text-right' 
                                        type='text' 
                                        value={text} 
                                 />

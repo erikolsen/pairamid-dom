@@ -55,9 +55,11 @@ const PairGrid = ({pairs, setSaved, setError}) => {
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <div className='col-span-1 md:col-span-2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6'>
-                { activePairs }
-                <button onClick={addPair} className='flex items-center m-2 col-span-1 sm:col-span-2 xl:col-span-3'>
+            <div className='col-span-2'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 lg:grid-rows-3'>
+                    { activePairs }
+                </div>
+                <button onClick={addPair} className='flex items-center m-2'>
                     <span className='text-2xl text-gray leading-tight'>&#8853;</span>
                     <span className='mx-2 text-lg text-gray'>Add Pair</span>
                 </button>
