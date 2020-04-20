@@ -8,7 +8,7 @@ const ParkingLot = ({unpaired}) => {
     if(!!unpaired) {
         return (
             <div className="bg-white px-6 py-2 rounded-lg">
-                <h2>Unpaired Members</h2>
+                <h2 className='m-2'>Unpaired Members</h2>
 
                 <Droppable droppableId={unpaired.uuid} direction='horizontal'>
                     {(provided, _) => {

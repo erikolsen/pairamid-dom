@@ -4,13 +4,26 @@ import User from './User'
 
 const Empty = ({pair, onDelete}) => {
     return (
-        <div>
+        <div className=''>
             <button onClick={()=> onDelete(pair)} className='text-2xl text-red absolute top-0 right-0 mr-2' title='Delete Pair'>&#8854;</button>
-            <div className={`w-12 h-12 m-2 border-4 border-dashed border-gray-med rounded-full bg-white flex items-center justify-center`}>
+            <div className={`w-12 h-12 mr-3 m-2 border-4 border-dashed border-gray-med rounded-full bg-white flex items-center justify-center`}>
                 <p className="text-gray-med font-bold text-xl">+</p>
             </div>
         </div>
     )
+}
+const tagColor = (days) => {
+    console.log('Days', days)
+    switch(true){
+        case (days === 0):
+            return 'white'
+        case (days === 1):
+            return 'green'
+        case (days === 2):
+            return 'yellow'
+        default:
+            return 'red'
+    }
 }
 
 const Pair = ({pair, updatePairInfo, onDelete}) => {
@@ -24,11 +37,12 @@ const Pair = ({pair, updatePairInfo, onDelete}) => {
 
     let users =  pair.users.length ? pair.users.map((user, i)=> <User index={i} user={user} key={user.uuid}/>) : <Empty pair={pair} onDelete={onDelete} />
     return (
-        <div className="bg-white shadow-lg rounded-lg p-4">
+        <div className="bg-white shadow-lg rounded-lg flex">
+            <div className={`bg-${tagColor(pair.history)} w-2 rounded-lg rounded-r-none`}></div>
             <Droppable droppableId={pair.uuid} direction='horizontal'>
                 {(provided, _)=> {
                     return(
-                        <div className="flex flex-col justify-between h-full">
+                        <div className="flex flex-col justify-between h-full w-full">
                             <div 
                                 className="flex flex-row flex-wrap relative"
                                 ref={provided.innerRef}
@@ -39,11 +53,12 @@ const Pair = ({pair, updatePairInfo, onDelete}) => {
                                     { provided.placeholder }
                                 </div>
                             </div>
-                            <div className='mt-2'>
+                            <div className='m-2 flex justify-between'>
+                                <p>Day {pair.history}</p>
                                 <input onBlur={() => updatePairInfo(text, pair.uuid)} 
                                        onChange={(e)=> setText(e.target.value)} 
                                        placeholder='Working on...' 
-                                       className='w-full px-2 border border-gray-light' 
+                                       className='px-2 border border-gray-light' 
                                        type='text' 
                                        value={text} 
                                 />
