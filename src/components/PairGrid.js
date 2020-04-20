@@ -50,17 +50,20 @@ const PairGrid = ({pairs, setSaved, setError}) => {
         socket.emit('add pair', {}, (response) => handleError(response))
     }
 
+    const activePairs = pairs.filter((p) => p.info !== 'UNPAIRED').map((pair, i) => <Pair updatePairInfo={updatePairInfo} onDelete={deletePair} pair={pair} key={pair.uuid} />)
+    const unpaired    = pairs.find((p) => p.info === 'UNPAIRED')
+
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <div className='col-span-1 lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6'>
-                { pairs.map((pair, i) => <Pair updatePairInfo={updatePairInfo} onDelete={deletePair} pair={pair} key={pair.uuid} />) }
+            <div className='col-span-1 md:col-span-2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6'>
+                { activePairs }
                 <button onClick={addPair} className='flex items-center m-2 col-span-1 sm:col-span-2 xl:col-span-3'>
                     <span className='text-2xl text-gray leading-tight'>&#8853;</span>
                     <span className='mx-2 text-lg text-gray'>Add Pair</span>
                 </button>
             </div>
             <div className="col-span-1">
-                <ParkingLot />
+                <ParkingLot unpaired={unpaired} />
             </div>
         </DragDropContext>
     )

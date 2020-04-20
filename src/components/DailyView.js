@@ -40,13 +40,13 @@ const DailyView = () => {
         }
     }, [pairs])
 
+    console.log('Pairs', pairs)
+
     return (
         <section>
             <DailyPairHeader saved={saved} error={error} />
-            <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-6">
-                <PairGrid pairs={pairs} setSaved={setSaved} />
-                <DailyPairList pairs={pairs} />
-            </div>
+            <PairGrid pairs={pairs} setSaved={setSaved} />
+            <DailyPairList pairs={pairs} />
         </section>
     )
 }

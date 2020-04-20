@@ -24,7 +24,7 @@ const Pair = ({pair, updatePairInfo, onDelete}) => {
 
     let users =  pair.users.length ? pair.users.map((user, i)=> <User index={i} user={user} key={user.uuid}/>) : <Empty pair={pair} onDelete={onDelete} />
     return (
-        <div className="col-span-1 bg-white shadow-lg rounded-lg p-4">
+        <div className="bg-white shadow-lg rounded-lg p-4">
             <Droppable droppableId={pair.uuid} direction='horizontal'>
                 {(provided, _)=> {
                     return(
@@ -39,7 +39,7 @@ const Pair = ({pair, updatePairInfo, onDelete}) => {
                                     { provided.placeholder }
                                 </div>
                             </div>
-                            <div className='m-2'>
+                            <div className='mt-2'>
                                 <input onBlur={() => updatePairInfo(text, pair.uuid)} 
                                        onChange={(e)=> setText(e.target.value)} 
                                        placeholder='Working on...' 

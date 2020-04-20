@@ -15,7 +15,7 @@ const User = ({ user, index }) => {
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
                     >
-                        <div className={`w-12 h-12 mr-3 mb-2 border rounded-full bg-${colorMapper[user.role]}-400 flex items-center justify-center`}>
+                        <div className={`w-12 h-12 mr-3 mb-2 border-gray-border rounded-full bg-${colorMapper[user.role]}-400 flex items-center justify-center`}>
                             <p className="text-white font-bold text-xs">{user.username.toUpperCase()}</p>
                         </div>
                     </div>
