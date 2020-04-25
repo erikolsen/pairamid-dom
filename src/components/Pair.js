@@ -13,7 +13,6 @@ const Empty = ({pair, onDelete}) => {
     )
 }
 const tagColor = (days) => {
-    console.log('Days', days)
     switch(true){
         case (days === 0):
             return 'white'
