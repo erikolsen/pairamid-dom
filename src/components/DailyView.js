@@ -10,7 +10,7 @@ import io from 'socket.io-client';
 export const socket = io(API_URL);
 
 const DailyView = () => {
-    const [pairs, setPairs] = useState([])
+    const [pairs, setPairs] = useState(null)
     const [saved, setSaved] = useState(true)
     const [error, setError] = useState('')
 
@@ -22,6 +22,7 @@ const DailyView = () => {
     }, [])
 
     useEffect(()=> {
+        socket.on('server error', (e) => { setError(e.message) } );
         socket.on('add pair', (pair) => { setPairs([...pairs, pair]) });
         socket.on('delete pair', (uuid) => { setPairs(pairs.filter((p)=> p.uuid !== uuid)) });
         socket.on('batch update pairs', (response) => {
@@ -32,17 +33,22 @@ const DailyView = () => {
         });
 
         return ()=> {
+            socket.off('server error');
             socket.off('add pair');
             socket.off('delete pair');
             socket.off('batch update pairs');
         }
     }, [pairs])
 
+    console.log('Pairs', pairs)
+
     return (
         <section>
             <DailyPairHeader saved={saved} error={error} />
-            <PairGrid pairs={pairs} setSaved={setSaved} setError={setError} />
-            <DailyPairList pairs={pairs} />
+            {pairs && <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-6">
+                <PairGrid pairs={pairs} setSaved={setSaved} setError={setError} /> 
+                <DailyPairList pairs={pairs} /> 
+            </div>}
         </section>
     )
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import { DragDropContext } from "react-beautiful-dnd";
 import Pair from './Pair'
+import ParkingLot from './ParkingLot'
 import { socket } from './DailyView'
 
 const getPairData = (pairs, pairUuid) => {
@@ -49,20 +50,24 @@ const PairGrid = ({pairs, setSaved, setError}) => {
         socket.emit('add pair', {}, (response) => handleError(response))
     }
 
+    const activePairs = pairs.filter((p) => p.info !== 'UNPAIRED').map((pair, i) => <Pair updatePairInfo={updatePairInfo} onDelete={deletePair} pair={pair} key={pair.uuid} />)
+    const unpaired    = pairs.find((p) => p.info === 'UNPAIRED')
+
     return (
-        <div>
-            <div className='col-span-2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4'>
-                <DragDropContext onDragEnd={onDragEnd}>
-                    { pairs.map( (pair)=> <Pair updatePairInfo={updatePairInfo} onDelete={deletePair} pair={pair} key={pair.uuid} /> ) }
-                </DragDropContext>
-            </div>
-            <div>
+        <DragDropContext onDragEnd={onDragEnd}>
+            <div className='col-span-2'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 lg:grid-rows-3'>
+                    { activePairs }
+                </div>
                 <button onClick={addPair} className='flex items-center m-2'>
                     <span className='text-2xl text-gray leading-tight'>&#8853;</span>
                     <span className='mx-2 text-lg text-gray'>Add Pair</span>
                 </button>
             </div>
-        </div>
+            <div className="col-span-1">
+                <ParkingLot unpaired={unpaired} />
+            </div>
+        </DragDropContext>
     )
 }
 
