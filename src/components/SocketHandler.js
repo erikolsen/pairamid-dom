@@ -24,9 +24,8 @@ const ConnectionLost = ()=> {
     return (
         <Delayed>
             <main className='bg-gray-light col-span-7 p-12 h-screen '>
-                <h1 className='text-center p-6  border-4 border-red'>
-                    Pairamid hast lost connection to the server. <br />
-                    Please try refreshing or contact your system administrator.
+                <h1 className='tet-3xl text-center p-6'>
+                    Loading...
                 </h1>
             </main>
         </Delayed>
@@ -41,10 +40,10 @@ const SocketHandler = ({children, requestedData, reset}) => {
             console.log('Pairamid has disconnected.')
             SOCKET.io.off("connect_error")
             setConnected(false)
-            for(let i=1; i <= 10; i++){
-                await sleep(3000)
+            for(let i=1; i <= 100; i++){
+                await sleep(1000)
                 if(SOCKET.disconnected){
-                    console.log(`Reconnect attempt: ${i} of 10`)
+                    console.log(`Reconnect attempt: ${i} of 100`)
                 } else {
                     console.log('Reconnecting')
                     setConnected(true)

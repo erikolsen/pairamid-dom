@@ -65,7 +65,7 @@ const PairGrid = ({pairs, setSaved, setError}) => {
                 </button>
             </div>
             <div className="col-span-1">
-                <ParkingLot unpaired={unpaired} />
+                { unpaired && <ParkingLot unpaired={unpaired} /> }
             </div>
         </DragDropContext>
     )
