@@ -2,7 +2,7 @@ import React from 'react'
 import { DragDropContext } from "react-beautiful-dnd";
 import Pair from './Pair'
 import ParkingLot from './ParkingLot'
-import { socket } from './DailyView'
+import { SOCKET } from './SocketHandler'
 
 const getPairData = (pairs, pairUuid) => {
     const pair =  pairs.find((p)=> p.uuid === pairUuid)
@@ -13,7 +13,6 @@ const getPairData = (pairs, pairUuid) => {
         users: pairs[index].users,
     }
 }
-
 
 const PairGrid = ({pairs, setSaved, setError}) => {
     const handleError = (response) => {
@@ -32,22 +31,22 @@ const PairGrid = ({pairs, setSaved, setError}) => {
         descUsers.splice(destination.index, 0, user)
 
         setSaved(false)
-        socket.emit('batch update pairs', [sourceData, descData], (response) => handleError(response))
+        SOCKET.emit('batch update pairs', [sourceData, descData], (response) => handleError(response))
     }
 
     const updatePairInfo = (text, uuid) => {
         const pairData = getPairData(pairs, uuid)
         pairData.pair.info = text
         setSaved(false)
-        socket.emit('batch update pairs', [pairData], (response) => handleError(response))
+        SOCKET.emit('batch update pairs', [pairData], (response) => handleError(response))
     }
 
     const deletePair = (pair)=> {
-        socket.emit('delete pair', {uuid: pair.uuid}, (response) => handleError(response))
+        SOCKET.emit('delete pair', {uuid: pair.uuid}, (response) => handleError(response))
     }
 
     const addPair = ()=> {
-        socket.emit('add pair', {}, (response) => handleError(response))
+        SOCKET.emit('add pair', {}, (response) => handleError(response))
     }
 
     const activePairs = pairs.filter((p) => p.info !== 'UNPAIRED').map((pair, i) => <Pair updatePairInfo={updatePairInfo} onDelete={deletePair} pair={pair} key={pair.uuid} />)
@@ -65,7 +64,7 @@ const PairGrid = ({pairs, setSaved, setError}) => {
                 </button>
             </div>
             <div className="col-span-1">
-                <ParkingLot unpaired={unpaired} />
+                { unpaired && <ParkingLot unpaired={unpaired} /> }
             </div>
         </DragDropContext>
     )

@@ -13,13 +13,12 @@ const Empty = ({pair, onDelete}) => {
     )
 }
 const tagColor = (days) => {
-    console.log('Days', days)
     switch(true){
         case (days === 0):
             return 'white'
-        case (days === 1):
+        case (days === 1 || days === 2):
             return 'green'
-        case (days === 2):
+        case (days === 3 || days === 4):
             return 'yellow'
         default:
             return 'red'
