@@ -30,7 +30,7 @@ const DailyView = ({pairs, setPairs}) => {
     }, [pairs, setPairs])
 
     return (
-        <main className="bg-gray-light col-span-7 p-12 h-screen">
+        <main className="bg-gray-light col-span-7 p-12 h-full">
             <section>
                 <DailyPairHeader saved={saved} error={error} />
                 <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-6">
