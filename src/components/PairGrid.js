@@ -14,7 +14,6 @@ const getPairData = (pairs, pairUuid) => {
     }
 }
 
-
 const PairGrid = ({pairs, setSaved, setError}) => {
     const handleError = (response) => {
         if(response.error){ setError(response.message) }
