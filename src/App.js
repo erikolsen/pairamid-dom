@@ -8,6 +8,7 @@ import { API_URL } from './constants'
 const App = () => {
     const [pairs, setPairs] = useState([])
     const [reset, setReset] = useState([])
+
     useEffect(()=> {
         axios.get(`${API_URL}/pairing_sessions`)
             .then((response)=> {
