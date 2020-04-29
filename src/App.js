@@ -50,13 +50,13 @@ const PairHistory = () => {
 
 const App = () => {
     const [pairs, setPairs] = useState([])
-    const [reset, setReset] = useState([])
+
     useEffect(()=> {
         axios.get(`${API_URL}/pairing_sessions`)
             .then((response)=> {
                 setPairs(response.data)
             })
-    }, [setPairs, reset])
+    }, [setPairs])
 
     return (
         <div className='grid grid-cols-1 lg:grid-cols-8'>
@@ -67,7 +67,7 @@ const App = () => {
                         <PairHistory />
                     </Route>
                     <Route path='/'>
-                        <SocketHandler requestedData={pairs.length} reset={setReset} >
+                        <SocketHandler requestedData={pairs.length}>
                             <DailyView setPairs={setPairs} pairs={pairs} />
                         </SocketHandler>
                     </Route>

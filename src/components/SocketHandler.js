@@ -32,7 +32,7 @@ const ConnectionLost = ()=> {
     )
 }
 
-const SocketHandler = ({children, requestedData, reset}) => {
+const SocketHandler = ({children, requestedData}) => {
     const [connected, setConnected] = useState(true)
 
     useEffect(() => {
@@ -46,8 +46,7 @@ const SocketHandler = ({children, requestedData, reset}) => {
                     console.log(`Reconnect attempt: ${i} of 100`)
                 } else {
                     console.log('Reconnecting')
-                    setConnected(true)
-                    reset()
+                    window.location.reload()
                     break;
                 }
             }
@@ -65,7 +64,7 @@ const SocketHandler = ({children, requestedData, reset}) => {
             SOCKET.off('disconnect');
         }
 
-    }, [setConnected, reset])
+    }, [setConnected])
 
     return (
         connected && requestedData ? children : <ConnectionLost /> 
