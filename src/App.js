@@ -16,18 +16,25 @@ const getTodaysDate = () => {
     return new Intl.DateTimeFormat('en-US', dateFormatOptions).format(today);
 }
 
+const Row = ({user, pairs}) => {
+    return (
+        <tr>
+            <td>{user}</td>
+            { Object.entries(pairs).map(([pair, num]) => ( <td>{num}</td>))}
+        </tr>
+    )
+}
+
 const PairHistory = () => {
-    const [history, setHistory] = useState({'visitor': [], 'home': []})
+    const [history, setHistory] = useState({header: [], pairs: []})
     useEffect(()=> {
         axios.get(`${API_URL}/history`)
             .then((response)=> {
                 setHistory(response.data)
             })
     }, [setHistory])
-    const visitor = history['visitor'].map((name) => { return <th className='border border-black p-2'>{name}</th>})
-    const home = history['home']
-    
-
+        
+    console.log(history.header)
     return (
         <main className="bg-gray-light col-span-7 p-12 h-full">
             <section>
@@ -37,11 +44,18 @@ const PairHistory = () => {
                     </div>
                     <p className="font-normal text-teal-dark text-xl">{getTodaysDate()}</p>
                 </header>
-                <table>
-                    <th className='border border-black p-2'></th>
-                    {visitor}
-
-                </table>
+                <div className='items-center justify-around flex flex-wrap pt-24'>
+                    <table className=''>
+                        <thead>
+                            <tr >
+                                { history.header.map((user) => (<td className='border border-black w-8 h-8 text-center'>{user}</td>)) }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {history.pairs.map((row) => (<tr>{row.map((user)=> (<td className='border border-black w-8 h-8 text-center'>{user}</td>))}</tr>))}
+                        </tbody>
+                    </table>
+                </div>
             </section>
         </main>
 

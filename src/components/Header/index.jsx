@@ -10,7 +10,7 @@ const Header = (props) => (
                     <img src={logo} alt='Paramid Logo' width="169" height="40" className="w-full h-auto max-w-logo lg:mt-8" />
                 </div>
             </Link>
-            <ul classsName='my-8'>
+            <ul className='my-8'>
                 <li className='text-gray'>
                     <Link to='/history'>History</Link>
                 </li>
