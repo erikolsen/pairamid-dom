@@ -11,7 +11,7 @@ const App = () => {
     const [pairs, setPairs] = useState([])
 
     useEffect(()=> {
-        axios.get(`${API_URL}/pairing_sessions`)
+        axios.get(`${API_URL}/pairing_sessions/daily`)
             .then((response)=> {
                 setPairs(response.data)
             })
