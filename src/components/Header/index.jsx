@@ -15,7 +15,7 @@ const Header = () => (
                     <Link to='/'>Today's Pairs</Link>
                 </li>
                 <li className='text-gray text-xl m-2'>
-                    <Link to='/history'>Pair History</Link>
+                    <Link to='/frequency'>Pair Frequency</Link>
                 </li>
             </ul>
         </header>

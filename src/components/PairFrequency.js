@@ -30,25 +30,25 @@ const Row = ({row}) => {
     )
 }
 
-const PairHistory = () => {
-    const [history, setHistory] = useState({header: [], pairs: []})
+const PairFrequency = () => {
+    const [frequency, setFrequency] = useState({header: [], pairs: []})
     const [primary, setPrimary] = useState('HOME')
     const [secondary, setSecondary] = useState('VISITOR')
 
 
     useEffect(()=> {
-        axios.get(`${API_URL}/history?primary=${primary}&secondary=${secondary}`)
+        axios.get(`${API_URL}/frequency?primary=${primary}&secondary=${secondary}`)
             .then((response)=> {
-                setHistory(response.data)
+                setFrequency(response.data)
             })
-    }, [setHistory, primary, secondary])
+    }, [setFrequency, primary, secondary])
         
     return (
         <main className="bg-gray-light col-span-7 p-12 h-full">
             <section>
                 <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
                     <div className='flex items-center'>
-                        <h1>Pair History</h1>
+                        <h1>Pair Frequency</h1>
                     </div>
                 </header>
                 <div className=''>
@@ -86,11 +86,11 @@ const PairHistory = () => {
                     <table className='table-auto w-full my-4'>
                         <thead>
                             <tr className=''>
-                                { history.header.map((user, key) => <td key={key} className='border border-black text-center text-xl font-bold'>{user}</td>) }
+                                { frequency.header.map((user, key) => <td key={key} className='border border-black text-center text-xl font-bold'>{user}</td>) }
                             </tr>
                         </thead>
                         <tbody>
-                            {history.pairs.map((row, i) => <Row key={i} row={row} />)}
+                            {frequency.pairs.map((row, i) => <Row key={i} row={row} />)}
                         </tbody>
                     </table>
                 </div>
@@ -100,4 +100,4 @@ const PairHistory = () => {
     )
 }
 
-export default PairHistory
+export default PairFrequency
