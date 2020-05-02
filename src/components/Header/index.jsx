@@ -11,10 +11,10 @@ const Header = () => (
                 </div>
             </Link>
             <ul className='flex lg:block'>
-                <li className='text-gray text-xl m-2'>
+                <li className='text-gray m-2'>
                     <Link to='/'>Today's Pairs</Link>
                 </li>
-                <li className='text-gray text-xl m-2'>
+                <li className='text-gray m-2'>
                     <Link to='/frequency'>Pair Frequency</Link>
                 </li>
             </ul>
