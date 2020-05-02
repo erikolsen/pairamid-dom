@@ -1,6 +1,19 @@
 import React from 'react';
 import logo from '../../assets/pairamid-logo.png';
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUserFriends, faBalanceScale, faCog, faHistory } from '@fortawesome/free-solid-svg-icons'
+
+const ListIconLink = ({path, icon, text}) => {
+    return (
+        <li className='text-gray mx-1 lg:my-2 lg:mx-0'>
+            <Link className='' to={path}>
+                <FontAwesomeIcon icon={icon} />
+                <span className='ml-2'>{text}</span>
+            </Link>
+        </li>
+    )
+}
 
 const Header = () => (
     <div>
@@ -10,13 +23,11 @@ const Header = () => (
                     <img src={logo} alt='Paramid Logo' width="169" height="40" className="w-full max-w-logo lg:mt-8" />
                 </div>
             </Link>
-            <ul className='flex lg:block'>
-                <li className='text-gray m-2'>
-                    <Link to='/'>Today's Pairs</Link>
-                </li>
-                <li className='text-gray m-2'>
-                    <Link to='/frequency'>Pair Frequency</Link>
-                </li>
+            <ul className='flex lg:block text-xs lg:text-base'>
+                <ListIconLink path='/' icon={faUserFriends} text='Today' />
+                <ListIconLink path='/frequency' icon={faBalanceScale} text='Frequency' />
+                <ListIconLink path='/history' icon={faHistory} text='History' />
+                <ListIconLink path='/settings' icon={faCog} text='Settings' />
             </ul>
         </header>
     </div>
