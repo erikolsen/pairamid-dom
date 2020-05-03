@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from './components/Header';
 import DailyView from './components/DailyView';
 import PairFrequency from './components/PairFrequency';
+import PairHistory from './components/PairHistory';
 import SocketHandler from './components/SocketHandler';
 import axios from 'axios'
 import { API_URL } from './constants'
@@ -22,9 +23,8 @@ const App = () => {
             <Router>
                 <Header />
                 <Switch>
-                    <Route path='/frequency'>
-                        <PairFrequency />
-                    </Route>
+                    <Route path='/frequency' component={PairFrequency} />
+                    <Route path='/history' component={PairHistory} />
                     <Route path='/'>
                         <SocketHandler requestedData={pairs.length}>
                             <DailyView setPairs={setPairs} pairs={pairs} />
