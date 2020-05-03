@@ -8,7 +8,6 @@ const colorMapper = {
 }
 
 const User = ({user})=> {
-    console.log('User', user)
     return (
         <div className={`w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 md:mx-2 border-gray-border rounded-full bg-${colorMapper[user.role]}-400 flex items-center justify-center`}>
             <p className="text-white font-bold text-xs">{user.username.toUpperCase()}</p>
@@ -18,19 +17,23 @@ const User = ({user})=> {
 
 const Pair = ({pair}) => {
     return (
-        <div className='flex justify-center my-2'>
-            { pair.users.map((user) => <User user={user} /> ) }
+        <div className='bg-white shadow-lg rounded-lg flex m-2'>
+            <div className='flex my-2'>
+                { pair.users.map((user, i) => <User key={i} user={user} /> ) }
+            </div>
         </div>
     )
 }
 
 const Day = ({data}) => {
-    const {day, weekday, pairs } = data
+    const today = new Date()
+    const {day, weekday, pairs} = data
+    const dayClasses = today.getDate() === parseInt(day) ? 'font-bold' : 'border-gray-border border-r-2 opacity-75'
     return (
-        <div className='border-r-2 border-gray-border'>
+        <div className={dayClasses} >
             <div className='text-center mb-8'>
-                <p className='text-3xl md:text-5xl -mb-4 text-gray-dark'>{day}</p>
-                <p className='text-2xl md:text-3xl text-gray-dark'>{weekday}</p>
+                <p className='text-3xl md:text-4xl -mb-3'>{parseInt(day)}</p>
+                <p className='text-1xl md:text-2xl'>{weekday}</p>
             </div>
             {pairs.map((pair, i) => <Pair key={i} pair={pair} />)}
         </div>
@@ -45,7 +48,7 @@ const DateRange = ({history})=> {
     const endDay = history[history.length-1].day
     const endMonth = history[history.length-1].month
     return (
-        <p className='text-xl p-2'>{`${startMonth} ${startDay} - ${endMonth} ${endDay}`}</p>
+        <p className="font-normal text-teal-dark text-xl">{`${startMonth} ${startDay} - ${endMonth} ${endDay}`}</p>
     )
 }
 
@@ -63,11 +66,9 @@ const PairHistory = () => {
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
             <section>
                 <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
-                    <div className='w-full flex justify-between'>
+                    <div className='w-full flex justify-between items-center'>
                         <h1>Pair History</h1>
-                        <div>
-                            <DateRange history={history} />
-                        </div>
+                        <DateRange history={history} />
                     </div>
                 </header>
                 <div className='grid grid-cols-5'>

@@ -25,7 +25,7 @@ const Header = () => (
             </Link>
             <ul className='flex lg:block text-xs lg:text-base'>
                 <ListIconLink path='/' icon={faUserFriends} text='Today' />
-                <ListIconLink path='/frequency' icon={faBalanceScale} text='Frequency' />
+                <ListIconLink path='/frequency' icon={faBalanceScale} text='Heatmap' />
                 <ListIconLink path='/history' icon={faHistory} text='History' />
                 <ListIconLink path='/settings' icon={faCog} text='Settings' />
             </ul>

@@ -13,9 +13,9 @@ const getTodaysDate = () => {
 
 const SaveStatus = ({saved}) => {
     if (saved){
-        return <p className='text-sm text-green font-bold px-2 my-6' >&#10003;</p>
+        return <p className='text-sm text-green font-bold px-2' >&#10003;</p>
     } else {
-        return <p className='text-sm text-black font-bold px-2 my-6' >Saving...</p>
+        return <p className='text-sm text-black font-bold px-2' >Saving...</p>
     }
 }
 
