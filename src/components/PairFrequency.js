@@ -55,10 +55,10 @@ const PairFrequency = () => {
                     <div className='my-4 md:justify-between md:flex'>
                         <form>
                             <p className='text-xl font-bold mb-2'>Compare Roles</p>
-                            <div className='flex justify-between'>
+                            <div className='grid grid-cols-2'>
                                 <label className='py-2 pr-2'>
                                     Role1:
-                                    <select className='p-2 bg-white' value={primary} onChange={(e) => setPrimary(e.target.value)}>
+                                    <select className='bg-white' value={primary} onChange={(e) => setPrimary(e.target.value)}>
                                         <option value="">ALL</option>
                                         <option value="HOME">Home</option>
                                         <option value="VISITOR">Visitor</option>
@@ -66,7 +66,7 @@ const PairFrequency = () => {
                                 </label>
                                 <label className='py-2 pr-2'>
                                     Role2:
-                                    <select className='p-2 bg-white' value={secondary} onChange={(e) => setSecondary(e.target.value)}>
+                                    <select className='bg-white' value={secondary} onChange={(e) => setSecondary(e.target.value)}>
                                         <option value="">ALL</option>
                                         <option value="HOME">Home</option>
                                         <option value="VISITOR">Visitor</option>
@@ -76,7 +76,7 @@ const PairFrequency = () => {
                         </form>
                         <div>
                             <p className='text-xl font-bold text-center'>Legend</p>
-                            <div className='grid grid-cols-3'>
+                            <div className='grid grid-cols-3 text-center'>
                                 <div className='bg-green p-2'>Pair More</div>
                                 <div className='bg-yellow p-2'>Just Right</div>
                                 <div className='bg-red p-2'>Pair Less</div>
@@ -86,7 +86,7 @@ const PairFrequency = () => {
                     <table className='table-auto w-full my-4'>
                         <thead>
                             <tr className=''>
-                                { frequency.header.map((user, key) => <td key={key} className='border border-black text-center text-xl font-bold'>{user}</td>) }
+                                { frequency.header.map((user, key) => <td key={key} className='text-center text-xl font-bold'>{user}</td>) }
                             </tr>
                         </thead>
                         <tbody>

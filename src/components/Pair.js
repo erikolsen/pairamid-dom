@@ -12,6 +12,7 @@ const Empty = ({pair, onDelete}) => {
         </div>
     )
 }
+
 const tagColor = (days) => {
     switch(true){
         case (days === 0):

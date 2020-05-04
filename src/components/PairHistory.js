@@ -7,6 +7,19 @@ const colorMapper = {
     "VISITOR": 'blue'
 }
 
+const tagColor = (days) => {
+    switch(true){
+        case (days === 0):
+            return 'white'
+        case (days === 1 || days === 2):
+            return 'green'
+        case (days === 3 || days === 4):
+            return 'yellow'
+        default:
+            return 'red'
+    }
+}
+
 const User = ({user})=> {
     return (
         <div className={`w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 md:m-1 border-gray-border rounded-full bg-${colorMapper[user.role]}-400 flex items-center justify-center`}>
@@ -18,8 +31,12 @@ const User = ({user})=> {
 const Pair = ({pair}) => {
     return (
         <div className='bg-white shadow-lg rounded-lg flex m-2'>
-            <div className='flex my-2 flex-wrap'>
-                { pair.users.map((user, i) => <User key={i} user={user} /> ) }
+            <div className={`bg-${tagColor(pair.history)} w-2 rounded-lg rounded-r-none`}></div>
+            <div>
+                <div className='flex my-2 flex-wrap'>
+                    { pair.users.map((user, i) => <User key={i} user={user} /> ) }
+                </div>
+                <p className='text-xs flex items-center m-2'>Day {pair.history}</p>
             </div>
         </div>
     )
