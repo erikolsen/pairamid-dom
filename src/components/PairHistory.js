@@ -9,7 +9,7 @@ const colorMapper = {
 
 const User = ({user})=> {
     return (
-        <div className={`w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 md:mx-2 border-gray-border rounded-full bg-${colorMapper[user.role]}-400 flex items-center justify-center`}>
+        <div className={`w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 md:m-1 border-gray-border rounded-full bg-${colorMapper[user.role]}-400 flex items-center justify-center`}>
             <p className="text-white font-bold text-xs">{user.username.toUpperCase()}</p>
         </div>
     )
@@ -18,7 +18,7 @@ const User = ({user})=> {
 const Pair = ({pair}) => {
     return (
         <div className='bg-white shadow-lg rounded-lg flex m-2'>
-            <div className='flex my-2'>
+            <div className='flex my-2 flex-wrap'>
                 { pair.users.map((user, i) => <User key={i} user={user} /> ) }
             </div>
         </div>

@@ -44,7 +44,7 @@ const PairFrequency = () => {
     }, [setFrequency, primary, secondary])
         
     return (
-        <main className="bg-gray-light col-span-7 p-12 h-full">
+        <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
             <section>
                 <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
                     <div className='flex items-center'>
@@ -52,10 +52,10 @@ const PairFrequency = () => {
                     </div>
                 </header>
                 <div className=''>
-                    <div className='my-4 justify-between flex'>
+                    <div className='my-4 md:justify-between md:flex'>
                         <form>
                             <p className='text-xl font-bold mb-2'>Compare Roles</p>
-                            <div className='flex'>
+                            <div className='flex justify-between'>
                                 <label className='py-2 pr-2'>
                                     Role1:
                                     <select className='p-2 bg-white' value={primary} onChange={(e) => setPrimary(e.target.value)}>
@@ -76,7 +76,7 @@ const PairFrequency = () => {
                         </form>
                         <div>
                             <p className='text-xl font-bold text-center'>Legend</p>
-                            <div className='flex'>
+                            <div className='grid grid-cols-3'>
                                 <div className='bg-green p-2'>Pair More</div>
                                 <div className='bg-yellow p-2'>Just Right</div>
                                 <div className='bg-red p-2'>Pair Less</div>

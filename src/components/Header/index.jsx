@@ -2,7 +2,7 @@ import React from 'react';
 import logo from '../../assets/pairamid-logo.png';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserFriends, faBalanceScale, faCog, faHistory } from '@fortawesome/free-solid-svg-icons'
+import { faUserFriends, faBalanceScale, faHistory } from '@fortawesome/free-solid-svg-icons'
 
 const ListIconLink = ({path, icon, text}) => {
     return (
@@ -25,9 +25,8 @@ const Header = () => (
             </Link>
             <ul className='flex lg:block text-xs lg:text-base'>
                 <ListIconLink path='/' icon={faUserFriends} text='Today' />
-                <ListIconLink path='/frequency' icon={faBalanceScale} text='Heatmap' />
+                <ListIconLink path='/frequency' icon={faBalanceScale} text='Frequency' />
                 <ListIconLink path='/history' icon={faHistory} text='History' />
-                <ListIconLink path='/settings' icon={faCog} text='Settings' />
             </ul>
         </header>
     </div>
