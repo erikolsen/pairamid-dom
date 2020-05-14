@@ -53,12 +53,12 @@ const Pair = ({pair, updatePairInfo, onDelete}) => {
                                     { provided.placeholder }
                                 </div>
                             </div>
-                            <div className='m-2 flex justify-between'>
-                                <p className='text-xs flex items-center'>Day {pair.history}</p>
+                            <div className='m-2 grid grid-cols-4'>
+                                <p className='text-xs flex items-center col-span-1'>Day {pair.history}</p>
                                 <input onBlur={() => updatePairInfo(text, pair.uuid)} 
                                        onChange={(e)=> setText(e.target.value)} 
                                        placeholder='Working on...' 
-                                       className='px-2 border border-gray-light text-right' 
+                                       className='px-2 border border-gray-light text-right col-span-3' 
                                        type='text' 
                                        value={text} 
                                 />
