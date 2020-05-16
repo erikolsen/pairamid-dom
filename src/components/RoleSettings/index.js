@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { API_URL } from '../../constants'
-import AddRole from './AddRole'
 import DisplayRole from './DisplayRole'
 
 const RoleSettings = () => {
@@ -13,8 +12,8 @@ const RoleSettings = () => {
              })
     }
 
-    const addRole = (data) => { 
-        axios.post(`${API_URL}/role`, data)
+    const addRole = () => { 
+        axios.post(`${API_URL}/role`)
              .then((response) => {
                  setRoles([...roles, response.data])
              })
@@ -38,8 +37,13 @@ const RoleSettings = () => {
     return (
         <div>
             <p>Roles</p>
-            {roleList}
-            <AddRole action={addRole} />
+            <div className='grid grid-cols-4'>
+                {roleList}
+            </div>
+            <button onClick={addRole} className='flex items-center'>
+                <span className='text-2xl text-gray leading-tight'>&#8853;</span>
+                <span className='mx-2 text-gray'>Add Role</span>
+            </button>
         </div>
     )
 }

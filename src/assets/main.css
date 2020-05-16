@@ -595,6 +595,26 @@ h2 {
   color: #2B4046;
 }
 
+.label-floating input:placeholder-shown {
+  padding-top: 1rem;
+  padding-bottom: 0.25rem;
+}
+
+.label-floating input:placeholder-shown ~ label {
+  padding-top: 1rem;
+  padding-bottom: 0.25rem;
+}
+
+.label-floating input:not(:placeholder-shown) {
+  padding-top: 1.4rem;
+}
+
+.label-floating input:not(:placeholder-shown) ~ label {
+  font-size: 0.6rem;
+  transition: all 0.2s ease-in-out;
+  color: #1f9d55;
+}
+
 .container {
   width: 100%;
 }
