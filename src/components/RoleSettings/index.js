@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import axios from 'axios'
 import { API_URL } from '../../constants'
 import DisplayRole from './DisplayRole'
 
-const RoleSettings = () => {
-    const [roles, setRoles] = useState([])
+const RoleSettings = ({roles, setRoles}) => {
     const updateRole = (data) => { 
         axios.put(`${API_URL}/role/${data.id}`, data) 
              .then((response) => {
@@ -26,17 +25,10 @@ const RoleSettings = () => {
              })
     }
 
-    useEffect(()=> {
-        axios.get(`${API_URL}/roles`)
-            .then((response)=> {
-                setRoles(response.data)
-            })
-    }, [setRoles])
-
     const roleList = roles.map((role) => <DisplayRole key={role.id} role={role} updateRole={updateRole} onDelete={deleteRole} />)
     return (
         <div>
-            <p>Roles</p>
+            <h2>Roles</h2>
             <div className='grid grid-cols-2 md:grid-cols-4'>
                 {roleList}
             </div>

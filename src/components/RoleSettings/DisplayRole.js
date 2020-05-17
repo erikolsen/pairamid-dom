@@ -22,8 +22,8 @@ const DisplayCard = ({role, setEditing, onDelete}) => {
                 </div>
             </div>
             <div className='flex justify-between'>
-                <IconButton action={()=> setEditing(true)} icon={faPencilAlt} /> 
                 <IconButton action={()=> onDelete(role.id)} icon={faTrashAlt} classes='text-red' /> 
+                <IconButton action={()=> setEditing(true)} icon={faPencilAlt} /> 
             </div>
         </div>
     )

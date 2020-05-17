@@ -3,8 +3,15 @@ import axios from 'axios'
 import { API_URL } from '../../constants'
 import DisplayUser from './DisplayUser'
 
-const UserSettings = () => {
+const UserSettings = ({roles}) => {
     const [users, setUsers] = useState([])
+
+    useEffect(()=> {
+        axios.get(`${API_URL}/users`)
+            .then((response)=> {
+                setUsers(response.data)
+            })
+    }, [roles])
 
     const updateUser = (data) => { 
         axios.put(`${API_URL}/user/${data.userId}`, data) 
@@ -27,17 +34,10 @@ const UserSettings = () => {
              })
     }
 
-    useEffect(()=> {
-        axios.get(`${API_URL}/users`)
-            .then((response)=> {
-                setUsers(response.data)
-            })
-    }, [setUsers])
-
-    const usersList = users.map((user) => <DisplayUser key={user.id} user={user} updateUser={updateUser} onDelete={deleteUser} />)
+    const usersList = users.map((user) => <DisplayUser key={user.id} user={user} roles={roles} updateUser={updateUser} onDelete={deleteUser} />)
     return (
         <div>
-            <p>Users</p>
+            <h2>Users</h2>
             <div className='grid grid-cols-2 md:grid-cols-4'>
                 { usersList }
             </div>

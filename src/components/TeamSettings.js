@@ -1,8 +1,19 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import { API_URL } from '../constants'
 import RoleSettings from './RoleSettings'
 import UserSettings from './UserSettings'
 
 const TeamSettings = () => {
+    const [roles, setRoles] = useState([])
+
+    useEffect(()=> {
+        axios.get(`${API_URL}/roles`)
+            .then((response)=> {
+                setRoles(response.data)
+            })
+    }, [])
+
     return (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
             <section>
@@ -12,9 +23,9 @@ const TeamSettings = () => {
                     </div>
                 </header>
                 <div className='w-full'>
-                    <RoleSettings />
+                    <RoleSettings roles={roles} setRoles={setRoles} />
                     <div className='border-b-2 border-gray-border my-4' />
-                    <UserSettings />
+                    <UserSettings roles={roles} />
                 </div>
             </section>
         </main>

@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import { API_URL } from '../../constants'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt, faTrashAlt, faBan } from '@fortawesome/free-solid-svg-icons'
@@ -24,33 +22,24 @@ const DisplayCard = ({user, setEditing, onDelete}) => {
                 <div style={{'backgroundColor': color}} className={`w-12 h-12 mx-2 border-gray-border rounded-full flex items-center justify-center`}>
                     <p className="text-white font-bold text-xs">{user.username}</p>
                 </div>
-                <p className='text-lg flex items-center my-2 mx-4 text-gray'>{roleName}</p>
+                <p className='text-lg flex items-center my-2 mx-4 text-gray'>Role: {roleName}</p>
             </div>
             <div className='flex justify-between'>
-                <IconButton action={()=> setEditing(true)} icon={faPencilAlt} /> 
                 <IconButton action={()=> onDelete(user.id)} icon={faTrashAlt} classes='text-red' /> 
+                <IconButton action={()=> setEditing(true)} icon={faPencilAlt} /> 
             </div>
         </div>
     )
 }
 
-const EditCard = ({user, setEditing, onUpdate, onDelete }) => {
+const EditCard = ({user, roles, setEditing, onUpdate, onDelete }) => {
     const { register, handleSubmit } = useForm()
-    const [roles, setRoles] = useState([])
     const [initials, setInitials] = useState(user.username || '')
-    const [roleId, setRoleId] = useState(user.role ? user.role.id : null)
+    const [roleId, setRoleId] = useState(user.role ? user.role.id : '')
     const selectedRole = roles.find((role) => role.id === parseInt(roleId))
     const color = selectedRole ? selectedRole.color : 'gray'
     const cancelAction = user.username ? <IconButton action={()=> setEditing(false)} icon={faBan} />  :
                                          <IconButton action={()=> onDelete(user.id)} icon={faTrashAlt} classes='text-red' /> 
-
-
-    useEffect(()=> {
-        axios.get(`${API_URL}/roles`)
-            .then((response)=> {
-                setRoles(response.data)
-            })
-    }, [setRoles])
 
     return (
         <div className='bg-white shadow-lg rounded-lg mr-4 mb-4'>
@@ -79,7 +68,7 @@ const EditCard = ({user, setEditing, onUpdate, onDelete }) => {
                         </div>
                     </div>
                     <div className='grid grid-cols-4'>
-                        <p className='ml-3 text-sm text-green col-span-1'>Role:</p>
+                        <p className='col-span-1'></p>
                         <div className='relative col-span-3 mr-2'>
                             <select 
                                 onChange={(e) => setRoleId(e.target.value)} 
@@ -109,14 +98,14 @@ const EditCard = ({user, setEditing, onUpdate, onDelete }) => {
     )
 }
 
-const DisplayUser = ({user, updateUser, onDelete})=> {
+const DisplayUser = ({user, roles, updateUser, onDelete})=> {
     const [editing, setEditing] = useState(!user.username)
     const onUpdate = (data) => {
         updateUser(data)
         setEditing(false)
     }
 
-    return editing ? <EditCard user={user} setEditing={setEditing} onUpdate={onUpdate} onDelete={onDelete} /> : 
+    return editing ? <EditCard user={user} roles={roles} setEditing={setEditing} onUpdate={onUpdate} onDelete={onDelete} /> : 
                      <DisplayCard user={user} setEditing={setEditing} onDelete={onDelete} />
 
 }
