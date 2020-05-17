@@ -610,9 +610,9 @@ h2 {
 }
 
 .label-floating input:not(:placeholder-shown) ~ label {
-  font-size: 0.6rem;
+  font-size: 0.875rem;
+  color: #00BB85;
   transition: all 0.2s ease-in-out;
-  color: #1f9d55;
 }
 
 .container {

@@ -4,8 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt, faTrashAlt, faBan } from '@fortawesome/free-solid-svg-icons'
 
 const IconButton = ({action, icon, classes}) => {
+    const onClick = (e) => { e.preventDefault(); action() }
+
     return (
-        <button className={`m-2 ${classes}`} onClick={action}>
+        <button className={`my-2 mx-4 ${classes}`} onClick={onClick}>
             <FontAwesomeIcon icon={icon} />
         </button>
     )
@@ -14,11 +16,10 @@ const IconButton = ({action, icon, classes}) => {
 const DisplayCard = ({role, setEditing, onDelete}) => {
     return (
         <div className='bg-white shadow-lg rounded-lg mr-4 mb-4'>
-            <div className='flex my-2 '>
-                <div style={{'backgroundColor': role.color}} className={`w-10 h-10 lg:w-12 lg:h-12 mx-2 border-gray-border rounded-full flex items-center justify-center`}>
-                    <p className="text-white font-bold text-xs">AB</p>
+            <div className='my-2 '>
+                <div style={{'backgroundColor': role.color}} className={`p-3 mx-2 border-gray-border flex items-center justify-center`}>
+                    <p className="text-white font-bold text-xs">{role.name && role.name.toUpperCase()}</p>
                 </div>
-                <p className='text-sm md:text-lg flex items-center my-2 mx-4 text-gray'>{role.name}</p>
             </div>
             <div className='flex justify-between'>
                 <IconButton action={()=> setEditing(true)} icon={faPencilAlt} /> 

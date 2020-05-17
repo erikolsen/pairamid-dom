@@ -1,6 +1,6 @@
 import React from 'react'
 import RoleSettings from './RoleSettings'
-
+import UserSettings from './UserSettings'
 
 const TeamSettings = () => {
     return (
@@ -13,7 +13,8 @@ const TeamSettings = () => {
                 </header>
                 <div className='w-full'>
                     <RoleSettings />
-                    <div className='border-b-2 border-gray-border' />
+                    <div className='border-b-2 border-gray-border my-4' />
+                    <UserSettings />
                 </div>
             </section>
         </main>
