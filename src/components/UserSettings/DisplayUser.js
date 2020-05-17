@@ -19,7 +19,7 @@ const DisplayCard = ({user, setEditing, onDelete}) => {
     return (
         <div className='bg-white shadow-lg rounded-lg mr-4 mb-4'>
             <div className='flex my-2 '>
-                <div style={{'backgroundColor': color}} className={`w-12 h-12 mx-2 border-gray-border rounded-full flex items-center justify-center`}>
+                <div style={{'backgroundColor': color}} className={`bg-gray-med w-12 h-12 mx-2 border-gray-border rounded-full flex items-center justify-center`}>
                     <p className="text-white font-bold text-xs">{user.username}</p>
                 </div>
                 <p className='text-lg flex items-center my-2 mx-4 text-gray'>Role: {roleName}</p>
@@ -46,7 +46,7 @@ const EditCard = ({user, roles, setEditing, onUpdate, onDelete }) => {
             <form onSubmit={handleSubmit(onUpdate)}>
                 <div className=''>
                     <div className='grid grid-cols-4 mx-2 my-4 flex items-center'>
-                        <div style={{'backgroundColor': color}} className={`col-span-1 w-10 h-10 border-gray-border rounded-full flex items-center justify-center`}>
+                        <div style={{'backgroundColor': color}} className={`bg-gray-med col-span-1 w-10 h-10 border-gray-border rounded-full flex items-center justify-center`}>
                             <p className="text-white font-bold text-xs">{initials.toUpperCase()}</p>
                         </div>
                         <div className='col-span-3'>
