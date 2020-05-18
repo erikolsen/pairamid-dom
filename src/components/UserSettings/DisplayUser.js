@@ -18,11 +18,11 @@ const DisplayCard = ({user, setEditing, onDelete}) => {
     const roleName = user.role ? user.role.name : ''
     return (
         <div className='bg-white shadow-lg rounded-lg mr-4 mb-4'>
-            <div className='flex my-2 '>
-                <div style={{'backgroundColor': color}} className={`bg-gray-med w-12 h-12 mx-2 border-gray-border rounded-full flex items-center justify-center`}>
+            <div className='grid grid-cols-2 my-2'>
+                <div style={{'backgroundColor': color}} className={`col-span-1 bg-gray-med w-12 h-12 mx-2 border-gray-border rounded-full flex items-center justify-center`}>
                     <p className="text-white font-bold text-xs">{user.username}</p>
                 </div>
-                <p className='text-lg flex items-center my-2 mx-4 text-gray'>Role: {roleName}</p>
+                <p className='col-span-1 text-sm sm:text-lg flex items-center text-gray'>Role: {roleName}</p>
             </div>
             <div className='flex justify-between'>
                 <IconButton action={()=> onDelete(user.id)} icon={faTrashAlt} classes='text-red' /> 
