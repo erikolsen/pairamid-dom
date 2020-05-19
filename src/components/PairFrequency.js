@@ -39,7 +39,7 @@ const RoleSelect = ({label, selected, onSelect}) => {
             })
     }, [setRoles])
 
-    const options = roles.map((role) => <option value={role.name}>{role.name}</option> )
+    const options = roles.map((role) => <option key={role.id} value={role.name}>{role.name}</option> )
 
     return (
         <label className='py-2 pr-2'>
