@@ -12,6 +12,23 @@ h2 {
     @apply text-xl font-bold text-teal-dark;
 }
 
+.label-floating input:placeholder-shown {
+    @apply pt-4 pb-1;
+}
+
+.label-floating input:placeholder-shown ~ label {
+    @apply pt-4 pb-1;
+}
+
+.label-floating input:not(:placeholder-shown) {
+    padding-top: 1.4rem;
+}
+
+.label-floating input:not(:placeholder-shown) ~ label {
+    @apply text-sm text-green;
+    transition: all 0.2s ease-in-out;
+}
+
 @tailwind components;
 
 @tailwind utilities;

@@ -30,6 +30,28 @@ const Row = ({row}) => {
     )
 }
 
+const RoleSelect = ({label, selected, onSelect}) => {
+    const [roles, setRoles] = useState([])
+    useEffect(()=> {
+        axios.get(`${API_URL}/roles`)
+            .then((response)=> {
+                setRoles(response.data)
+            })
+    }, [setRoles])
+
+    const options = roles.map((role) => <option key={role.id} value={role.name}>{role.name}</option> )
+
+    return (
+        <label className='py-2 pr-2'>
+            {label}:
+            <select className='bg-white' value={selected} onChange={(e) => onSelect(e.target.value)}>
+                <option value="">ALL</option>
+                { options }
+            </select>
+        </label>
+    )
+}
+
 const PairFrequency = () => {
     const [frequency, setFrequency] = useState({header: [], pairs: []})
     const [primary, setPrimary] = useState('HOME')
@@ -56,22 +78,8 @@ const PairFrequency = () => {
                         <form>
                             <p className='text-xl font-bold mb-2'>Compare Roles</p>
                             <div className='grid grid-cols-2'>
-                                <label className='py-2 pr-2'>
-                                    Role1:
-                                    <select className='bg-white' value={primary} onChange={(e) => setPrimary(e.target.value)}>
-                                        <option value="">ALL</option>
-                                        <option value="HOME">Home</option>
-                                        <option value="VISITOR">Visitor</option>
-                                    </select>
-                                </label>
-                                <label className='py-2 pr-2'>
-                                    Role2:
-                                    <select className='bg-white' value={secondary} onChange={(e) => setSecondary(e.target.value)}>
-                                        <option value="">ALL</option>
-                                        <option value="HOME">Home</option>
-                                        <option value="VISITOR">Visitor</option>
-                                    </select>
-                                </label>
+                                <RoleSelect label='Role1' onSelect={setPrimary} selected={primary} />
+                                <RoleSelect label='Role2' onSelect={setSecondary} selected={secondary} />
                             </div>
                         </form>
                         <div>

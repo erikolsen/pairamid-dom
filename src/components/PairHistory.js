@@ -2,11 +2,6 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { API_URL } from '../constants'
 
-const colorMapper = {
-    "HOME": 'indigo',
-    "VISITOR": 'blue'
-}
-
 const tagColor = (days) => {
     switch(true){
         case (days === 0):
@@ -22,7 +17,7 @@ const tagColor = (days) => {
 
 const User = ({user})=> {
     return (
-        <div className={`w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 md:m-1 border-gray-border rounded-full bg-${colorMapper[user.role]}-400 flex items-center justify-center`}>
+        <div style={{'backgroundColor': user.role.color}} className={`bg-gray-med w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 md:m-1 border-gray-border rounded-full flex items-center justify-center`}>
             <p className="text-white font-bold text-xs">{user.username.toUpperCase()}</p>
         </div>
     )

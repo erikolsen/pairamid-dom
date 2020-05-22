@@ -1,23 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Header from './components/Header';
-import DailyView from './components/DailyView';
 import PairFrequency from './components/PairFrequency';
 import PairHistory from './components/PairHistory';
-import SocketHandler from './components/SocketHandler';
-import axios from 'axios'
-import { API_URL } from './constants'
+import Team from './components/Team';
+import TeamSettings from './components/TeamSettings';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App = () => {
-    const [pairs, setPairs] = useState([])
-
-    useEffect(()=> {
-        axios.get(`${API_URL}/pairing_sessions/daily`)
-            .then((response)=> {
-                setPairs(response.data)
-            })
-    }, [setPairs])
-
     return (
         <div className='grid grid-cols-1 lg:grid-cols-8'>
             <Router>
@@ -25,11 +14,8 @@ const App = () => {
                 <Switch>
                     <Route path='/frequency' component={PairFrequency} />
                     <Route path='/history' component={PairHistory} />
-                    <Route path='/'>
-                        <SocketHandler requestedData={pairs.length}>
-                            <DailyView setPairs={setPairs} pairs={pairs} />
-                        </SocketHandler>
-                    </Route>
+                    <Route path='/settings' component={TeamSettings} />
+                    <Route path='/' component={Team} />
                 </Switch>
             </Router>
         </div>
