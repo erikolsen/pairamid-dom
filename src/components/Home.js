@@ -9,7 +9,7 @@ import axios from 'axios'
 import { API_URL } from '../constants'
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faUsers, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 const IconButton = ({classes}) => {
     const history = useHistory()
@@ -21,7 +21,7 @@ const IconButton = ({classes}) => {
     }
 
     return team && (
-        <button className={`my-2 mx-4 ${classes}`} onClick={onClick}>
+        <button className={`my-2 mx-16 ${classes}`} onClick={onClick}>
             <FontAwesomeIcon icon={faUsers} />
             <p className='font-bold leading-tight'>Team</p>
         </button>
@@ -40,14 +40,14 @@ const CreateTeam = () => {
     }
     return (
         <form onSubmit={handleSubmit(onUpdate)}>
-            <div className='flex justify-between mr-2 items-center'>
+            <div className='flex justify-between mr-2 items-center my-4'>
                 <div className="w-3/4 relative appearance-none label-floating">
-                    <input className="text-lg border-b border-gray-border pt-1 px-3 leading-;ormal w-full" id="name" type="text" name="name" placeholder='Team Name' defaultValue={''} ref={register} />
-                    <label className="absolute text-lg block top-0 left-0 w-full px-3 pt-1 leading-normal" htmlFor="name">
+                    <input className="text-lg border-b border-gray-border pt-1 leading-;ormal w-full" id="name" type="text" name="name" placeholder='Team Name' defaultValue={''} ref={register} />
+                    <label className="absolute text-lg block top-0 left-0 w-full pt-1 leading-normal" htmlFor="name">
                         Team Name
                     </label>
                 </div>
-                <input type='submit' value='START FOR FREE' className='mx-2 p-3 bg-indigo-400 text-white font-bold' />
+                <input style={{'backgroundColor': '#08697A'}} type='submit' value='START FOR FREE' className='mx-2 p-3 text-white font-bold' />
             </div>
         </form>
     )
@@ -57,72 +57,126 @@ const Home = () => {
     return (
         <div className=''>
             <header className="flex items-center justify-between border-gray-border border-b-2 w-screen">
-                <div className='my-4 mx-24'>
+                <div className='my-4 mx-16'>
                     <img src={logo} alt='Paramid Logo' width="169" height="40" className="w-full max-w-logo" />
                 </div>
                 <IconButton />
             </header>
             <div className='h-full w-screen'>
-                <div className='grid grid-cols-2'>
-                    <div className='col-span-1'>
-                        <div className='mx-24 my-24'>
-                            <p className='text-5xl font-bold leading-tight'>Pairamid brings pairs together, wherever they are</p>
-                            <p className='font-semibold'>See who is available to pair, easily visualize cross functional pairing, and track pair frequency and duration to promote optimal pair switching.</p>
+                <div className='grid grid-cols-1 lg:grid-cols-2 my-24'>
+                    <div className='col-span-1 mx-16 lg:ml-16 lg:mr-8'>
+                        <div className=''>
+                            <p className='text-5xl font-bold leading-tight'>Pairamid helps you pair more efficiently</p>
+                            <p className='text-xl my-4'>
+                                Pair like you would in the office! 
+                                If you see someone working solo ask if they want a pair.
+                                Easily visualize cross functional pairing, 
+                                track pair frequency and duration to promote optimal pair switching.
+                            </p>
                             <CreateTeam />
                         </div>
                     </div>
-                    <div className='col-span-1'>
-                        <div className="bg-white shadow-lg rounded-lg my-24 mx-8">
-                            <img className='' src={daily} alt='Paramid Logo' />
+                    <div className='col-span-1 mx-16 lg:ml-8 lg:mr-16 '>
+                        <div className='bg-white shadow-lg rounded-lg'>
+                            <img className='' src={daily} alt='Full Daily View' />
                         </div>
                     </div>
                 </div>
             </div>
+
             <div className='h-full w-screen'>
-                <p className='text-4xl font-bold text-center m-24'>Why Pairamid?</p>
-                <div className='grid grid-cols-2'>
-                    <div className='col-span-1'>
-                        <div className="mx-24">
-                            <img className='bg-white shadow-lg rounded-lg' src={duration} alt='Paramid Logo' />
+                <p className='text-4xl font-bold text-center my-32'>Why Pairamid?</p>
+                <div className='grid grid-cols-1 lg:grid-cols-2'>
+                    <div className='col-span-1 mx-16 lg:ml-16 lg:mr-8'>
+                        <div className="">
+                            <img className='bg-white shadow-lg rounded-lg' src={duration} alt='Daily View' />
                         </div>
                     </div>
-                    <div className='col-span-1'>
-                        <div className='mx-8'>
-                            <p className='text-5xl font-bold leading-tight'>Pairamid brings pairs together, wherever they are</p>
-                            <p className='font-semibold'>See who is available to pair, easily visualize cross functional pairing, and track pair frequency and duration to promote optimal pair switching.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className='h-full w-screen my-8'>
-                <div className='grid grid-cols-2'>
-                    <div className='col-span-1'>
-                        <div className='mx-24'>
-                            <p className='text-5xl font-bold leading-tight'>Pairamid brings pairs together, wherever they are</p>
-                            <p className='font-semibold'>See who is available to pair, easily visualize cross functional pairing, and track pair frequency and duration to promote optimal pair switching.</p>
-                        </div>
-                    </div>
-                    <div className='col-span-1'>
-                        <div className="px-8">
-                            <img className='bg-white shadow-lg rounded-lg' src={frequency} alt='Paramid Logo' />
+                    <div className='col-span-1 mx-16 lg:ml-8 lg:mr-16'>
+                        <div className='my-24'>
+                            <p className='text-4xl font-bold leading-tight mb-2 text-center'>Information at a glance</p>
+                            <p className='text-2xl my-2'>The daily view provides a helpful visualization for your war room or remote stand up.</p>
+                            <ul className='list-inside list-disc text-2xl my-2'>
+                                <li className='my-2'>Quickly identify who is available to pair.</li>
+                                <li className='my-2'>Pair duration identifies pairs in need of a pair switch.</li>
+                                <li className='my-2'>Colorful roles allow for easy visualization of cross functional pairing.</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div className='h-full w-screen my-8'>
-                <div className='grid grid-cols-2'>
-                    <div className='col-span-1'>
-                        <div className="px-24">
-                            <img className='bg-white shadow-lg rounded-lg' src={history} alt='Paramid Logo' />
+                <div className='grid grid-cols-1 lg:grid-cols-2'>
+                    <div className='col-span-1 mx-16 lg:ml-16 lg:mr-8'>
+                        <div className='my-16'>
+                            <p className='text-4xl font-bold leading-tight mb-2 text-center'>Eliminate knowledge silos</p>
+                            <p className='text-2xl my-2'>Pair frequency metrics help identify potential silos and promote cross functional pairing.</p>
                         </div>
                     </div>
-                    <div className='col-span-1'>
-                        <div className='mx-8'>
-                            <p className='text-5xl font-bold leading-tight'>Pairamid brings pairs together, wherever they are</p>
-                            <p className='font-semibold'>See who is available to pair, easily visualize cross functional pairing, and track pair frequency and duration to promote optimal pair switching.</p>
+                    <div className='col-span-1 mx-16 lg:ml-8 lg:mr-16'>
+                        <div className="">
+                            <img className='bg-white shadow-lg rounded-lg' src={frequency} alt='Pair Frequency' />
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className='h-full w-screen my-8'>
+                <div className='grid grid-cols-1 lg:grid-cols-2'>
+                    <div className='col-span-1 mx-16 lg:ml-16 lg:mr-8'>
+                        <div className="">
+                            <img className='bg-white shadow-lg rounded-lg' src={history} alt='Pair History' />
+                        </div>
+                    </div>
+                    <div className='col-span-1 mx-16 lg:ml-8 lg:mr-16'>
+                        <div className='my-16'>
+                            <p className='text-4xl font-bold leading-tight mb-2 text-center'>View weekly history</p>
+                            <p className='text-2xl my-2'>A trailing five day view shows recent pairs so you can identify pending pair swaps and more efficiently plan ahead.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className='h-full w-screen my-8'>
+                <p className='text-4xl text-center mt-24 mb-16 font-bold'>Learn More</p>
+                <div className='grid grid-cols-1 md:grid-cols-2'>
+                    <a target='_blank' 
+                       href='https://mattphilip.wordpress.com/2011/07/06/pair-like-an-egyptian/'
+                       className='col-span-1 shadow-lg rounded-lg border border-gray-border h-full mx-16 md:ml-16 md:mr-8 my-8'>
+                        <img className='h-64 mx-auto mt-8' src='https://mattphilip.files.wordpress.com/2011/07/pairamid.jpg' alt='Pairamid' />
+                        <div className='inset-x-0 bottom-0'>
+                            <div className='my-4'>
+                                <p className='text-center font-bold text-xl'>Pair like an Egyptian</p>
+                                <p className='text-center'>Read more about the history of the pairamid from agile guru Matt Philip.</p>
+                            </div>
+                            <div className='flex items-center justify-between mx-4 my-1'>
+                                <p>Read full article</p>
+                                <FontAwesomeIcon icon={faArrowRight} />
+                            </div>
+                        </div>
+                    </a>
+                    <a target='_blank' 
+                       href='https://martinfowler.com/articles/on-pair-programming.html'
+                       className='col-span-1 shadow-lg rounded-lg border border-gray-border h-full mx-16 md:ml-8 md:mr-16 my-8'>
+                        <img className='h-64 mx-auto mt-8' src='https://martinfowler.com/articles/on-pair-programming/driver_navigator.png' alt='Pairamid' />
+                        <div className='inset-x-0 bottom-0'>
+                            <div className='my-4'>
+                                <p className='text-center font-bold text-xl'>On Pair Programming</p>
+                                <p className='text-center'>Great information and advice on pair programming by Martin Fowler.</p>
+                            </div>
+                            <div className='flex items-center justify-between mx-4 my-1'>
+                                <p>Read full article</p>
+                                <FontAwesomeIcon icon={faArrowRight} />
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div className='my-24 mx-16 border border-gray-border shadow-lg rounded-lg p-16'>
+                <h1>Start using Pairamid today!</h1>
+                <CreateTeam />
             </div>
         </div>
     )
