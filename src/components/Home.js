@@ -5,11 +5,38 @@ import daily from '../assets/todays_pairs.png';
 import frequency from '../assets/pair_frequency.png';
 import duration from '../assets/duration.png';
 import history from '../assets/history.png';
+import axios from 'axios'
+import { API_URL } from '../constants'
+import { useHistory } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUsers } from '@fortawesome/free-solid-svg-icons'
+
+const IconButton = ({classes}) => {
+    const history = useHistory()
+    const team = localStorage.getItem('team');
+
+    const onClick = (e) => { 
+        e.preventDefault();
+        history.push(`/team/${team}`)
+    }
+
+    return team && (
+        <button className={`my-2 mx-4 ${classes}`} onClick={onClick}>
+            <FontAwesomeIcon icon={faUsers} />
+            <p className='font-bold leading-tight'>Team</p>
+        </button>
+    )
+}
 
 const CreateTeam = () => {
     const { register, handleSubmit } = useForm()
+    const history = useHistory()
+
     const onUpdate = (data) => {
-        console.log('Data', data)
+        axios.post(`${API_URL}/team`, data)
+             .then((response) => {
+                 history.push(`/team/${response.data.uuid}/settings`)
+             })
     }
     return (
         <form onSubmit={handleSubmit(onUpdate)}>
@@ -33,6 +60,7 @@ const Home = () => {
                 <div className='my-4 mx-24'>
                     <img src={logo} alt='Paramid Logo' width="169" height="40" className="w-full max-w-logo" />
                 </div>
+                <IconButton />
             </header>
             <div className='h-full w-screen'>
                 <div className='grid grid-cols-2'>
