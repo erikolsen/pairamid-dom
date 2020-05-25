@@ -3,6 +3,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import Pair from './Pair'
 import ParkingLot from './ParkingLot'
 import { SOCKET } from './SocketHandler'
+import { useParams } from 'react-router-dom'
 
 const getPairData = (pairs, pairUuid) => {
     const pair =  pairs.find((p)=> p.uuid === pairUuid)
@@ -15,6 +16,7 @@ const getPairData = (pairs, pairUuid) => {
 }
 
 const PairGrid = ({pairs, setSaved, setError}) => {
+    const { teamId } = useParams()
     const handleError = (response) => {
         if(response.error){ setError(response.message) }
     }
@@ -46,7 +48,7 @@ const PairGrid = ({pairs, setSaved, setError}) => {
     }
 
     const addPair = ()=> {
-        SOCKET.emit('add pair', {}, (response) => handleError(response))
+        SOCKET.emit('add pair', {teamId: teamId}, (response) => handleError(response))
     }
 
     const activePairs = pairs.filter((p) => p.info !== 'UNPAIRED').map((pair, i) => <Pair updatePairInfo={updatePairInfo} onDelete={deletePair} pair={pair} key={pair.uuid} />)

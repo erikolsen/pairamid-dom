@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { API_URL } from '../constants'
+import { useParams } from 'react-router-dom'
 
 const tagColor = (days) => {
     switch(true){
@@ -36,7 +37,7 @@ const Pair = ({pair}) => {
         </div>
     )
 }
-
+    
 const Day = ({data}) => {
     const today = new Date()
     const {day, weekday, pairs} = data
@@ -52,7 +53,7 @@ const Day = ({data}) => {
 
     )
 }
-
+    
 const DateRange = ({history})=> {
     if(history.length === 0) { return null }
     const startDay = history[0].day
@@ -65,14 +66,15 @@ const DateRange = ({history})=> {
 }
 
 const PairHistory = () => {
+    const { teamId } = useParams()
     const [history, setHistory] = useState([])
 
     useEffect(()=> {
-        axios.get(`${API_URL}/pairing_sessions/weekly`)
+        axios.get(`${API_URL}/team/${teamId}/pairing_sessions/weekly`)
             .then((response)=> {
                 setHistory(response.data)
             })
-    }, [setHistory])
+    }, [setHistory, teamId])
         
     return (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">

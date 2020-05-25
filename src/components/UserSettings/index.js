@@ -2,33 +2,35 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { API_URL } from '../../constants'
 import DisplayUser from './DisplayUser'
+import { useParams } from 'react-router-dom'
 
 const UserSettings = ({roles}) => {
+    const { teamId } = useParams()
     const [users, setUsers] = useState([])
 
     useEffect(()=> {
-        axios.get(`${API_URL}/users`)
+        axios.get(`${API_URL}/team/${teamId}/users`)
             .then((response)=> {
                 setUsers(response.data)
             })
-    }, [roles])
+    }, [roles, teamId])
 
     const updateUser = (data) => { 
-        axios.put(`${API_URL}/user/${data.userId}`, data) 
+        axios.put(`${API_URL}/team/${teamId}/user/${data.userId}`, data) 
              .then((response) => {
                 setUsers(users.map(user => (user.id === response.data.id ? Object.assign({}, response.data) : user )))
              })
     }
 
     const addUser = () => { 
-        axios.post(`${API_URL}/user`)
+        axios.post(`${API_URL}/team/${teamId}/user`)
              .then((response) => {
                  setUsers([...users, response.data])
              })
     }
 
     const deleteUser = (id) => { 
-        axios.delete(`${API_URL}/user/${id}`)
+        axios.delete(`${API_URL}/team/${teamId}/user/${id}`)
              .then((response) => {
                  setUsers(users.filter((user) => user.id !== parseInt(response.data)))
              })
