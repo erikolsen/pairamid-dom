@@ -26,8 +26,8 @@ const App = () => {
         <div className=''>
             <Router>
                 <Switch>
-                    <Route path='/Home' component={Home} />
                     <Route path='/team/:teamId' component={TeamLayout} />
+                    <Route exact path='/' component={Home} />
                 </Switch>
             </Router>
         </div>

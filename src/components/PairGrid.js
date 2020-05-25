@@ -33,18 +33,18 @@ const PairGrid = ({pairs, setSaved, setError}) => {
         descUsers.splice(destination.index, 0, user)
 
         setSaved(false)
-        SOCKET.emit('batch update pairs', [sourceData, descData], (response) => handleError(response))
+        SOCKET.emit('batch update pairs', {pairs: [sourceData, descData], teamId: teamId}, (response) => handleError(response))
     }
 
     const updatePairInfo = (text, uuid) => {
         const pairData = getPairData(pairs, uuid)
         pairData.pair.info = text
         setSaved(false)
-        SOCKET.emit('batch update pairs', [pairData], (response) => handleError(response))
+        SOCKET.emit('batch update pairs', {pairs: [pairData], teamId: teamId}, (response) => handleError(response))
     }
 
     const deletePair = (pair)=> {
-        SOCKET.emit('delete pair', {uuid: pair.uuid}, (response) => handleError(response))
+        SOCKET.emit('delete pair', {uuid: pair.uuid, teamId: teamId}, (response) => handleError(response))
     }
 
     const addPair = ()=> {

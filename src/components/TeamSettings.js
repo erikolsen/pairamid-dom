@@ -17,7 +17,7 @@ const IconButton = () => {
     }
 
     checked ? localStorage.setItem('team', teamId) : localStorage.removeItem('team');
-    let color = checked ? 'text-green' : 'text-black'
+    let color = checked ? 'text-green-med' : 'text-black'
 
     return (
         <button className={`my-2 mx-4 ${color}`} onClick={onClick}>

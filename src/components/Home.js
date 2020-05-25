@@ -143,6 +143,7 @@ const Home = () => {
                 <div className='grid grid-cols-1 md:grid-cols-2'>
                     <a target='_blank' 
                        href='https://mattphilip.wordpress.com/2011/07/06/pair-like-an-egyptian/'
+                       rel="noopener noreferrer"
                        className='col-span-1 shadow-lg rounded-lg border border-gray-border h-full mx-16 md:ml-16 md:mr-8 my-8'>
                         <img className='h-64 mx-auto mt-8' src='https://mattphilip.files.wordpress.com/2011/07/pairamid.jpg' alt='Pairamid' />
                         <div className='inset-x-0 bottom-0'>
@@ -158,6 +159,7 @@ const Home = () => {
                     </a>
                     <a target='_blank' 
                        href='https://martinfowler.com/articles/on-pair-programming.html'
+                       rel="noopener noreferrer"
                        className='col-span-1 shadow-lg rounded-lg border border-gray-border h-full mx-16 md:ml-8 md:mr-16 my-8'>
                         <img className='h-64 mx-auto mt-8' src='https://martinfowler.com/articles/on-pair-programming/driver_navigator.png' alt='Pairamid' />
                         <div className='inset-x-0 bottom-0'>
