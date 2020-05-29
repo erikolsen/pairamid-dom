@@ -13,7 +13,7 @@ const Cell = ({data, color}) => {
 const Row = ({row}) => {
     const user = row.slice(0,1)
     const cells = row.slice(1)
-    const totalSessions = cells.filter(isNum).reduce((total, count) => total += count) 
+    const totalSessions = cells.filter(isNum).reduce((total, count) => { return total += count}, 0) 
     const average = Math.round(totalSessions / cells.length) || '1'
 
     const getColor = (data) => { 

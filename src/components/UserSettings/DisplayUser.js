@@ -33,7 +33,7 @@ const DisplayCard = ({user, setEditing, onDelete}) => {
 }
 
 const EditCard = ({user, roles, setEditing, onUpdate, onDelete }) => {
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, errors } = useForm()
     const [initials, setInitials] = useState(user.username || '')
     const [roleId, setRoleId] = useState(user.role ? user.role.id : '')
     const selectedRole = roles.find((role) => role.id === parseInt(roleId))
@@ -41,6 +41,7 @@ const EditCard = ({user, roles, setEditing, onUpdate, onDelete }) => {
     const cancelAction = user.username ? <IconButton action={()=> setEditing(false)} icon={faBan} />  :
                                          <IconButton action={()=> onDelete(user.id)} icon={faTrashAlt} classes='text-red' /> 
 
+    const classes = errors.initials ? 'border border-red' : 'border-b border-gray-border'
     return (
         <div className='bg-white shadow-lg rounded-lg mr-4 mb-4'>
             <form onSubmit={handleSubmit(onUpdate)}>
@@ -52,15 +53,16 @@ const EditCard = ({user, roles, setEditing, onUpdate, onDelete }) => {
                         <div className='col-span-3'>
                             <div className="relative appearance-none label-floating">
                                 <input 
-                                    className="w-full border-b border-gray-border pt-1 px-3 leading-normal" 
+                                    className={`w-full pt-1 px-3 leading-normal outline-none ${classes}`}
                                     onChange={(e) => setInitials(e.target.value)} 
                                     id="initials" 
                                     type="text" 
                                     name="initials" 
                                     placeholder='Initials' 
                                     defaultValue={user.username} 
-                                    ref={register} 
+                                    ref={register({ required: true, maxLength: 3, minLength: 2 })} 
                                 />
+                                {errors.initials && <p className='text-red'>2-3 Character limit</p>}
                                 <label className="absolute block text-green-darker top-0 left-0 w-full px-3 pb-2 leading-normal" htmlFor="initials">
                                     Initials
                                 </label>

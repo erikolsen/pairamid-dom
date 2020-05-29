@@ -25,7 +25,7 @@ h2 {
 }
 
 .label-floating input:not(:placeholder-shown) ~ label {
-    @apply text-sm text-green;
+    @apply text-sm text-green-icon;
     transition: all 0.2s ease-in-out;
 }
 

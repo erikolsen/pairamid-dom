@@ -29,7 +29,7 @@ const IconButton = ({classes}) => {
 }
 
 const CreateTeam = () => {
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, errors } = useForm()
     const history = useHistory()
 
     const onUpdate = (data) => {
@@ -38,17 +38,25 @@ const CreateTeam = () => {
                  history.push(`/team/${response.data.uuid}/settings`)
              })
     }
+    const errorClass = errors.name ? 'border border-red' : 'border-b border-gray-border' 
     return (
         <form onSubmit={handleSubmit(onUpdate)}>
-            <div className='md:flex justify-between mr-2 items-center my-4'>
-                <div className="w-full md:w-3/5 relative appearance-none label-floating my-4">
-                    <input className="text-lg border-b border-gray-border pt-1 w-full" id="name" type="text" name="name" placeholder='Team Name' defaultValue={''} ref={register} />
-                    <label className="absolute text-lg block top-0 left-0 w-full pt-1" htmlFor="name">
+            <div className='md:flex justify-between mr-2 items-center mt-4'>
+                <div className='w-full md:w-3/5 relative appearance-none label-floating my-4'>
+                    <input className={`text-lg p-2 w-full outline-none ${errorClass}`}
+                           id='name'
+                           type='text'
+                           name='name'
+                           placeholder='Team Name'
+                           defaultValue={''} 
+                           ref={register({required: true})} />
+                    <label className='absolute text-lg block top-0 left-0 w-full p-2' htmlFor='name'>
                         Team Name
                     </label>
                 </div>
-                <input style={{'backgroundColor': '#08697A'}} type='submit' value='START FOR FREE' className='w-full md:w-2/5 md:mx-2 p-3 text-white font-bold' />
+                <input type='submit' value='START FOR FREE' className='bg-green-icon w-full md:w-2/5 md:mx-2 p-3 text-white font-bold' />
             </div>
+            { errors.name && <p className='text-red'>Team Name is required</p> }
         </form>
     )
 }
@@ -56,9 +64,9 @@ const CreateTeam = () => {
 const Home = () => {
     return (
         <div className=''>
-            <header className="flex items-center justify-between border-gray-border border-b-2 w-screen">
+            <header className='flex items-center justify-between border-gray-border border-b-2 w-screen'>
                 <div className='my-4 mx-4 sm:mx-16'>
-                    <img src={logo} alt='Paramid Logo' width="169" height="40" className="w-full max-w-logo" />
+                    <img src={logo} alt='Paramid Logo' width='169' height='40' className='w-full max-w-logo' />
                 </div>
                 <IconButton />
             </header>
@@ -82,13 +90,13 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
+                <p className='text-4xl font-bold text-center my-16 md:my-32'>Why Pairamid?</p>
             </div>
 
             <div className='h-full w-screen'>
-                <p className='text-4xl font-bold text-center my-16 md:my-32'>Why Pairamid?</p>
                 <div className='grid grid-cols-1 lg:grid-cols-2'>
                     <div className='col-span-1 mx-4 sm:mx-16 lg:ml-16 lg:mr-8'>
-                        <div className="">
+                        <div className=''>
                             <img className='bg-white shadow-lg rounded-lg' src={duration} alt='Daily View' />
                         </div>
                     </div>

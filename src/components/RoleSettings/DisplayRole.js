@@ -30,18 +30,33 @@ const DisplayCard = ({role, setEditing, onDelete}) => {
 }
 
 const EditCard = ({role, setEditing, onUpdate, onDelete }) => {
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, errors } = useForm()
     const cancelAction = role.name ? <IconButton action={()=> setEditing(false)} icon={faBan} />  :
                                      <IconButton action={()=> onDelete(role.id)} icon={faTrashAlt} classes='text-red' /> 
+    const classes = errors.name ? 'border border-red' : 'border-b border-gray-border'
 
     return (
         <div className='bg-white shadow-lg rounded-lg mr-4 mb-4'>
             <form onSubmit={handleSubmit(onUpdate)}>
                 <div className='flex justify-between my-2'>
-                    <input className={`w-10 h-10 lg:w-12 lg:h-12 mx-2 border-gray-border flex items-center justify-center`} type='color' name="color" defaultValue={role.color} ref={register} />
-                    <div className="w-3/4 relative appearance-none label-floating">
-                        <input className="w-full border-b border-gray-border pt-1 px-3 leading-normal" id="name" type="text" name="name" placeholder='Role Name' defaultValue={role.name} ref={register} />
-                        <label className="absolute block text-green-darker top-0 left-0 w-full px-3 pt-1 leading-normal" htmlFor="name">
+                    <input 
+                        className={`w-10 h-10 lg:w-12 lg:h-12 mx-2 border-gray-border flex items-center justify-center cursor-pointer`} 
+                        type='color' 
+                        name="color" 
+                        defaultValue={role.color} 
+                        ref={register} 
+                    />
+                    <div className='w-3/4 relative appearance-none label-floating'>
+                        <input 
+                            className={`w-full pt-1 px-3 leading-normal outline-none ${classes}`}
+                            id='name'
+                            type='text'
+                            name='name'
+                            placeholder='Role Name'
+                            defaultValue={role.name} ref={register({required: true})} 
+                        />
+                        { errors.name && <p className='text-red'>Name is required</p> }
+                        <label className='absolute block text-green-darker top-0 left-0 w-full px-3 pt-1 leading-normal' htmlFor='name'>
                             Role Name
                         </label>
                     </div>
