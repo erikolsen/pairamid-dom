@@ -8,8 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark } from '@fortawesome/free-solid-svg-icons'
 
 const IconButton = () => {
-    const [checked, setChecked] = useState(localStorage.getItem('team'))
     const { teamId } = useParams()
+    let isTeam = teamId === localStorage.getItem('team') 
+    const [checked, setChecked] = useState(isTeam && teamId)
 
     const onClick = (e) => { 
         e.preventDefault();

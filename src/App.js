@@ -5,6 +5,7 @@ import PairFrequency from './components/PairFrequency';
 import PairHistory from './components/PairHistory';
 import TeamSettings from './components/TeamSettings';
 import Home from './components/Home';
+import Admin from './components/Admin';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const TeamLayout = ({match}) => {
@@ -27,6 +28,7 @@ const App = () => {
             <Router>
                 <Switch>
                     <Route path='/team/:teamId' component={TeamLayout} />
+                    <Route path='/admin/teams' component={Admin} />
                     <Route exact path='/' component={Home} />
                 </Switch>
             </Router>

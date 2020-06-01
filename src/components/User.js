@@ -11,7 +11,7 @@ const User = ({ user, index }) => {
                         ref={provided.innerRef}
                     >
                         <div style={{'backgroundColor': user.role.color}} className={`bg-gray-med w-12 h-12 mr-3 m-2 border-gray-border rounded-full flex items-center justify-center`}>
-                            <p className="text-white font-bold text-xs">{user.username.toUpperCase()}</p>
+                            <p className="text-white font-bold text-xs">{user.username}</p>
                         </div>
                     </div>
                 )}
