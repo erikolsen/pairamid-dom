@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from '../../assets/pairamid-logo.png';
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserFriends, faBalanceScale, faHistory, faCog } from '@fortawesome/free-solid-svg-icons'
 
@@ -15,22 +15,25 @@ const ListIconLink = ({path, icon, text}) => {
     )
 }
 
-const Header = () => (
-    <div>
-        <header className="flex items-center justify-between lg:pt-12 lg:block p-4 border-gray-border border-b-2 lg:justify-center lg:h-screen lg:border-r-2 lg:border-b-0">
-            <Link to='/'>
-                <div className='my-4 lg:my-8'>
-                    <img src={logo} alt='Paramid Logo' width="169" height="40" className="w-full max-w-logo lg:mt-8" />
-                </div>
-            </Link>
-            <ul className='flex lg:block text-xs lg:text-base'>
-                <ListIconLink path='/' icon={faUserFriends} text='Today' />
-                <ListIconLink path='/frequency' icon={faBalanceScale} text='Frequency' />
-                <ListIconLink path='/history' icon={faHistory} text='History' />
-                <ListIconLink path='/settings' icon={faCog} text='Settings' />
-            </ul>
-        </header>
-    </div>
-);
+const Header = () => {
+    const match = useRouteMatch()
+    return (
+        <div>
+            <header className="flex items-center justify-between lg:pt-12 lg:block p-4 border-gray-border border-b-2 lg:justify-center lg:h-screen lg:border-r-2 lg:border-b-0">
+                <Link to='/'>
+                    <div className='my-4 lg:my-8'>
+                        <img src={logo} alt='Paramid Logo' width="169" height="40" className="w-full max-w-logo lg:mt-8" />
+                    </div>
+                </Link>
+                <ul className='flex lg:block text-xs lg:text-base'>
+                    <ListIconLink path={`${match.url}`} icon={faUserFriends} text='Today' />
+                    <ListIconLink path={`${match.url}/frequency`} icon={faBalanceScale} text='Frequency' />
+                    <ListIconLink path={`${match.url}/history`} icon={faHistory} text='History' />
+                    <ListIconLink path={`${match.url}/settings`} icon={faCog} text='Settings' />
+                </ul>
+            </header>
+        </div>
+    )
+}
 
 export default Header;

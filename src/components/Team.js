@@ -3,16 +3,18 @@ import DailyView from './DailyView';
 import SocketHandler from './SocketHandler';
 import axios from 'axios'
 import { API_URL } from '../constants'
+import { useParams } from 'react-router-dom'
 
 const Team = () => {
+    const { teamId } = useParams()
     const [pairs, setPairs] = useState([])
 
     useEffect(()=> {
-        axios.get(`${API_URL}/pairing_sessions/daily`)
+        axios.get(`${API_URL}/team/${teamId}/pairing_sessions/daily`)
             .then((response)=> {
                 setPairs(response.data)
             })
-    }, [setPairs])
+    }, [setPairs, teamId])
 
     return (
         <div className='col-span-7'>

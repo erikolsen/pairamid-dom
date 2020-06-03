@@ -2,24 +2,26 @@ import React from 'react'
 import axios from 'axios'
 import { API_URL } from '../../constants'
 import DisplayRole from './DisplayRole'
+import { useParams } from 'react-router-dom'
 
 const RoleSettings = ({roles, setRoles}) => {
+    const { teamId } = useParams()
     const updateRole = (data) => { 
-        axios.put(`${API_URL}/role/${data.id}`, data) 
+        axios.put(`${API_URL}/team/${teamId}/role/${data.id}`, data) 
              .then((response) => {
                 setRoles(roles.map(role => (role.id === response.data.id ? Object.assign({}, response.data) : role )))
              })
     }
 
     const addRole = () => { 
-        axios.post(`${API_URL}/role`)
+        axios.post(`${API_URL}/team/${teamId}/role`)
              .then((response) => {
                  setRoles([...roles, response.data])
              })
     }
 
     const deleteRole = (id) => { 
-        axios.delete(`${API_URL}/role/${id}`)
+        axios.delete(`${API_URL}/team/${teamId}/role/${id}`)
              .then((response) => {
                  setRoles(roles.filter((role) => role.id !== parseInt(response.data)))
              })

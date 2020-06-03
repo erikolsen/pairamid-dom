@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { API_URL } from '../constants'
+import { useParams } from 'react-router-dom'
 const isNum = (el) => parseInt(el) === el
 
 const Cell = ({data, color}) => {
@@ -12,7 +13,7 @@ const Cell = ({data, color}) => {
 const Row = ({row}) => {
     const user = row.slice(0,1)
     const cells = row.slice(1)
-    const totalSessions = cells.filter(isNum).reduce((total, count) => total += count) 
+    const totalSessions = cells.filter(isNum).reduce((total, count) => { return total += count}, 0) 
     const average = Math.round(totalSessions / cells.length) || '1'
 
     const getColor = (data) => { 
@@ -31,13 +32,14 @@ const Row = ({row}) => {
 }
 
 const RoleSelect = ({label, selected, onSelect}) => {
+    const { teamId } = useParams()
     const [roles, setRoles] = useState([])
     useEffect(()=> {
-        axios.get(`${API_URL}/roles`)
+        axios.get(`${API_URL}/team/${teamId}/roles`)
             .then((response)=> {
                 setRoles(response.data)
             })
-    }, [setRoles])
+    }, [setRoles, teamId])
 
     const options = roles.map((role) => <option key={role.id} value={role.name}>{role.name}</option> )
 
@@ -53,17 +55,18 @@ const RoleSelect = ({label, selected, onSelect}) => {
 }
 
 const PairFrequency = () => {
+    const { teamId } = useParams()
     const [frequency, setFrequency] = useState({header: [], pairs: []})
     const [primary, setPrimary] = useState('HOME')
     const [secondary, setSecondary] = useState('VISITOR')
 
 
     useEffect(()=> {
-        axios.get(`${API_URL}/frequency?primary=${primary}&secondary=${secondary}`)
+        axios.get(`${API_URL}/team/${teamId}/frequency?primary=${primary}&secondary=${secondary}`)
             .then((response)=> {
                 setFrequency(response.data)
             })
-    }, [setFrequency, primary, secondary])
+    }, [setFrequency, primary, secondary, teamId])
         
     return (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">

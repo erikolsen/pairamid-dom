@@ -15,6 +15,7 @@ module.exports = {
           dark: '#2B4046',
         },
         green: {
+          icon: '#08697A',
           default: '#00BB85',
           med: '#01BB00',
         },

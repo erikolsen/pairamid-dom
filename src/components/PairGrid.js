@@ -3,6 +3,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import Pair from './Pair'
 import ParkingLot from './ParkingLot'
 import { SOCKET } from './SocketHandler'
+import { useParams } from 'react-router-dom'
 
 const getPairData = (pairs, pairUuid) => {
     const pair =  pairs.find((p)=> p.uuid === pairUuid)
@@ -15,6 +16,7 @@ const getPairData = (pairs, pairUuid) => {
 }
 
 const PairGrid = ({pairs, setSaved, setError}) => {
+    const { teamId } = useParams()
     const handleError = (response) => {
         if(response.error){ setError(response.message) }
     }
@@ -31,22 +33,22 @@ const PairGrid = ({pairs, setSaved, setError}) => {
         descUsers.splice(destination.index, 0, user)
 
         setSaved(false)
-        SOCKET.emit('batch update pairs', [sourceData, descData], (response) => handleError(response))
+        SOCKET.emit('batch update pairs', {pairs: [sourceData, descData], teamId: teamId}, (response) => handleError(response))
     }
 
     const updatePairInfo = (text, uuid) => {
         const pairData = getPairData(pairs, uuid)
         pairData.pair.info = text
         setSaved(false)
-        SOCKET.emit('batch update pairs', [pairData], (response) => handleError(response))
+        SOCKET.emit('batch update pairs', {pairs: [pairData], teamId: teamId}, (response) => handleError(response))
     }
 
     const deletePair = (pair)=> {
-        SOCKET.emit('delete pair', {uuid: pair.uuid}, (response) => handleError(response))
+        SOCKET.emit('delete pair', {uuid: pair.uuid, teamId: teamId}, (response) => handleError(response))
     }
 
     const addPair = ()=> {
-        SOCKET.emit('add pair', {}, (response) => handleError(response))
+        SOCKET.emit('add pair', {teamId: teamId}, (response) => handleError(response))
     }
 
     const activePairs = pairs.filter((p) => p.info !== 'UNPAIRED').map((pair, i) => <Pair updatePairInfo={updatePairInfo} onDelete={deletePair} pair={pair} key={pair.uuid} />)

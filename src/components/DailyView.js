@@ -4,12 +4,15 @@ import DailyPairList from './DailyPairList'
 import DailyPairHeader from './DailyPairHeader'
 import _ from 'lodash'
 import { SOCKET } from './SocketHandler'
+import { useParams } from 'react-router-dom'
 
 const DailyView = ({pairs, setPairs}) => {
+    const { teamId } = useParams()
     const [saved, setSaved] = useState(true)
     const [error, setError] = useState('')
 
     useEffect(()=> {
+        SOCKET.emit('join', { 'room': teamId});
         SOCKET.on('server error', (e) => { setError(e.message) } );
         SOCKET.on('add pair', (pair) => { setPairs([...pairs, pair]) });
         SOCKET.on('delete pair', (uuid) => { setPairs(pairs.filter((p)=> p.uuid !== uuid)) });
@@ -21,13 +24,14 @@ const DailyView = ({pairs, setPairs}) => {
         });
 
         return ()=> {
+            SOCKET.emit('leave', { 'room': teamId});
             SOCKET.off('server error');
             SOCKET.off('add pair');
             SOCKET.off('delete pair');
             SOCKET.off('batch update pairs');
         }
 
-    }, [pairs, setPairs])
+    }, [pairs, setPairs, teamId])
 
     return (
         <main className="bg-gray-light col-span-7 p-12 h-full">
