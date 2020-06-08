@@ -2,7 +2,7 @@ import React from 'react';
 import logo from '../../assets/pairamid-logo.png';
 import { Link, useRouteMatch } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserFriends, faBalanceScale, faHistory, faCog } from '@fortawesome/free-solid-svg-icons'
+import { faUserFriends, faBalanceScale, faHistory, faCog, faCalendarAlt} from '@fortawesome/free-solid-svg-icons'
 
 const ListIconLink = ({path, icon, text}) => {
     return (
@@ -30,6 +30,7 @@ const Header = () => {
                     <ListIconLink path={`${match.url}/frequency`} icon={faBalanceScale} text='Frequency' />
                     <ListIconLink path={`${match.url}/history`} icon={faHistory} text='History' />
                     <ListIconLink path={`${match.url}/settings`} icon={faCog} text='Settings' />
+                    <ListIconLink path={`${match.url}/calendar`} icon={faCalendarAlt} text='Calendar' />
                 </ul>
             </header>
         </div>
