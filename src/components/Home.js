@@ -13,17 +13,17 @@ import { faUsers, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 const IconButton = ({classes}) => {
     const history = useHistory()
-    const team = localStorage.getItem('team');
+    let teams = localStorage.getItem('pairamid-teams')
 
     const onClick = (e) => { 
         e.preventDefault();
-        history.push(`/team/${team}`)
+        history.push(`/teams`)
     }
 
-    return team && (
+    return teams && (
         <button className={`my-2 mx-4 sm:mx-16 ${classes}`} onClick={onClick}>
             <FontAwesomeIcon icon={faUsers} />
-            <p className='font-bold leading-tight'>Team</p>
+            <p className='font-bold leading-tight'>Teams</p>
         </button>
     )
 }
