@@ -12,8 +12,13 @@ import { useParams } from 'react-router-dom'
 
 const TeamLayout = ({match}) => {
     const { teamId } = useParams()
-    let teams = localStorage.getItem('pairamid-teams') || ''
-    if(!teams || !teams.includes(teamId)){
+    let teams = localStorage.getItem('pairamid-teams')
+    if(!teams){
+        teams = teamId
+        localStorage.setItem('pairamid-teams', teams);
+    }
+
+    if(!teams.includes(teamId)){
         localStorage.setItem('pairamid-teams', teams + ',' + teamId);
     }
 

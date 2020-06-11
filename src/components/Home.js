@@ -11,19 +11,23 @@ import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsers, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
+const parseTeams = (teams)=> {return teams ? teams.split(',') : ''}
+
 const IconButton = ({classes}) => {
     const history = useHistory()
-    let teams = localStorage.getItem('pairamid-teams')
+    let teams = parseTeams(localStorage.getItem('pairamid-teams'))
 
     const onClick = (e) => { 
         e.preventDefault();
-        history.push(`/teams`)
+        teams.length > 1 ? history.push(`/teams`) : history.push(`/team/${teams}`)
     }
+
+    const iconName = teams.length > 1 ? 'Teams' : 'Team'
 
     return teams && (
         <button className={`my-2 mx-4 sm:mx-16 ${classes}`} onClick={onClick}>
             <FontAwesomeIcon icon={faUsers} />
-            <p className='font-bold leading-tight'>Teams</p>
+            <p className='font-bold leading-tight'>{iconName}</p>
         </button>
     )
 }
