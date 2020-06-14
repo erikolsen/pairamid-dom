@@ -11,19 +11,23 @@ import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsers, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
+const parseTeams = (teams)=> {return teams ? teams.split(',') : ''}
+
 const IconButton = ({classes}) => {
     const history = useHistory()
-    const team = localStorage.getItem('team');
+    let teams = parseTeams(localStorage.getItem('pairamid-teams'))
 
     const onClick = (e) => { 
         e.preventDefault();
-        history.push(`/team/${team}`)
+        teams.length > 1 ? history.push(`/teams`) : history.push(`/team/${teams}`)
     }
 
-    return team && (
+    const iconName = teams.length > 1 ? 'Teams' : 'Team'
+
+    return teams && (
         <button className={`my-2 mx-4 sm:mx-16 ${classes}`} onClick={onClick}>
             <FontAwesomeIcon icon={faUsers} />
-            <p className='font-bold leading-tight'>Team</p>
+            <p className='font-bold leading-tight'>{iconName}</p>
         </button>
     )
 }
@@ -148,35 +152,72 @@ const Home = () => {
 
             <div className='h-full w-screen my-8'>
                 <p className='text-4xl text-center my-8 lg:mt-24 lg:mb-16 font-bold'>Learn More</p>
-                <div className='grid grid-cols-1 md:grid-cols-2'>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mx-4 md:mx-16'>
+
                     <a target='_blank' 
                        href='https://mattphilip.wordpress.com/2011/07/06/pair-like-an-egyptian/'
                        rel="noopener noreferrer"
-                       className='col-span-1 shadow-lg rounded-lg border border-gray-border h-full mx-4 sm:mx-16 md:ml-16 md:mr-8 my-8'>
+                       className='col-span-1 shadow-lg rounded-lg border border-gray-border h-full relative'>
                         <img className='h-64 mx-auto mt-8' src='https://mattphilip.files.wordpress.com/2011/07/pairamid.jpg' alt='Pairamid' />
-                        <div className='mt-16'>
-                            <div className='m-4'>
+                        <div className='mt-8 mb-24'>
+                            <div className='mx-4'>
                                 <p className='text-center font-bold text-xl'>Pair like an Egyptian</p>
                                 <p className='text-center'>Read more about the history of the pairamid from agile guru Matt Philip.</p>
                             </div>
-                            <div className='flex items-center justify-between mx-4 my-1'>
-                                <p>Read full article</p>
+
+                            <p className='absolute bottom-0 left-0 m-4'>Read full article</p>
+                            <div className='absolute bottom-0 right-0 m-4'>
                                 <FontAwesomeIcon icon={faArrowRight} />
                             </div>
                         </div>
                     </a>
+
                     <a target='_blank' 
                        href='https://martinfowler.com/articles/on-pair-programming.html'
                        rel="noopener noreferrer"
-                       className='col-span-1 shadow-lg rounded-lg border border-gray-border h-full mx-4 sm:mx-16 md:ml-8 md:mr-16 my-8'>
+                       className='col-span-1 shadow-lg rounded-lg border border-gray-border h-full relative'>
                         <img className='h-64 mx-auto mt-8' src='https://martinfowler.com/articles/on-pair-programming/driver_navigator.png' alt='Pairamid' />
-                        <div className='mt-16'>
+                        <div className='mt-8 mb-24'>
                             <div className='mx-4'>
                                 <p className='text-center font-bold text-xl'>On Pair Programming</p>
                                 <p className='text-center'>Great information and advice on pair programming by Martin Fowler.</p>
                             </div>
-                            <div className='flex items-center justify-between mx-4 my-1'>
-                                <p>Read full article</p>
+                            <p className='absolute bottom-0 left-0 m-4'>Read full article</p>
+                            <div className='absolute bottom-0 right-0 m-4'>
+                                <FontAwesomeIcon icon={faArrowRight} />
+                            </div>
+                        </div>
+                    </a>
+
+                    <a target='_blank' 
+                       href='https://www.wwt.com/article/tips-for-effective-cross-role-pairing'
+                       rel="noopener noreferrer"
+                       className='col-span-1 shadow-lg rounded-lg border border-gray-border h-full relative'>
+                        <img className='h-64 mx-auto mt-8' src='https://www.wwt.com/api/attachments/5ecd703d31d66a008d05c249/thumbnail?width=1200' alt='Thumb' />
+                        <div className='mt-8 mb-24'>
+                            <div className='mx-4'>
+                                <p className='text-center font-bold text-xl'>Tips for Effective Cross-Role Pairing</p>
+                                <p className='text-center'>Learn a few tips and tricks when pairing with other roles.</p>
+                            </div>
+                            <p className='absolute bottom-0 left-0 m-4'>Read full article</p>
+                            <div className='absolute bottom-0 right-0 m-4'>
+                                <FontAwesomeIcon icon={faArrowRight} />
+                            </div>
+                        </div>
+                    </a>
+
+                    <a target='_blank' 
+                       href='https://www.wwt.com/article/7-habits-of-highly-effective-pair-programmers'
+                       rel="noopener noreferrer"
+                       className='col-span-1 shadow-lg rounded-lg border border-gray-border h-full relative'>
+                        <img className='h-64 mx-auto mt-8' src='https://www.wwt.com/api/attachments/5dacc76de379eb00906b783f/thumbnail?height=320' alt='Thumb' />
+                        <div className='mt-8 mb-24'>
+                            <div className='mx-4'>
+                                <p className='text-center font-bold text-xl'>7 Habits of Highly Effective Pair Programmers</p>
+                                <p className='text-center'>Expert insights about what leads to successful pair programming.</p>
+                            </div>
+                            <p className='absolute bottom-0 left-0 m-4'>Read full article</p>
+                            <div className='absolute bottom-0 right-0 m-4'>
                                 <FontAwesomeIcon icon={faArrowRight} />
                             </div>
                         </div>
@@ -184,7 +225,7 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className='my-24 mx-4 sm:mx-16 border border-gray-border shadow-lg rounded-lg p-16'>
+            <div className='my-24 mx-4 md:mx-16 border border-gray-border shadow-lg rounded-lg p-16'>
                 <h1>Start using Pairamid today!</h1>
                 <CreateTeam />
             </div>

@@ -7,9 +7,23 @@ import TeamSettings from './components/TeamSettings';
 import TeamCalendar from './components/TeamCalendar';
 import Home from './components/Home';
 import Admin from './components/Admin';
+import Teams from './components/Teams';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useParams } from 'react-router-dom'
 
 const TeamLayout = ({match}) => {
+    const { teamId } = useParams()
+    let teams = localStorage.getItem('pairamid-teams')
+    if(!teams){
+        teams = teamId
+        localStorage.setItem('pairamid-teams', teams);
+    }
+
+    if(!teams.includes(teamId)){
+        localStorage.setItem('pairamid-teams', teams + ',' + teamId);
+    }
+
+
     return (
         <div className='grid grid-cols-1 lg:grid-cols-8'>
             <Header />
@@ -29,6 +43,7 @@ const App = () => {
         <div className=''>
             <Router>
                 <Switch>
+                    <Route path='/teams' component={Teams} />
                     <Route path='/team/:teamId' component={TeamLayout} />
                     <Route path='/admin/teams' component={Admin} />
                     <Route exact path='/' component={Home} />
@@ -37,4 +52,5 @@ const App = () => {
         </div>
     );
 }
+
 export default App;
