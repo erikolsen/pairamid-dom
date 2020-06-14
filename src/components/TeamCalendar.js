@@ -6,23 +6,30 @@ import { API_URL } from '../constants'
 import { useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt, faBan } from '@fortawesome/free-solid-svg-icons'
 
-const ReminderForm = ({onUpdate, team, date}) => {
-    const { register, handleSubmit, reset } = useForm()
+const localDate = date => date ? date.toLocaleDateString('en-US') : ''
+const spanOfDays = (d1, d2) => (localDate(d1) !== localDate(d2))
+
+const IconButton = ({action, icon, classes}) => {
+    const onClick = (e) => { e.preventDefault(); action() }
+
+    return (
+        <button className={`${classes}`} onClick={onClick}>
+            <FontAwesomeIcon icon={icon} />
+        </button>
+    )
+}
+
+const EditCard = ({onUpdate, team, date, onDelete}) => {
+    const { register, handleSubmit } = useForm()
     const [selected, setSelected] = useState('')
-    
-    const onSubmit = (data) => {
-        onUpdate(data)
-        reset()
-        setSelected('')
-    }
 
     return (
         <div className='bg-white shadow-lg rounded-lg p-4 col-span-1 relative'>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onUpdate)}>
                 <div className='flex justify-between items-center'>
-                    <div className='text-xl font-semibold mb-4'>
+                    <div className='font-semibold mb-4'>
                         <span>Add Reminder for </span>
                         <span>{localDate(date[0])}</span>
                         {spanOfDays(date[0], date[1]) && <span className=''>-{localDate(date[1])}</span>}
@@ -58,27 +65,12 @@ const ReminderForm = ({onUpdate, team, date}) => {
                         ref={register} 
                     />
                 </div>
-
-                <input 
-                    className='absolute bottom-0 right-0 m-4 p-2 border border-green rounded text-white bg-green font-bold' 
-                    type="submit" 
-                    value='Add Event'
-                />
+                <div className='flex justify-between'>
+                    <IconButton action={()=> onDelete()} icon={faBan} classes='' /> 
+                    <input className='px-4 border border-green rounded text-white bg-green text-xs font-bold' type="submit" value='Save'/>
+                </div>
             </form>
         </div>
-    )
-}
-
-const localDate = date => date ? date.toLocaleDateString('en-US') : ''
-const spanOfDays = (d1, d2) => (localDate(d1) !== localDate(d2))
-
-const IconButton = ({action, icon, classes}) => {
-    const onClick = (e) => { e.preventDefault(); action() }
-
-    return (
-        <button className={`my-2 mx-4 ${classes}`} onClick={onClick}>
-            <FontAwesomeIcon icon={icon} />
-        </button>
     )
 }
 
@@ -100,7 +92,7 @@ const DisplayCard = ({onDelete, reminder}) => {
                 </div>
             </div>
             <div className='flex items-center'>
-                <IconButton action={()=> onDelete(reminder.id)} icon={faTrashAlt} classes='text-red' /> 
+                <IconButton action={()=> onDelete(reminder.id)} icon={faTrashAlt} classes='my-2 mx-4 text-red' /> 
             </div>
         </div>
     )
@@ -111,53 +103,59 @@ const TeamCalendar = () => {
     const [team, setTeam] = useState({name: '', users: [], reminders: []})
     const [date, setDate] = useState([new Date(), new Date()])
     const [reminders, setReminders] = useState(team.reminders)
+    const [addable, setAddable] = useState(null)
 
     useEffect(()=> {
-        axios.get(`${API_URL}/team/${teamId}`)
+        let startDate = date[0].toISOString()
+        let endDate = date[1].toISOString()
+        axios.get(`${API_URL}/team/${teamId}`).then((response)=> { setTeam(response.data) })
+        axios.get(`${API_URL}/team/${teamId}/reminders?startDate=${startDate}&endDate=${endDate}`)
             .then((response)=> {
-                setTeam(response.data)
-                setReminders(response.data.reminders)
-            })
-    }, [teamId])
-
-    useEffect(()=> {
-        axios.get(`${API_URL}/team/${teamId}/reminders?date=${date}`)
-            .then((response)=> {
-                console.log('Response', response)
+                setReminders(response.data)
             })
     }, [teamId, date])
 
     const onUpdate = (data)=> {
         const payload = {
             ...data, 
-            startDate: date[0], 
-            endDate: date[1],
+            startDate: date[0].toISOString(), 
+            endDate: date[1].toISOString(),
             teamId: team.id
         }
         axios.post(`${API_URL}/team/${teamId}/reminder`, payload)
             .then((response)=> {
-                setReminders([...reminders, response.data])
+                setAddable(null)
+                setReminders([response.data, ...reminders])
             })
     }
 
+    const onAdd = ()=> { setAddable({}) }
+
     const onDelete = (id) => {
-        axios.delete(`${API_URL}/team/${teamId}/reminder/${id}`)
-             .then((response) => {
-                 setReminders(reminders.filter((reminder) => reminder.id !== parseInt(response.data)))
-             })
+        if(id){
+            axios.delete(`${API_URL}/team/${teamId}/reminder/${id}`)
+                .then((response) => {
+                    setReminders(reminders.filter((reminder) => reminder.id !== parseInt(response.data)))
+                })
+        } else {
+            setAddable(null)
+        }
     }
 
+    const addableReminders = addable && <EditCard team={team} onUpdate={onUpdate} onDelete={onDelete} date={date} />
+    const todaysReminders = reminders.filter((reminder)=> (!!reminder.message)).map((reminder)=> <DisplayCard key={reminder.id} team={team} reminder={reminder} onUpdate={onUpdate} onDelete={onDelete} date={date} /> )
+
     return (
-        <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
+        <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-screen">
             <section>
                 <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
                     <div className='w-full flex justify-between items-center'>
-                        <h1>{team.name} Calendar</h1>
+                        <h1>{team.name} Reminders</h1>
                     </div>
                 </header>
-
-                <div className='grid grid-cols-2 col-gap-4'>
+                <div className='grid grid-cols-1 md:grid-cols-2 col-gap-4'>
                     <div className='bg-white shadow-lg rounded-lg p-4 col-span-1'>
+                        <p className='font-bold text-xl mb-2 text-center'>{team.name} Calendar</p>
                         <div className='flex justify-center'>
                             <Calendar 
                                 className='p-2'
@@ -169,16 +167,22 @@ const TeamCalendar = () => {
                             />
                         </div>
                     </div>
-                    <ReminderForm team={team} onUpdate={onUpdate} date={date} />
-                </div>
-
-                <div className='my-4'>
-                    <h2>Reminders:</h2>
-                    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 col-gap-4'>
-                        { reminders.map((reminder)=> <DisplayCard key={reminder.id} reminder={reminder} onDelete={onDelete} /> ) }
+                    <div className=''>
+                        <div className='grid grid-cols-1'>
+                            <div className='bg-white shadow-lg rounded-lg p-3 mb-2 flex justify-between items-center'>
+                                <p className='font-bold text-center text-xl'>
+                                    Reminders for <span>{localDate(date[0])}</span>
+                                    {spanOfDays(date[0], date[1]) && <span>-{localDate(date[1])}</span>}
+                                </p>
+                                <button onClick={(e) => onAdd()}>
+                                    <p className='text-3xl text-gray'>&#8853;</p>
+                                </button>
+                            </div>
+                            { addableReminders }
+                            { todaysReminders }
+                        </div>
                     </div>
                 </div>
-
             </section>
         </main>
 
