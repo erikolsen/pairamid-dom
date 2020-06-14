@@ -150,7 +150,8 @@ const TeamCalendar = () => {
             <section>
                 <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
                     <div className='w-full flex justify-between items-center'>
-                        <h1>{team.name} Reminders</h1>
+                        <h1>{team.name}</h1>
+                        <h1>Calendar & Reminders</h1>
                     </div>
                 </header>
                 <div className='grid grid-cols-1 md:grid-cols-2 col-gap-4'>

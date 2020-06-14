@@ -3,7 +3,8 @@ import { Droppable } from 'react-beautiful-dnd';
 import User from './User'
 
 const ParkingLot = ({unpaired}) => {
-    let users = unpaired.users.length > 0 ? unpaired.users.map((user, i)=> <User index={i} user={user} key={user.uuid}/>) : <h1 className='text-center w-full'>Full House Today</h1>
+    let users = unpaired.users.length > 0 ? unpaired.users.map((user, i)=> <User index={i} user={user} key={user.uuid}/>) : 
+                                            <h1 className='text-center w-full'>Full House Today</h1>
     return (
         <div className="bg-white px-4 py-2 rounded-lg">
             <h2 className='m-2 text-center'>Available Team Members</h2>
@@ -18,7 +19,7 @@ const ParkingLot = ({unpaired}) => {
                                 {...provided.droppableProps}
                             >
                                 { users }
-                                <div className='h-12 m-2 w-full'>
+                                <div className='m-2 w-full'>
                                     {provided.placeholder}
                                 </div>
                             </div>
