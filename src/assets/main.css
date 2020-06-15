@@ -615,6 +615,10 @@ h2 {
   transition: all 0.2s ease-in-out;
 }
 
+input:checked + svg {
+  display: block;
+}
+
 .container {
   width: 100%;
 }

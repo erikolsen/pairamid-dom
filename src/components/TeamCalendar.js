@@ -53,6 +53,7 @@ const EditCard = ({onUpdate, team, date, onDelete}) => {
                         </svg>
                     </div>
                 </div>
+
                 <div className='my-4'>
                     <p>Reminder Message</p>
                     <input 
@@ -65,6 +66,15 @@ const EditCard = ({onUpdate, team, date, onDelete}) => {
                         ref={register} 
                     />
                 </div>
+                <div className='my-4'>
+                    <label className="flex justify-start items-start">
+                        <div className="bg-white border-2 rounded border-gray-400 w-6 h-6 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
+                            <input type="checkbox" className="opacity-0 absolute" name='repeatWeekly' ref={register} />
+                            <svg className="fill-current hidden w-4 h-4 text-green-500 pointer-events-none" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
+                        </div>
+                        <div className="select-none">Repeat Weekly</div>
+                    </label>
+                </div>
                 <div className='flex justify-between'>
                     <IconButton action={()=> onDelete()} icon={faBan} classes='' /> 
                     <input className='px-4 border border-green rounded text-white bg-green text-xs font-bold' type="submit" value='Save'/>
@@ -72,6 +82,24 @@ const EditCard = ({onUpdate, team, date, onDelete}) => {
             </form>
         </div>
     )
+}
+
+const ReminderMessage = ({reminder})=> {
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    const message = days[reminder.recuring_weekday]
+
+    if(message){
+        return (
+            <div>Every {message}</div>
+        )
+    } else {
+        return (
+            <div>
+                <span>{reminder.start_date}</span>
+                {(reminder.start_end !== reminder.end_date) && <span>-{reminder.end_date}</span>}
+            </div>
+        )
+    }
 }
 
 const DisplayCard = ({onDelete, reminder}) => {
@@ -86,8 +114,7 @@ const DisplayCard = ({onDelete, reminder}) => {
                 <div className='my-4'>
                     <p className='text-lg font-semibold mx-2 flex items-center text-gray'>{reminder.message}</p>
                     <div className='text-sm mx-2 flex justify-between'>
-                        <span>{reminder.start_date}</span>
-                        {(reminder.start_end !== reminder.end_date) && <span>-{reminder.end_date}</span>}
+                        <ReminderMessage reminder={reminder} />
                     </div>
                 </div>
             </div>
