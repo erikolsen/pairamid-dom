@@ -177,12 +177,11 @@ const TeamCalendar = () => {
             <section>
                 <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
                     <div className='w-full flex justify-between items-center'>
-                        <h1>{team.name}</h1>
-                        <h1>Calendar & Reminders</h1>
+                        <h1>Calendar and Reminders</h1>
                     </div>
                 </header>
                 <div className='grid grid-cols-1 md:grid-cols-2 col-gap-4'>
-                    <div className='bg-white shadow-lg rounded-lg p-4 col-span-1'>
+                    <div className='bg-white shadow-lg rounded-lg p-4 col-span-1 mb-2'>
                         <p className='font-bold text-xl mb-2 text-center'>{team.name} Calendar</p>
                         <div className='flex justify-center'>
                             <Calendar 
