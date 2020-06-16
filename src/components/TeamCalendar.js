@@ -6,7 +6,7 @@ import { API_URL } from '../constants'
 import { useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt, faBan } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt, faBan, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
 const localDate = date => date ? date.toLocaleDateString('en-US') : ''
 const spanOfDays = (d1, d2) => (localDate(d1) !== localDate(d2))
@@ -21,7 +21,7 @@ const IconButton = ({action, icon, classes}) => {
     )
 }
 
-const EditCard = ({onUpdate, team, date, onDelete}) => {
+const EditCard = ({onUpdate, team, date, onDelete, setRangeSelect}) => {
     const { register, handleSubmit } = useForm()
     const [selected, setSelected] = useState('')
 
@@ -66,7 +66,8 @@ const EditCard = ({onUpdate, team, date, onDelete}) => {
                         ref={register} 
                     />
                 </div>
-                <div className='my-4'>
+
+                <div className='my-4 flex justify-between'>
                     <label className="flex justify-start items-start">
                         <div className="bg-white border-2 rounded border-gray-400 w-6 h-6 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
                             <input type="checkbox" className="opacity-0 absolute" name='repeatWeekly' ref={register} />
@@ -74,7 +75,16 @@ const EditCard = ({onUpdate, team, date, onDelete}) => {
                         </div>
                         <div className="select-none">Repeat Weekly</div>
                     </label>
+
+                    <label className="flex justify-start items-start">
+                        <div className="bg-white border-2 rounded border-gray-400 w-6 h-6 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
+                            <input onClick={setRangeSelect} type="checkbox" className="opacity-0 absolute" name='repeatWeekly' />
+                            <svg className="fill-current hidden w-4 h-4 text-green-500 pointer-events-none" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
+                        </div>
+                        <div className="select-none">Select Range</div>
+                    </label>
                 </div>
+
                 <div className='flex justify-between'>
                     <IconButton action={()=> onDelete()} icon={faBan} classes='' /> 
                     <input className='px-4 border border-green rounded text-white bg-green text-xs font-bold' type="submit" value='Save'/>
@@ -127,10 +137,11 @@ const DisplayCard = ({onDelete, reminder}) => {
 
 const TeamCalendar = () => {
     const { teamId } = useParams()
-    const [team, setTeam] = useState({name: '', users: [], reminders: []})
+    const [team, setTeam] = useState({name: '', users: []})
     const [date, setDate] = useState([new Date(), new Date()])
-    const [reminders, setReminders] = useState(team.reminders)
+    const [reminders, setReminders] = useState([])
     const [addable, setAddable] = useState(null)
+    const [rangeSelect, setRangeSelect] = useState(false)
 
     useEffect(()=> {
         let startDate = date[0].toISOString()
@@ -147,7 +158,7 @@ const TeamCalendar = () => {
             ...data, 
             startDate: date[0].toISOString(), 
             endDate: date[1].toISOString(),
-            teamId: team.id
+            teamId: teamId
         }
         axios.post(`${API_URL}/team/${teamId}/reminder`, payload)
             .then((response)=> {
@@ -156,8 +167,6 @@ const TeamCalendar = () => {
             })
     }
 
-    const onAdd = ()=> { setAddable({}) }
-
     const onDelete = (id) => {
         if(id){
             axios.delete(`${API_URL}/team/${teamId}/reminder/${id}`)
@@ -165,12 +174,10 @@ const TeamCalendar = () => {
                     setReminders(reminders.filter((reminder) => reminder.id !== parseInt(response.data)))
                 })
         } else {
-            setAddable(null)
+            setAddable(false)
         }
     }
 
-    const addableReminders = addable && <EditCard team={team} onUpdate={onUpdate} onDelete={onDelete} date={date} />
-    const todaysReminders = reminders.filter((reminder)=> (!!reminder.message)).map((reminder)=> <DisplayCard key={reminder.id} team={team} reminder={reminder} onUpdate={onUpdate} onDelete={onDelete} date={date} /> )
 
     return (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-screen">
@@ -188,12 +195,14 @@ const TeamCalendar = () => {
                                 className='p-2'
                                 calendarType='US'
                                 onChange={(e)=> setDate(e)} 
-                                selectRange={true}
+                                selectRange={rangeSelect}
                                 returnValue='range'
                                 value={date}
                             />
                         </div>
+                        { rangeSelect && <p className='text-center my-4'>You can now select ranges.</p> }
                     </div>
+
                     <div className=''>
                         <div className='grid grid-cols-1'>
                             <div className='bg-white shadow-lg rounded-lg p-3 mb-2 flex justify-between items-center'>
@@ -201,12 +210,12 @@ const TeamCalendar = () => {
                                     Reminders for <span>{localDate(date[0])}</span>
                                     {spanOfDays(date[0], date[1]) && <span>-{localDate(date[1])}</span>}
                                 </p>
-                                <button onClick={(e) => onAdd()}>
-                                    <p className='text-3xl text-gray'>&#8853;</p>
+                                <button className='focus:outline-none' onClick={(e) => setAddable(!addable)}>
+                                    <p className='text-3xl text-gray'>&#8853;</p> 
                                 </button>
                             </div>
-                            { addableReminders }
-                            { todaysReminders }
+                            { addable && <EditCard team={team} onUpdate={onUpdate} onDelete={onDelete} date={date} setRangeSelect={() => setRangeSelect(!rangeSelect)} /> }
+                            { reminders.map((reminder)=> <DisplayCard key={reminder.id} reminder={reminder} onDelete={onDelete} /> ) } 
                         </div>
                     </div>
                 </div>
