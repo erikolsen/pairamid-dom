@@ -33,7 +33,7 @@ const Header = () => {
                     </button>
                 </div>
 
-                <ul className={`lg:block lg:text-base ${classes}`}>
+                <ul onClick={()=> setCollapsed(true)} className={`lg:block lg:text-base ${classes}`}>
                     <ListIconLink path={`${match.url}`} icon={faUserFriends} text='Today' />
                     <ListIconLink path={`${match.url}/frequency`} icon={faBalanceScale} text='Frequency' />
                     <ListIconLink path={`${match.url}/history`} icon={faHistory} text='History' />

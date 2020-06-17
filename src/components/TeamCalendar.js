@@ -6,7 +6,7 @@ import { API_URL } from '../constants'
 import { useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt, faBan, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt, faBan } from '@fortawesome/free-solid-svg-icons'
 
 const localDate = date => date ? date.toLocaleDateString('en-US') : ''
 const spanOfDays = (d1, d2) => (localDate(d1) !== localDate(d2))
