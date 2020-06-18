@@ -6,12 +6,12 @@ import { faUserFriends, faBalanceScale, faHistory, faCog, faCalendarAlt, faBars 
 
 const ListIconLink = ({path, icon, text}) => {
     return (
-        <li className='text-gray mx-1 my-2 lg:mx-0'>
-            <Link className='' to={path}>
+        <Link to={path}>
+            <li className='text-gray my-2 lg:mx-0 hover:text-green-icon hover:bg-gray-light lg:hover:bg-white'>
                 <FontAwesomeIcon icon={icon} />
                 <span className='ml-2'>{text}</span>
-            </Link>
-        </li>
+            </li>
+        </Link>
     )
 }
 
@@ -28,7 +28,7 @@ const Header = () => {
                             <img src={logo} alt='Paramid Logo' width="169" height="40" className="w-full max-w-logo lg:mt-8" />
                         </div>
                     </Link>
-                    <button className='focus:outline-none lg:hidden' onClick={(e)=> setCollapsed(!collapsed)}>
+                    <button className='focus:outline-none lg:hidden w-full text-right' onClick={(e)=> setCollapsed(!collapsed)}>
                         <FontAwesomeIcon icon={faBars} />
                     </button>
                 </div>
