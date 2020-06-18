@@ -22,8 +22,10 @@ const IconButton = ({action, icon, classes}) => {
 }
 
 const EditCard = ({onUpdate, team, date, onDelete, setRangeSelect}) => {
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, errors } = useForm()
     const [selected, setSelected] = useState('')
+    const [weekly, setWeekly] = useState(false)
+    const classes = errors.message ? 'border border-red' : 'border border-gray-border '
 
     return (
         <div className='bg-white shadow-lg rounded-lg p-4 col-span-1 relative'>
@@ -31,8 +33,11 @@ const EditCard = ({onUpdate, team, date, onDelete, setRangeSelect}) => {
                 <div className='flex justify-between items-center'>
                     <div className='font-semibold mb-4'>
                         <span>Add Reminder for </span>
-                        <span>{localDate(date[0])}</span>
-                        {spanOfDays(date[0], date[1]) && <span className=''>-{localDate(date[1])}</span>}
+                        <ReminderDates 
+                            startDate={localDate(date[0])} 
+                            endDate={localDate(date[1])} 
+                            recuring={weekly} 
+                        />
                     </div>
                 </div>
 
@@ -57,32 +62,26 @@ const EditCard = ({onUpdate, team, date, onDelete, setRangeSelect}) => {
                 <div className='my-4'>
                     <p>Reminder Message</p>
                     <input 
-                        className={`w-full p-2 leading-normal border border-gray-border outline-none`}
+                        className={`w-full p-2 leading-normal outline-none ${classes}`}
                         id='message' 
                         type='text' 
                         name='message' 
                         placeholder='Message' 
                         defaultValue={'Out of Office'} 
-                        ref={register} 
+                        ref={register({required: true})} 
                     />
+                    { errors.message && <p className='text-red'>Message is required</p> }
                 </div>
 
                 <div className='my-4 flex justify-between'>
                     <label className="flex justify-start items-start">
                         <div className="bg-white border-2 rounded border-gray-400 w-6 h-6 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
-                            <input type="checkbox" className="opacity-0 absolute" name='repeatWeekly' ref={register} />
+                            <input onClick={()=> setWeekly(!weekly)} type="checkbox" className="opacity-0 absolute" name='repeatWeekly' ref={register} />
                             <svg className="fill-current hidden w-4 h-4 text-green-500 pointer-events-none" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
                         </div>
                         <div className="select-none">Repeat Weekly</div>
                     </label>
 
-                    <label className="flex justify-start items-start">
-                        <div className="bg-white border-2 rounded border-gray-400 w-6 h-6 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
-                            <input onClick={setRangeSelect} type="checkbox" className="opacity-0 absolute" name='repeatWeekly' />
-                            <svg className="fill-current hidden w-4 h-4 text-green-500 pointer-events-none" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
-                        </div>
-                        <div className="select-none">Select Range</div>
-                    </label>
                 </div>
 
                 <div className='flex justify-between'>
@@ -94,19 +93,19 @@ const EditCard = ({onUpdate, team, date, onDelete, setRangeSelect}) => {
     )
 }
 
-const ReminderMessage = ({reminder})=> {
+const ReminderDates = ({startDate, endDate, recuring})=> {
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-    const message = days[reminder.recuring_weekday]
+    const dayOfWeek = days[new Date(startDate).getDay()-1]
 
-    if(message){
+    if(recuring){
         return (
-            <div>Every {message}</div>
+            <div>Every {dayOfWeek}</div>
         )
     } else {
         return (
             <div>
-                <span>{reminder.start_date}</span>
-                {(reminder.start_end !== reminder.end_date) && <span>-{reminder.end_date}</span>}
+                <span>{startDate}</span>
+                {(endDate && startDate !== endDate) && <span>-{endDate}</span>}
             </div>
         )
     }
@@ -124,7 +123,11 @@ const DisplayCard = ({onDelete, reminder}) => {
                 <div className='my-4'>
                     <p className='text-lg font-semibold mx-2 flex items-center text-gray'>{reminder.message}</p>
                     <div className='text-sm mx-2 flex justify-between'>
-                        <ReminderMessage reminder={reminder} />
+                        <ReminderDates 
+                            startDate={reminder.start_date} 
+                            endDate={reminder.end_date} 
+                            recuring={reminder.recuring_weekday} 
+                        />
                     </div>
                 </div>
             </div>
@@ -200,19 +203,28 @@ const TeamCalendar = () => {
                                 value={date}
                             />
                         </div>
-                        { rangeSelect && <p className='text-center my-4'>You can now select ranges.</p> }
+                        { rangeSelect && <p className='text-center my-4'>First click will select start date. Second click will select end date. Third click will set a new start date.</p> }
                     </div>
 
                     <div className=''>
                         <div className='grid grid-cols-1'>
-                            <div className='bg-white shadow-lg rounded-lg p-3 mb-2 flex justify-between items-center'>
+                            <div className='bg-white shadow-lg rounded-lg p-3 mb-2'>
                                 <p className='font-bold text-center text-xl'>
                                     Reminders for <span>{localDate(date[0])}</span>
                                     {spanOfDays(date[0], date[1]) && <span>-{localDate(date[1])}</span>}
                                 </p>
-                                <button className='focus:outline-none' onClick={(e) => setAddable(!addable)}>
-                                    <p className='text-3xl text-gray'>&#8853;</p> 
-                                </button>
+                                <div className='flex justify-between items-center'>
+                                    <label className="flex items-center justify-center">
+                                        <div className="bg-white border-2 rounded border-gray-400 w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
+                                            <input onClick={()=> setRangeSelect(!rangeSelect)} type="checkbox" className="opacity-0 absolute" name='repeatWeekly' />
+                                            <svg className="fill-current hidden w-4 h-4 text-green-500 pointer-events-none" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
+                                        </div>
+                                        <div className="select-none">Select Range</div>
+                                    </label>
+                                    <button className='focus:outline-none' onClick={(e) => setAddable(!addable)}>
+                                        <p className='text-3xl text-gray'>&#8853;</p> 
+                                    </button>
+                                </div>
                             </div>
                             { addable && <EditCard team={team} onUpdate={onUpdate} onDelete={onDelete} date={date} setRangeSelect={() => setRangeSelect(!rangeSelect)} /> }
                             { reminders.map((reminder)=> <DisplayCard key={reminder.id} reminder={reminder} onDelete={onDelete} /> ) } 
