@@ -94,8 +94,8 @@ const EditCard = ({onUpdate, team, date, onDelete, setRangeSelect}) => {
 }
 
 const ReminderDates = ({startDate, endDate, recuring})=> {
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-    const dayOfWeek = days[new Date(startDate).getDay()-1]
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    const dayOfWeek = days[new Date(startDate).getDay()]
 
     if(recuring){
         return (
