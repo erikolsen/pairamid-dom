@@ -97,16 +97,16 @@ const ReminderDates = ({startDate, endDate, recuring})=> {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     const dayOfWeek = days[new Date(startDate).getDay()]
 
-    if(recuring){
-        return (
-            <div>Every {dayOfWeek}</div>
-        )
-    } else {
+    if(recuring === null){
         return (
             <div>
                 <span>{startDate}</span>
                 {(endDate && startDate !== endDate) && <span>-{endDate}</span>}
             </div>
+        )
+    } else {
+        return (
+            <div>Every {dayOfWeek}</div>
         )
     }
 }
