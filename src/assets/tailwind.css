@@ -29,6 +29,10 @@ h2 {
     transition: all 0.2s ease-in-out;
 }
 
+input:checked + svg {
+    display: block;
+}
+
 @tailwind components;
 
 @tailwind utilities;

@@ -18,9 +18,9 @@ const Row = ({row}) => {
 
     const getColor = (data) => { 
         if(data === '-'){ return 'gray-med'}
-        if(data === 0 || data < Math.round(average/2)) { return 'green' }
+        if(data === 0 || data < Math.round(average/2)) { return 'yellow' }
         if(data > Math.round(average*2)) { return 'red' }
-        return 'yellow'
+        return 'green'
     }
 
     return (
@@ -88,8 +88,8 @@ const PairFrequency = () => {
                         <div>
                             <p className='text-xl font-bold text-center'>Legend</p>
                             <div className='grid grid-cols-3 text-center'>
-                                <div className='bg-green p-2'>Pair More</div>
-                                <div className='bg-yellow p-2'>Just Right</div>
+                                <div className='bg-yellow p-2'>Pair More</div>
+                                <div className='bg-green p-2'>Just Right</div>
                                 <div className='bg-red p-2'>Pair Less</div>
                             </div>
                         </div>
