@@ -23,14 +23,21 @@ const Header = () => {
         <div>
             <header className="p-4 border-gray-border border-b-2 lg:pt-12 lg:block lg:justify-center lg:h-screen lg:border-r-2 lg:border-b-0">
                 <div className='flex items-center justify-between '>
+                    <button className='focus:outline-none lg:hidden' onClick={(e)=> setCollapsed(!collapsed)}>
+                        <FontAwesomeIcon icon={faBars} />
+                    </button>
+
                     <Link to='/'>
                         <div className='lg:my-8'>
                             <img src={logo} alt='Paramid Logo' width="169" height="40" className="w-full max-w-logo lg:mt-8" />
                         </div>
                     </Link>
-                    <button className='focus:outline-none lg:hidden w-full text-right' onClick={(e)=> setCollapsed(!collapsed)}>
-                        <FontAwesomeIcon icon={faBars} />
-                    </button>
+
+                    <Link to={match.url}>
+                        <div className='focus:outline-none lg:hidden'>
+                            <FontAwesomeIcon icon={faUserFriends} />
+                        </div>
+                    </Link>
                 </div>
 
                 <ul onClick={()=> setCollapsed(true)} className={`lg:block lg:text-base ${classes}`}>
