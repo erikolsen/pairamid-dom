@@ -38,7 +38,7 @@ const Pair = ({pair, updatePairInfo, onDelete}) => {
     let users =  pair.users.length ? pair.users.map((user, i)=> <User index={i} user={user} key={user.uuid}/>) : <Empty pair={pair} onDelete={onDelete} />
     return (
         <div className="bg-white shadow-lg rounded-lg flex">
-            <div className={`bg-${tagColor(pair.history)} w-2 rounded-lg rounded-r-none`}></div>
+            <div className={`bg-${tagColor(pair.streak)} w-2 rounded-lg rounded-r-none`}></div>
             <Droppable droppableId={pair.uuid} direction='horizontal'>
                 {(provided, _)=> {
                     return(
@@ -54,7 +54,7 @@ const Pair = ({pair, updatePairInfo, onDelete}) => {
                                 </div>
                             </div>
                             <div className='m-2 grid grid-cols-4'>
-                                <p className='text-xs flex items-center col-span-1'>Day {pair.history}</p>
+                                <p className='text-xs flex items-center col-span-1'>Day {pair.streak}</p>
                                 <input onBlur={() => updatePairInfo(text, pair.uuid)} 
                                        onChange={(e)=> setText(e.target.value)} 
                                        placeholder='Working on...' 

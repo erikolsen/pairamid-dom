@@ -27,12 +27,12 @@ const User = ({user})=> {
 const Pair = ({pair}) => {
     return (
         <div className='bg-white shadow-lg rounded-lg flex m-2'>
-            <div className={`bg-${tagColor(pair.history)} w-2 rounded-lg rounded-r-none`}></div>
+            <div className={`bg-${tagColor(pair.streak)} w-2 rounded-lg rounded-r-none`}></div>
             <div>
                 <div className='flex my-2 flex-wrap'>
                     { pair.users.map((user, i) => <User key={i} user={user} /> ) }
                 </div>
-                <p className='text-xs flex items-center m-2'>Day {pair.history}</p>
+                <p className='text-xs flex items-center m-2'>Day {pair.streak}</p>
             </div>
         </div>
     )

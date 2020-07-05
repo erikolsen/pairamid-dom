@@ -57,8 +57,8 @@ const RoleSelect = ({label, selected, onSelect}) => {
 const PairFrequency = () => {
     const { teamId } = useParams()
     const [frequency, setFrequency] = useState({header: [], pairs: []})
-    const [primary, setPrimary] = useState('HOME')
-    const [secondary, setSecondary] = useState('VISITOR')
+    const [primary, setPrimary] = useState('HOME-DEV')
+    const [secondary, setSecondary] = useState('VISITOR-DEV')
 
 
     useEffect(()=> {
