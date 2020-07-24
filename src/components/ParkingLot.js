@@ -7,7 +7,7 @@ const ParkingLot = ({unpaired}) => {
                                             <h1 className='text-center w-full'>Full House Today</h1>
     return (
         <div className="bg-white px-4 py-2 rounded-lg">
-            <h2 className='m-2 text-center'>Available Team Members</h2>
+            <h2 className='m-2 text-center'>Around the Office</h2>
 
             <Droppable droppableId={unpaired.uuid} direction='horizontal'>
                 {(provided, _) => {

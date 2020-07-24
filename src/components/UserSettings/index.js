@@ -32,14 +32,23 @@ const UserSettings = ({roles}) => {
     const deleteUser = (id) => { 
         axios.delete(`${API_URL}/team/${teamId}/user/${id}`)
              .then((response) => {
-                 setUsers(users.filter((user) => user.id !== parseInt(response.data)))
+                setUsers(users.map(user => (user.id === response.data.id ? Object.assign({}, response.data) : user )))
              })
     }
 
-    const usersList = users.map((user) => <DisplayUser key={user.id} user={user} roles={roles} updateUser={updateUser} onDelete={deleteUser} />)
+    const reviveUser = (id) => { 
+        axios.put(`${API_URL}/team/${teamId}/user/${id}/revive`)
+             .then((response) => {
+                setUsers(users.map(user => (user.id === response.data.id ? Object.assign({}, response.data) : user )))
+             })
+    }
+
+    const usersList = users.map((user) => <DisplayUser key={user.id} user={user} roles={roles} reviveUser={reviveUser} updateUser={updateUser} onDelete={deleteUser} />)
     return (
         <div>
-            <h2>Users</h2>
+            <div className='my-2'>
+                <h2>Users</h2>
+            </div>
             <div className='grid grid-cols-2 md:grid-cols-4'>
                 { usersList }
             </div>

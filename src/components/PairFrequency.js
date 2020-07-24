@@ -25,7 +25,7 @@ const Row = ({row}) => {
 
     return (
         <tr>
-            <td className='border border-black text-center text-xl font-bold'>{user}</td>
+            <td className='border border-black text-center text-xl font-bold'>{user + ' : ' + totalSessions}</td>
             {cells.map((cell, i)=> <Cell key={i} data={cell} color={getColor(cell)} />)}
         </tr>
     )
@@ -57,8 +57,8 @@ const RoleSelect = ({label, selected, onSelect}) => {
 const PairFrequency = () => {
     const { teamId } = useParams()
     const [frequency, setFrequency] = useState({header: [], pairs: []})
-    const [primary, setPrimary] = useState('HOME-DEV')
-    const [secondary, setSecondary] = useState('VISITOR-DEV')
+    const [primary, setPrimary] = useState('VISITOR-DEV')
+    const [secondary, setSecondary] = useState('HOME-DEV')
 
 
     useEffect(()=> {
