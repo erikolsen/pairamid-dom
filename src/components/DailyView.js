@@ -74,8 +74,8 @@ const DailyView = ({pairs, setPairs}) => {
                     <PairGrid pairs={pairs} setSaved={setSaved} setError={setError} /> 
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <DailyPairList pairs={pairs} /> 
                     <DailyReminderList /> 
+                    <DailyPairList pairs={pairs} /> 
                 </div>
             </section>
         </main>
