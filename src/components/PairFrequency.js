@@ -10,23 +10,23 @@ const Cell = ({data, color}) => {
     )
 }
 
-const Row = ({row}) => {
-    const user = row.slice(0,1)
+const Row = ({row, header}) => {
+    const user = row.slice(0,1)[0]
     const cells = row.slice(1)
     const totalSessions = cells.filter(isNum).reduce((total, count) => { return total += count}, 0) 
     const average = Math.round(totalSessions / cells.length) || '1'
 
-    const getColor = (data) => { 
-        if(data === '-'){ return 'gray-med'}
+    const soloColumn = index =>  header[index+1]===user
+    const getColor = (data, soloColumn) => { 
+        if(soloColumn){ return 'gray-med'}
         if(data === 0 || data < Math.round(average/2)) { return 'yellow' }
         if(data > Math.round(average*2)) { return 'red' }
         return 'green'
     }
-
     return (
         <tr>
             <td className='border border-black text-center text-xl font-bold'>{user + ' : ' + totalSessions}</td>
-            {cells.map((cell, i)=> <Cell key={i} data={cell} color={getColor(cell)} />)}
+            {cells.map((cell, i)=> <Cell key={i} data={cell} color={getColor(cell, soloColumn(i))} />)}
         </tr>
     )
 }
@@ -87,10 +87,11 @@ const PairFrequency = () => {
                         </form>
                         <div>
                             <p className='text-xl font-bold text-center'>Legend</p>
-                            <div className='grid grid-cols-3 text-center'>
+                            <div className='grid grid-cols-4 text-center'>
                                 <div className='bg-yellow p-2'>Pair More</div>
                                 <div className='bg-green p-2'>Just Right</div>
                                 <div className='bg-red p-2'>Pair Less</div>
+                                <div className='bg-gray-med p-2'>Solo</div>
                             </div>
                         </div>
                     </div>
@@ -101,7 +102,7 @@ const PairFrequency = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {frequency.pairs.map((row, i) => <Row key={i} row={row} />)}
+                            {frequency.pairs.map((row, i) => <Row key={i} row={row} header={frequency.header} />)}
                         </tbody>
                     </table>
                 </div>
