@@ -5,6 +5,7 @@ import PairFrequency from './components/PairFrequency';
 import PairHistory from './components/PairHistory';
 import TeamSettings from './components/TeamSettings';
 import TeamCalendar from './components/TeamCalendar';
+import UserProfile from './components/UserProfile'
 import Home from './components/Home';
 import Admin from './components/Admin';
 import Teams from './components/Teams';
@@ -32,6 +33,7 @@ const TeamLayout = ({match}) => {
                 <Route path={`${match.path}/history`} component={PairHistory} />
                 <Route path={`${match.path}/settings`} component={TeamSettings} />
                 <Route path={`${match.path}/calendar`} component={TeamCalendar} />
+                <Route path={`${match.path}/users/:userId`} component={UserProfile} />
                 <Route exact path={`${match.path}/`} component={Team} />
             </Switch>
         </div>
