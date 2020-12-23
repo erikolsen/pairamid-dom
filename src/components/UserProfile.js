@@ -43,7 +43,6 @@ class CalendarToolbar extends React.Component {
     }
 }
 
-const localizer = momentLocalizer(moment)
 
 const User = (props)=> {
     let username = props.user.username || ''
@@ -65,16 +64,17 @@ const EventComponent = (props)=> {
         </div>
     )
 }
-
+const localizer = momentLocalizer(moment)
+const PAIR_FILTER = ps => ps.info != 'UNPAIRED' && ps.info !== 'OUT_OF_OFFICE'
 const MyCalendar = ({pairingSessions, username}) => {
-    let myEventsList = pairingSessions || [] //props.events ? props.events : []
+    let myEventsList = pairingSessions || [] 
     return (
         <div className='bg-white'>
             <Calendar
                 localizer={localizer}
                 views={['month']}
                 navigate={['back', 'next']}
-                events={myEventsList.map((event) => ({...event, username: username}))}
+                events={myEventsList.filter(PAIR_FILTER).map((event) => ({...event, username: username}))}
                 startAccessor="created_at"
                 endAccessor="created_at"
                 style={{ height: 500 }}
@@ -88,31 +88,32 @@ const MyCalendar = ({pairingSessions, username}) => {
 }
 
 const UserProfile = ({match}) => {
+    const defaultUser = {pairing_session: [], username: '', team: {name: ''}}
     const { teamId, userId } = useParams()
-    const [user, setUser] = useState({paring_sessions: []})
+    const [user, setUser] = useState(defaultUser)
+    const [roles, setRoles] = useState([])
 
     useEffect(()=> {
         axios.get(`${API_URL}/team/${teamId}/user/${userId}`)
             .then((response)=> {
                 setUser(response.data)
             })
-
     }, [setUser, teamId, userId])
 
-    return (
+    return user && (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
             <section>
                 <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
                     <div className='w-full flex justify-between items-center'>
-                        <h1>User EO</h1>
-                        <h1>Mighty Ducks</h1>
+                        <h1>User {user.username}</h1>
+                        <h1>{user.team.name}</h1>
                     </div>
                 </header>
                 <div className='w-full md:flex'>
                     <div className='w-full md:w-1/2 bg-white shadow-lg rounded-lg mr-4 mb-4'>
                         <div className='m-4'>
-                            <div style={{'backgroundColor': 'gray'}} className={`bg-gray-med col-span-1 w-12 h-12 border-gray-border rounded-full flex items-center justify-center`}>
-                                <p className="text-white font-bold text-xs">EO</p>
+                            <div style={{'backgroundColor': user.role && user.role.color}} className={`bg-gray-med col-span-1 w-16 h-16 border-gray-border rounded-full flex items-center justify-center`}>
+                                <p className="text-white font-bold">{user.username}</p>
                             </div>
                         </div>
                     </div>
@@ -124,7 +125,7 @@ const UserProfile = ({match}) => {
                 <div>
                     <div className='w-full bg-white shadow-lg rounded-lg mr-4 mb-4'>
                         <h2 className='mt-4 text-center'>Distribution of Pairs</h2>
-                        <SimpleBarChart />
+                        <SimpleBarChart user={user} />
                     </div>
                 </div>
                 <div className='w-full bg-white shadow-lg rounded-lg mr-4 mb-4'>

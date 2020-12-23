@@ -6,17 +6,18 @@ import {
     Cell, 
     Label
 } from 'recharts'
+import _ from 'lodash'
 
-const data = [
-    { name: 'HOME-DEV', value: 400 }, 
-    { name: 'HOME-DEV', value: 300 },
-    { name: 'HOME-DEV', value: 300 }, 
-    { name: 'HOME-QA', value: 200 },
-    { name: 'VISITOR-DEV', value: 200 },
-    { name: 'VISITOR-DEV', value: 200 },
-    { name: 'VISITOR-DEV', value: 200 }
-];
-const COLORS = [
+// const data = [
+//     { name: 'HOME-DEV', value: 400 }, 
+//     { name: 'HOME-DEV', value: 300 },
+//     { name: 'HOME-DEV', value: 300 }, 
+//     { name: 'HOME-QA', value: 200 },
+//     { name: 'VISITOR-DEV', value: 200 },
+//     { name: 'VISITOR-DEV', value: 200 },
+//     { name: 'VISITOR-DEV', value: 200 }
+// ];
+const COLORS = _.shuffle([
     '#7400b8ff',
     '#6930c3ff',
     '#5e60ceff',
@@ -27,16 +28,27 @@ const COLORS = [
     '#64dfdfff',
     '#72efddff',
     '#80ffdbff'
-]
+])
+
+const getCount = (acc, el) => {
+    acc[el] = (acc[el] + 1) || 1;
+    return acc
+};
 
 const customLabel = entry => entry.name
 class LabeledPieChart extends React.Component {
     render() {
-        console.log('Props', this.props)
-        let stuff = this.props.pairing_sessions && this.props.user.pairing_sessions.map(
-            (session) => session.uuid
-        )
-        console.log('stuff', stuff)
+        let roles = this.props.user.pairing_sessions && this.props.user.pairing_sessions.map(
+            (session) => session.users.filter(user => user.username !== this.props.user.username).map((user) => user.role)
+        ).flat()
+        let stuff = roles && roles.map(role => role.name).reduce(getCount, {})
+        let data = stuff ? Object.entries(stuff).map(([key, value]) => ({name: key, value: value})) : []
+
+        const colorFor = (rolename) => { 
+            let role = roles.find(u => u.name === rolename)
+            return role && role.color
+        }
+
         return (
             <div>
                 <ResponsiveContainer width='100%' height={300}>
@@ -49,7 +61,7 @@ class LabeledPieChart extends React.Component {
                             fill="#8884d8"
                         >
                             {
-                                data.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]} />)
+                                data.map((entry, index) => <Cell key={index} fill={colorFor(entry.name)} />)
                             }
                         </Pie>
                     </PieChart>
