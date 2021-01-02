@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { API_URL } from '../constants'
+import { API_URL, PAIR_FILTER } from '../constants'
 import { useParams } from 'react-router-dom'
 import LabeledPieChart from './charts/LabeledPieChart'
 import SimpleBarChart from './charts/SimpleBarChart'
@@ -65,7 +65,6 @@ const EventComponent = (props)=> {
     )
 }
 const localizer = momentLocalizer(moment)
-const PAIR_FILTER = ps => ps.info !== 'UNPAIRED' && ps.info !== 'OUT_OF_OFFICE'
 const MyCalendar = ({pairingSessions, username}) => {
     let myEventsList = pairingSessions || [] 
     return (
@@ -99,9 +98,9 @@ const UserProfile = () => {
             })
     }, [setUser, teamId, userId])
 
-    const totalSessions = user && user.pairing_sessions
-    const totalUsers = user && new Set(user.pairing_sessions.flatMap(ps => ps.users.map(u => u.username)))
-    const totalRoles = user && new Set(user.pairing_sessions.flatMap(ps => ps.users.map(u => u.role.name)))
+    const allSessions = user && user.pairing_sessions.filter(PAIR_FILTER)
+    const totalUsers = user && new Set(allSessions.flatMap(ps => ps.users.map(u => u.username)))
+    const totalRoles = user && new Set(allSessions.flatMap(ps => ps.users.map(u => u.role.name)))
 
     return user && (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
@@ -119,7 +118,7 @@ const UserProfile = () => {
                         <div className='my-2 flex justify-center'>
                             <div>
                                 <div className={`mt-4 mx-4 col-span-1 w-16 h-16 border-4 border-blue-400 rounded-full flex items-center justify-center`}>
-                                    <p className='text-center font-bold'>{totalSessions.length}</p>
+                                    <p className='text-center font-bold'>{allSessions.length}</p>
                                 </div>
                                 <p className='text-center'>Total</p>
                                 <p className='text-center'>Sessions</p>
@@ -153,7 +152,7 @@ const UserProfile = () => {
                 </div>
 
                 <div className='w-full bg-white shadow-lg rounded-lg mr-4 mb-4'>
-                    <MyCalendar pairingSessions={user.pairing_sessions} username={user.username} />
+                    <MyCalendar pairingSessions={allSessions} username={user.username} />
                 </div>
             </section>
         </main>
