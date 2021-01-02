@@ -22,8 +22,8 @@ class SimpleBarChart extends React.Component {
     let users = this.props.user.pairing_sessions && this.props.user.pairing_sessions.filter(PAIR_FILTER).map(
       (session) => session.users.filter(u=> u.username !== this.props.user.username)
     ).flat()
-    let stuff = users && users.map(u => u.username).reduce(getCount, {})
-    let data = stuff ? Object.entries(stuff).map(([key, value]) => ({ name: key, username: value })).sort((a, b) => a.value - b.value) : []
+    let userCounts = users && users.map(u => u.username).reduce(getCount, {})
+    let data = userCounts ? Object.entries(userCounts).map(([key, value]) => ({ name: key, username: value })).sort((a, b) => a.username - b.username) : []
 
     const colorFor = (username) => { 
         let user = users.find(u => u.username === username)
