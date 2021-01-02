@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt, faTrashAlt, faBan, faTrashRestore } from '@fortawesome/free-solid-svg-icons'
+import { Link } from "react-router-dom";
+import { useParams } from 'react-router-dom'
 
 const IconButton = ({action, icon, classes}) => {
     const onClick = (e) => { e.preventDefault(); action() }
@@ -14,17 +16,20 @@ const IconButton = ({action, icon, classes}) => {
 }
 
 const DisplayCard = ({user, setEditing, onDelete, reviveUser}) => {
+    const { teamId } = useParams()
     const inActive = user.deleted ? 'opacity-50' : ''
     const color = user.role ? user.role.color : 'gray'
     const roleName = user.role ? user.role.name : ''
     return (
         <div className='bg-white shadow-lg rounded-lg mr-4 mb-4'>
-            <div className={`grid grid-cols-2 my-2 ${inActive}`}>
-                <div style={{'backgroundColor': color}} className={`col-span-1 bg-gray-med w-12 h-12 mx-2 border-gray-border rounded-full flex items-center justify-center`}>
-                    <p className="text-white font-bold text-xs">{user.username}</p>
+            <Link to={`/team/${teamId}/users/${user.uuid}`}>
+                <div className={`grid grid-cols-2 my-2 ${inActive}`}>
+                    <div style={{'backgroundColor': color}} className={`col-span-1 bg-gray-med w-12 h-12 mx-2 border-gray-border rounded-full flex items-center justify-center`}>
+                        <p className="text-white font-bold text-xs">{user.username}</p>
+                    </div>
+                    <p className='col-span-1 text-sm sm:text-lg flex items-center text-gray'>Role: {roleName}</p>
                 </div>
-                <p className='col-span-1 text-sm sm:text-lg flex items-center text-gray'>Role: {roleName}</p>
-            </div>
+            </Link>
            {inActive ? 
            <div className='flex items-center justify-between mx-2'>
                 <p className='opacity-50'>Archived</p>

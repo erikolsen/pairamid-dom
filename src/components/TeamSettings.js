@@ -33,7 +33,6 @@ const TeamSettings = () => {
                 </div>
             </section>
         </main>
-
     )
 }
 
