@@ -10,7 +10,7 @@ import moment from 'moment'
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronLeft, faChevronRight} from '@fortawesome/free-solid-svg-icons'
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 class CalendarToolbar extends React.Component {
     render() {
@@ -49,7 +49,7 @@ const User = (props)=> {
     let color = props.user.role.color || '#64dfdfff'
     return (
         <div className='mx-px'>
-            <div style={{'backgroundColor': color}} className={`bg-gray-med col-span-1 w-8 h-8 border-gray-border rounded-full flex items-center justify-center`}>
+            <div style={{'backgroundColor': color}} className={`bg-gray-med col-span-1 w-6 h-6 md:w-8 md:h-8 border-gray-border rounded-full flex items-center justify-center`}>
                 <p className="text-white font-bold text-xs">{username}</p>
             </div>
         </div>
@@ -59,13 +59,13 @@ const User = (props)=> {
 const EventComponent = (props)=> {
     let users = props.event.users || []
     return (
-        <div className='flex'>
+        <div className='grid grid-cols-2 md:grid-cols-3'>
             {users.filter((user) => props.event.username !== user.username).map((user, i) => <User key={i} user={user}/>)}
         </div>
     )
 }
 const localizer = momentLocalizer(moment)
-const PAIR_FILTER = ps => ps.info != 'UNPAIRED' && ps.info !== 'OUT_OF_OFFICE'
+const PAIR_FILTER = ps => ps.info !== 'UNPAIRED' && ps.info !== 'OUT_OF_OFFICE'
 const MyCalendar = ({pairingSessions, username}) => {
     let myEventsList = pairingSessions || [] 
     return (
@@ -77,7 +77,7 @@ const MyCalendar = ({pairingSessions, username}) => {
                 events={myEventsList.filter(PAIR_FILTER).map((event) => ({...event, username: username}))}
                 startAccessor="created_at"
                 endAccessor="created_at"
-                style={{ height: 500 }}
+                style={{ height: 600 }}
                 components={{
                     eventWrapper: EventComponent,
                     toolbar: CalendarToolbar
@@ -87,11 +87,10 @@ const MyCalendar = ({pairingSessions, username}) => {
     )
 }
 
-const UserProfile = ({match}) => {
-    const defaultUser = {pairing_session: [], username: '', team: {name: ''}}
+const UserProfile = () => {
+    const defaultUser = {pairing_sessions: [], username: '', team: {name: ''}}
     const { teamId, userId } = useParams()
     const [user, setUser] = useState(defaultUser)
-    const [roles, setRoles] = useState([])
 
     useEffect(()=> {
         axios.get(`${API_URL}/team/${teamId}/user/${userId}`)
@@ -99,6 +98,10 @@ const UserProfile = ({match}) => {
                 setUser(response.data)
             })
     }, [setUser, teamId, userId])
+
+    const totalSessions = user && user.pairing_sessions
+    const totalUsers = user && new Set(user.pairing_sessions.flatMap(ps => ps.users.map(u => u.username)))
+    const totalRoles = user && new Set(user.pairing_sessions.flatMap(ps => ps.users.map(u => u.role.name)))
 
     return user && (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
@@ -109,25 +112,46 @@ const UserProfile = ({match}) => {
                         <h1>{user.team.name}</h1>
                     </div>
                 </header>
-                <div className='w-full md:flex'>
-                    <div className='w-full md:w-1/2 bg-white shadow-lg rounded-lg mr-4 mb-4'>
-                        <div className='m-4'>
-                            <div style={{'backgroundColor': user.role && user.role.color}} className={`bg-gray-med col-span-1 w-16 h-16 border-gray-border rounded-full flex items-center justify-center`}>
-                                <p className="text-white font-bold">{user.username}</p>
+
+                <div className='w-full md:flex relative'>
+                    <div className='w-full md:w-1/2 bg-white shadow-lg rounded-lg mr-2'>
+                        <h2 className='mt-4 text-center'>Pairing Totals</h2>
+                        <div className='my-2 flex justify-center'>
+                            <div>
+                                <div className={`mt-4 mx-4 col-span-1 w-16 h-16 border-4 border-blue-400 rounded-full flex items-center justify-center`}>
+                                    <p className='text-center font-bold'>{totalSessions.length}</p>
+                                </div>
+                                <p className='text-center'>Total</p>
+                                <p className='text-center'>Sessions</p>
+                            </div>
+                            <div>
+                                <div className={`mt-4 mx-4 col-span-1 w-16 h-16 border-4 border-blue-400 rounded-full flex items-center justify-center`}>
+                                    <p className='text-center font-bold'>{totalUsers.size}</p>
+                                </div>
+                                <p className='text-center'>Different</p>
+                                <p className='text-center'>Users</p>
+                            </div>
+                            <div>
+                                <div className={`mt-4 mx-4 col-span-1 w-16 h-16 border-4 border-blue-400 rounded-full flex items-center justify-center`}>
+                                    <p className='text-center font-bold'>{totalRoles.size}</p>
+                                </div>
+                                <p className='text-center'>Unique</p>
+                                <p className='text-center'>Roles</p>
                             </div>
                         </div>
                     </div>
-                    <div className='w-full md:w-1/2 bg-white shadow-lg rounded-lg ml-4 mb-4'>
+
+                    <div className='w-full md:w-1/2 bg-white shadow-lg rounded-lg'>
                         <h2 className='mt-4 text-center'>Pairing Across Roles</h2>
                         <LabeledPieChart user={user} />
                     </div>
                 </div>
-                <div>
-                    <div className='w-full bg-white shadow-lg rounded-lg mr-4 mb-4'>
-                        <h2 className='mt-4 text-center'>Distribution of Pairs</h2>
-                        <SimpleBarChart user={user} />
-                    </div>
+
+                <div className='w-full bg-white shadow-lg rounded-lg mr-4 mb-4'>
+                    <h2 className='mt-4 text-center'>Distribution of Pairs</h2>
+                    <SimpleBarChart user={user} />
                 </div>
+
                 <div className='w-full bg-white shadow-lg rounded-lg mr-4 mb-4'>
                     <MyCalendar pairingSessions={user.pairing_sessions} username={user.username} />
                 </div>

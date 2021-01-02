@@ -4,31 +4,7 @@ import {
     PieChart, 
     Pie, 
     Cell, 
-    Label
 } from 'recharts'
-import _ from 'lodash'
-
-// const data = [
-//     { name: 'HOME-DEV', value: 400 }, 
-//     { name: 'HOME-DEV', value: 300 },
-//     { name: 'HOME-DEV', value: 300 }, 
-//     { name: 'HOME-QA', value: 200 },
-//     { name: 'VISITOR-DEV', value: 200 },
-//     { name: 'VISITOR-DEV', value: 200 },
-//     { name: 'VISITOR-DEV', value: 200 }
-// ];
-const COLORS = _.shuffle([
-    '#7400b8ff',
-    '#6930c3ff',
-    '#5e60ceff',
-    '#5390d9ff',
-    '#4ea8deff',
-    '#48bfe3ff',
-    '#56cfe1ff',
-    '#64dfdfff',
-    '#72efddff',
-    '#80ffdbff'
-])
 
 const getCount = (acc, el) => {
     acc[el] = (acc[el] + 1) || 1;

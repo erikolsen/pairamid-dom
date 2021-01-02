@@ -22,7 +22,7 @@ class SimpleBarChart extends React.Component {
       (session) => session.users.filter(u=> u.username !== this.props.user.username)
     ).flat()
     let stuff = users && users.map(u => u.username).reduce(getCount, {})
-    let data = stuff ? Object.entries(stuff).map(([key, value]) => ({ name: key, value: value })).sort((a, b) => a.value - b.value) : []
+    let data = stuff ? Object.entries(stuff).map(([key, value]) => ({ name: key, username: value })).sort((a, b) => a.value - b.value) : []
 
     const colorFor = (username) => { 
         let user = users.find(u => u.username === username)
@@ -30,18 +30,17 @@ class SimpleBarChart extends React.Component {
     }
 
     return (
-      <ResponsiveContainer width='100%' height={300}>
-        <BarChart width={600} height={300} data={data}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+      <ResponsiveContainer width='100%' height={400}>
+        <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="value">
+          <Bar dataKey="username">
             {
               data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={colorFor(entry.name)} strokeWidth={index === 2 ? 4 : 1} />
+                <Cell key={`cell-${index}`} fill={colorFor(entry.name)} />
               ))
             }
           </Bar>
