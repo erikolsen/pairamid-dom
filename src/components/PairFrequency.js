@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { API_URL } from '../constants'
 import { useParams } from 'react-router-dom'
+import { formatISO, subMonths, format } from 'date-fns'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import Calendar from 'react-calendar'
 const isNum = (el) => parseInt(el) === el
 
 const Cell = ({data, color}) => {
@@ -55,32 +59,53 @@ const RoleSelect = ({label, selected, onSelect}) => {
 }
 
 const PairFrequency = () => {
+    const today = new Date()
+    const fDate = date => formatISO(date, { representation: 'date' })
     const { teamId } = useParams()
     const [frequency, setFrequency] = useState({header: [], pairs: []})
     const [primary, setPrimary] = useState('VISITOR-DEV')
     const [secondary, setSecondary] = useState('HOME-DEV')
-
+    const [dateRange, setDateRange] = useState([subMonths(today, 1), today])
+    const [showCalendar, setShowCalendar] = useState(false)
+    let [startDate, endDate] = dateRange
 
     useEffect(()=> {
-        axios.get(`${API_URL}/team/${teamId}/frequency?primary=${primary}&secondary=${secondary}`)
+        axios.get(`${API_URL}/team/${teamId}/frequency?primary=${primary}&secondary=${secondary}&startDate=${fDate(startDate)}&endDate=${fDate(endDate)}`)
             .then((response)=> {
                 setFrequency(response.data)
             })
-    }, [setFrequency, primary, secondary, teamId])
+    }, [setFrequency, dateRange, primary, secondary, teamId, startDate, endDate])
         
+    let calendarDisplay = showCalendar ? 'block' : 'hidden'
     return (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
             <section>
-                <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
+                <header className='border-b-2 border-gray-border md:flex md:flex-wrap justify-between items-baseline py-2 mb-4'>
                     <div className='flex items-center'>
                         <h1>Pair Frequency</h1>
+                    </div>
+                    <div>
+                        <div className='flex items-center cursor-pointer' onClick={()=> setShowCalendar(!showCalendar)}>
+                            <h2 className='mr-2 md:mx-2'>{format(startDate, 'MM/dd/yyyy')}-{format(endDate, 'MM/dd/yyyy')}</h2>
+                            <FontAwesomeIcon icon={faPencilAlt} />
+                        </div>
+                        <div className={`flex justify-center ${calendarDisplay}`}>
+                            <Calendar 
+                                className='p-2'
+                                calendarType='US'
+                                onChange={(e)=> setDateRange(e)} 
+                                selectRange={true}
+                                returnValue='range'
+                                value={dateRange}
+                            />
+                        </div>
                     </div>
                 </header>
                 <div className=''>
                     <div className='my-4 md:justify-between md:flex'>
                         <form>
                             <p className='text-xl font-bold mb-2'>Compare Roles</p>
-                            <div className='grid grid-cols-2'>
+                            <div className='flex justify-between'>
                                 <RoleSelect label='Role1' onSelect={setPrimary} selected={primary} />
                                 <RoleSelect label='Role2' onSelect={setSecondary} selected={secondary} />
                             </div>
