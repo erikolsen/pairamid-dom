@@ -32,7 +32,10 @@ const UserSettings = ({roles}) => {
     const deleteUser = (id) => { 
         axios.delete(`${API_URL}/team/${teamId}/user/${id}`)
              .then((response) => {
-                setUsers(users.map(user => (user.id === response.data.id ? Object.assign({}, response.data) : user )))
+                setUsers(
+                    users.map(user => (user.id === response.data.id ? Object.assign({}, response.data) : user ))
+                         .filter(u => !u.hardDelete)
+                )
              })
     }
 
