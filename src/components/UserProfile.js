@@ -5,10 +5,12 @@ import { useParams } from 'react-router-dom'
 import LabeledPieChart from './charts/LabeledPieChart'
 import SimpleBarChart from './charts/SimpleBarChart'
 
-import { Calendar, momentLocalizer } from 'react-big-calendar'
-import moment from 'moment'
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
 import "react-big-calendar/lib/css/react-big-calendar.css";
-
+import format from 'date-fns/format'
+import parse from 'date-fns/parse'
+import startOfWeek from 'date-fns/startOfWeek'
+import getDay from 'date-fns/getDay'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
@@ -64,7 +66,19 @@ const EventComponent = (props)=> {
         </div>
     )
 }
-const localizer = momentLocalizer(moment)
+
+const locales = {
+  'en-US': require('date-fns/locale/en-US'),
+}
+
+const localizer = dateFnsLocalizer({
+    format,
+    parse,
+    startOfWeek,
+    getDay,
+    locales,
+  })
+
 const MyCalendar = ({pairingSessions, username}) => {
     let myEventsList = pairingSessions || [] 
     return (
