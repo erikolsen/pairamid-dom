@@ -27,9 +27,9 @@ const TeamSettings = () => {
                     </div>
                 </header>
                 <div className='w-full'>
-                    <RoleSettings roles={roles} setRoles={setRoles} />
-                    <div className='border-b-2 border-gray-border my-4' />
                     <UserSettings roles={roles} />
+                    <div className='border-b-2 border-gray-border my-4' />
+                    <RoleSettings roles={roles} setRoles={setRoles} />
                 </div>
             </section>
         </main>
