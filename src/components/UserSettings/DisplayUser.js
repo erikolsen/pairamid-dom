@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencilAlt, faTrashAlt, faBan, faTrashRestore } from '@fortawesome/free-solid-svg-icons'
+import { faPencilAlt, faTrashAlt, faBan, faTrashRestore, faUser } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom'
+import { format } from 'date-fns'
 
 const IconButton = ({action, icon, classes}) => {
     const onClick = (e) => { e.preventDefault(); action() }
 
     return (
-        <button className={`my-2 mx-4 focus:outline-none ${classes}`} onClick={onClick}>
+        <button className={`focus:outline-none ${classes}`} onClick={onClick}>
             <FontAwesomeIcon icon={icon} />
         </button>
     )
@@ -19,25 +20,33 @@ const DisplayCard = ({user, setEditing, onDelete, reviveUser}) => {
     const { teamId } = useParams()
     const inActive = user.deleted ? 'opacity-50' : ''
     const color = user.role ? user.role.color : 'gray'
-    const roleName = user.role ? user.role.name : ''
+
     return (
         <div className='bg-white shadow-lg rounded-lg mr-4 mb-4'>
-            <Link to={`/team/${teamId}/users/${user.uuid}`}>
-                <div className={`grid grid-cols-2 my-2 ${inActive}`}>
-                    <div style={{'backgroundColor': color}} className={`col-span-1 bg-gray-med w-12 h-12 mx-2 border-gray-border rounded-full flex items-center justify-center`}>
+            <div className={`flex justify-between my-2 ${inActive}`}>
+                <div className='relative cursor-pointer' onClick={()=> setEditing(true)}>
+                    <div style={{'backgroundColor': color}} className={`bg-gray-med w-12 h-12 mx-2 border-gray-border rounded-full flex items-center justify-center`}>
                         <p className="text-white font-bold text-xs">{user.username}</p>
                     </div>
-                    <p className='col-span-1 text-sm sm:text-lg flex items-center text-gray'>Role: {roleName}</p>
+                    <FontAwesomeIcon className='absolute right-0 bottom-0' icon={faPencilAlt} />
                 </div>
-            </Link>
+                <div className='mr-4'>
+                    <p className='text-right text-sm'>Joined</p>
+                    <p className='text-right text-sm'>{format(Date.parse(user.created_at), 'MM/dd/yyyy')}</p>
+                </div>
+            </div>
            {inActive ? 
            <div className='flex items-center justify-between mx-2'>
                 <p className='opacity-50'>Archived</p>
                 <IconButton action={()=> reviveUser(user.id)} icon={faTrashRestore} classes='text-green' /> 
            </div> :
-           <div className='flex justify-between'>
+           <div className='flex justify-between mx-2 mb-1'>
                 <IconButton action={()=> onDelete(user.id)} icon={faTrashAlt} classes='text-red' /> 
-                <IconButton action={()=> setEditing(true)} icon={faPencilAlt} /> 
+                <Link to={`/team/${teamId}/users/${user.uuid}`}>
+                    <div className='mx-2 mt-2'>
+                        <FontAwesomeIcon icon={faUser} />
+                    </div>
+                </Link>
             </div>}
         </div>
     )
@@ -102,7 +111,7 @@ const EditCard = ({user, roles, setEditing, onUpdate, onDelete }) => {
                     </div>
                 </div>
                 <input className='' type='hidden' name="userId" defaultValue={user.id} ref={register} />
-                <div className='flex justify-between'>
+                <div className='flex justify-between mx-2'>
                     { cancelAction }
                     <input className='m-2 px-2 border border-green rounded text-white bg-green text-xs font-bold' type="submit" value='Save'/>
                 </div>
