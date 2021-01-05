@@ -619,6 +619,20 @@ input:checked + svg {
   display: block;
 }
 
+.profile-edit-icon {
+  background-color: #fff;
+  padding: 0.25rem;
+  border-width: 1px;
+  border-color: #D8D8D8;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0px;
+  bottom: -5px;
+}
+
 .container {
   width: 100%;
 }

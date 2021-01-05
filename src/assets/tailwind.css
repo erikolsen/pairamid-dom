@@ -33,6 +33,13 @@ input:checked + svg {
     display: block;
 }
 
+.profile-edit-icon {
+    @apply bg-white p-1 border border-gray-border rounded-full flex items-center justify-center;
+    position: absolute;
+    right: 0px;
+    bottom: -5px;
+}
+
 @tailwind components;
 
 @tailwind utilities;

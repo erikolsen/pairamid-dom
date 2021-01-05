@@ -6,11 +6,11 @@ import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom'
 import { format } from 'date-fns'
 
-const IconButton = ({action, icon, classes}) => {
+const IconButton = ({action, icon, classes, title}) => {
     const onClick = (e) => { e.preventDefault(); action() }
 
     return (
-        <button className={`focus:outline-none ${classes}`} onClick={onClick}>
+        <button className={`focus:outline-none ${classes}`} onClick={onClick} title={title}>
             <FontAwesomeIcon icon={icon} />
         </button>
     )
@@ -24,11 +24,13 @@ const DisplayCard = ({user, setEditing, onDelete, reviveUser}) => {
     return (
         <div className='bg-white shadow-lg rounded-lg mr-4 mb-4'>
             <div className={`flex justify-between my-2 ${inActive}`}>
-                <div className='relative cursor-pointer' onClick={()=> setEditing(true)}>
+                <div className='relative cursor-pointer' onClick={()=> setEditing(true)} title='Edit'>
                     <div style={{'backgroundColor': color}} className={`bg-gray-med w-12 h-12 mx-2 border-gray-border rounded-full flex items-center justify-center`}>
                         <p className="text-white font-bold text-xs">{user.username}</p>
                     </div>
-                    <FontAwesomeIcon className='absolute right-0 bottom-0' icon={faPencilAlt} />
+                    <div style={{'border-color': color}} className='profile-edit-icon'>
+                        <FontAwesomeIcon className='' icon={faPencilAlt} size='xs' />
+                    </div>
                 </div>
                 <div className='mr-4'>
                     <p className='text-right text-sm'>Joined</p>
@@ -38,14 +40,14 @@ const DisplayCard = ({user, setEditing, onDelete, reviveUser}) => {
             <div className='flex items-center justify-between m-2'>
                 {inActive ?
                     <div className='flex'>
-                        <IconButton action={() => reviveUser(user.id)} icon={faTrashRestore} classes='text-green' />
+                        <IconButton action={() => reviveUser(user.id)} icon={faTrashRestore} classes='text-green' title='Unarchive' />
                         <p className='opacity-50 mx-2'>Archived</p>
                     </div> :
                     <div className=''>
-                        <IconButton action={() => onDelete(user.id)} icon={faTrashAlt} classes='text-red' />
+                        <IconButton action={() => onDelete(user.id)} icon={faTrashAlt} classes='text-red' title='Archive' />
                     </div>}
                 <Link to={`/team/${teamId}/users/${user.uuid}`}>
-                    <div className='mx-2'>
+                    <div className='mx-2' title='Profile'>
                         <FontAwesomeIcon icon={faUser} />
                     </div>
                 </Link>
@@ -60,8 +62,8 @@ const EditCard = ({user, roles, setEditing, onUpdate, onDelete }) => {
     const [roleId, setRoleId] = useState(user.role ? user.role.id : '')
     const selectedRole = roles.find((role) => role.id === parseInt(roleId))
     const color = selectedRole ? selectedRole.color : 'gray'
-    const cancelAction = user.username ? <IconButton action={()=> setEditing(false)} icon={faBan} />  :
-                                         <IconButton action={()=> onDelete(user.id)} icon={faTrashAlt} classes='text-red' /> 
+    const cancelAction = user.username ? <IconButton action={()=> setEditing(false)} icon={faBan} title='Cancel' />  :
+                                         <IconButton action={()=> onDelete(user.id)} icon={faTrashAlt} classes='text-red' title='Archive' /> 
 
     const classes = errors.initials ? 'border border-red' : 'border-b border-gray-border'
     return (
