@@ -35,19 +35,21 @@ const DisplayCard = ({user, setEditing, onDelete, reviveUser}) => {
                     <p className='text-right text-sm'>{format(Date.parse(user.created_at), 'MM/dd/yyyy')}</p>
                 </div>
             </div>
-           {inActive ? 
-           <div className='flex items-center justify-between mx-2'>
-                <p className='opacity-50'>Archived</p>
-                <IconButton action={()=> reviveUser(user.id)} icon={faTrashRestore} classes='text-green' /> 
-           </div> :
-           <div className='flex justify-between mx-2 mb-1'>
-                <IconButton action={()=> onDelete(user.id)} icon={faTrashAlt} classes='text-red' /> 
+            <div className='flex items-center justify-between m-2'>
+                {inActive ?
+                    <div className='flex'>
+                        <IconButton action={() => reviveUser(user.id)} icon={faTrashRestore} classes='text-green' />
+                        <p className='opacity-50 mx-2'>Archived</p>
+                    </div> :
+                    <div className=''>
+                        <IconButton action={() => onDelete(user.id)} icon={faTrashAlt} classes='text-red' />
+                    </div>}
                 <Link to={`/team/${teamId}/users/${user.uuid}`}>
-                    <div className='mx-2 mt-2'>
+                    <div className='mx-2'>
                         <FontAwesomeIcon icon={faUser} />
                     </div>
                 </Link>
-            </div>}
+            </div>
         </div>
     )
 }
