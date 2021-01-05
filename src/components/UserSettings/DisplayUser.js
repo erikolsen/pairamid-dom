@@ -28,7 +28,7 @@ const DisplayCard = ({user, setEditing, onDelete, reviveUser}) => {
                     <div style={{'backgroundColor': color}} className={`bg-gray-med w-12 h-12 mx-2 border-gray-border rounded-full flex items-center justify-center`}>
                         <p className="text-white font-bold text-xs">{user.username}</p>
                     </div>
-                    <div style={{'border-color': color}} className='profile-edit-icon'>
+                    <div style={{'borderColor': color}} className='profile-edit-icon'>
                         <FontAwesomeIcon className='' icon={faPencilAlt} size='xs' />
                     </div>
                 </div>
