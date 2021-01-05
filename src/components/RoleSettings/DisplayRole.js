@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt, faTrashAlt, faBan } from '@fortawesome/free-solid-svg-icons'
 
-const IconButton = ({action, icon, classes}) => {
+const IconButton = ({action, icon, classes, title}) => {
     const onClick = (e) => { e.preventDefault(); action() }
 
     return (
-        <button className={`my-2 mx-4 ${classes}`} onClick={onClick}>
+        <button className={`focus:outline-none my-2 mx-4 ${classes}`} onClick={onClick} title={title}>
             <FontAwesomeIcon icon={icon} />
         </button>
     )
@@ -22,8 +22,8 @@ const DisplayCard = ({role, setEditing, onDelete}) => {
                 </div>
             </div>
             <div className='flex justify-between'>
-                <IconButton action={()=> onDelete(role.id)} icon={faTrashAlt} classes='text-red' /> 
-                <IconButton action={()=> setEditing(true)} icon={faPencilAlt} /> 
+                <IconButton action={()=> onDelete(role.id)} icon={faTrashAlt} classes='text-red' title='Delete' /> 
+                <IconButton action={()=> setEditing(true)} icon={faPencilAlt} title='Edit' /> 
             </div>
         </div>
     )
@@ -31,8 +31,8 @@ const DisplayCard = ({role, setEditing, onDelete}) => {
 
 const EditCard = ({role, setEditing, onUpdate, onDelete }) => {
     const { register, handleSubmit, errors } = useForm()
-    const cancelAction = role.name ? <IconButton action={()=> setEditing(false)} icon={faBan} />  :
-                                     <IconButton action={()=> onDelete(role.id)} icon={faTrashAlt} classes='text-red' /> 
+    const cancelAction = role.name ? <IconButton action={()=> setEditing(false)} icon={faBan} title='Cancel' />  :
+                                     <IconButton action={()=> onDelete(role.id)} icon={faTrashAlt} classes='text-red' title='Delete' /> 
     const classes = errors.name ? 'border border-red' : 'border-b border-gray-border'
 
     return (
