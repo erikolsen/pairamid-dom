@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { API_URL } from '../constants'
+import { API_URL } from '../../../constants'
 import RoleSettings from './RoleSettings'
 import UserSettings from './UserSettings'
 import { useParams } from 'react-router-dom'

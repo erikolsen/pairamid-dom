@@ -1,12 +1,12 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import logo from '../assets/pairamid-logo.png';
-import daily from '../assets/todays_pairs.png';
-import frequency from '../assets/pair_frequency.png';
-import duration from '../assets/duration.png';
-import history from '../assets/history.png';
+import logo from '../../assets/pairamid-logo.png';
+import daily from '../../assets/todays_pairs.png';
+import frequency from '../../assets/pair_frequency.png';
+import duration from '../../assets/duration.png';
+import history from '../../assets/history.png';
 import axios from 'axios'
-import { API_URL } from '../constants'
+import { API_URL } from '../../constants'
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsers, faArrowRight } from '@fortawesome/free-solid-svg-icons'

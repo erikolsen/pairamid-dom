@@ -1,17 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from "react-router-dom";
 import axios from 'axios'
-import { API_URL } from '../constants'
-
-const TeamLink = ({team}) => {
-    return (
-        <li>
-            <Link className='' to={`/team/${team.uuid}`}>
-                <span>Name: {team.name}({team.members})</span>
-            </Link>
-        </li>
-    )
-}
+import TeamLink from './TeamLink'
+import { API_URL } from '../../constants'
 
 const Admin = () => {
     const [teams, setTeams] = useState([])

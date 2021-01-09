@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import DailyView from './DailyView';
 import SocketHandler from './SocketHandler';
 import axios from 'axios'
-import { API_URL } from '../constants'
+import { API_URL } from '../../../constants'
 import { useParams } from 'react-router-dom'
 
 const Team = () => {

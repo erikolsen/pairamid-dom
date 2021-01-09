@@ -2,7 +2,7 @@ import React from 'react'
 import { DragDropContext } from "react-beautiful-dnd";
 import Pair from './Pair'
 import ParkingLot from './ParkingLot'
-import { SOCKET } from './SocketHandler'
+import { SOCKET } from '../../SocketHandler'
 import { useParams } from 'react-router-dom'
 
 import { Droppable } from 'react-beautiful-dnd';

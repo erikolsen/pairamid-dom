@@ -3,10 +3,10 @@ import PairGrid from './PairGrid'
 import DailyPairList from './DailyPairList'
 import DailyPairHeader from './DailyPairHeader'
 import _ from 'lodash'
-import { SOCKET } from './SocketHandler'
+import { SOCKET } from '../SocketHandler'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import { API_URL } from '../constants'
+import { API_URL } from '../../../../constants'
 
 const Reminder = ({reminder})=> {
     const user = reminder.user ? reminder.user.username : 'Team'

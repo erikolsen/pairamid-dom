@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import logo from '../assets/pairamid-logo.png';
+import logo from '../../assets/pairamid-logo.png';
 import { Link } from "react-router-dom";
 import axios from 'axios'
-import { API_URL } from '../constants'
+import { API_URL } from '../../constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsers } from '@fortawesome/free-solid-svg-icons'
 

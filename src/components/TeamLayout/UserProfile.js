@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { API_URL, PAIR_FILTER } from '../constants'
+import { API_URL, PAIR_FILTER } from '../../constants'
 import { useParams } from 'react-router-dom'
-import LabeledPieChart from './charts/LabeledPieChart'
-import SimpleBarChart from './charts/SimpleBarChart'
-
+import LabeledPieChart from '../charts/LabeledPieChart'
+import SimpleBarChart from '../charts/SimpleBarChart'
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { format, parse, startOfWeek, getDay } from 'date-fns'
