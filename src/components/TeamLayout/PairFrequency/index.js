@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { API_URL } from '../../constants'
+import { API_URL } from '../../../constants'
 import { useParams } from 'react-router-dom'
 import { formatISO, subMonths, format } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -133,7 +133,6 @@ const PairFrequency = () => {
                 </div>
             </section>
         </main>
-
     )
 }
 

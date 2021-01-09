@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import axios from 'axios'
-import { API_URL } from '../../constants'
+import { API_URL } from '../../../constants'
 import { useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

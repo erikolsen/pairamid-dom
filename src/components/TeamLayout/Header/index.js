@@ -1,19 +1,9 @@
 import React, { useState } from 'react'
-import logo from '../../assets/pairamid-logo.png';
+import logo from '../../../assets/pairamid-logo.png';
 import { Link, useRouteMatch } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserFriends, faBalanceScale, faHistory, faCog, faCalendarAlt, faBars } from '@fortawesome/free-solid-svg-icons'
-
-const ListIconLink = ({path, icon, text}) => {
-    return (
-        <Link to={path}>
-            <li className='text-gray my-2 lg:mx-0 hover:text-green-icon hover:bg-gray-light lg:hover:bg-white'>
-                <FontAwesomeIcon icon={icon} />
-                <span className='ml-2'>{text}</span>
-            </li>
-        </Link>
-    )
-}
+import ListIconLink from './ListIconLink'
 
 const Header = () => {
     const match = useRouteMatch()
