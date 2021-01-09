@@ -1,62 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { API_URL } from '../../../constants'
 import { useParams } from 'react-router-dom'
 import { formatISO, subMonths, format } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import Calendar from 'react-calendar'
-const isNum = (el) => parseInt(el) === el
-
-const Cell = ({data, color}) => {
-    return (
-        <td className={`border border-black text-center bg-${color}`}>{data}</td>
-    )
-}
-
-const Row = ({row, header}) => {
-    const user = row.slice(0,1)[0]
-    const cells = row.slice(1)
-    const totalSessions = cells.filter(isNum).reduce((total, count) => { return total += count}, 0) 
-    const average = Math.round(totalSessions / cells.length) || '1'
-
-    const soloColumn = index =>  header[index+1]===user
-    const getColor = (data, soloColumn) => { 
-        if(soloColumn){ return 'gray-med'}
-        if(data === 0 || data < Math.round(average/2)) { return 'yellow' }
-        if(data > Math.round(average*2)) { return 'red' }
-        return 'green'
-    }
-    return (
-        <tr>
-            <td className='border border-black text-center text-xl font-bold'>{user + ' : ' + totalSessions}</td>
-            {cells.map((cell, i)=> <Cell key={i} data={cell} color={getColor(cell, soloColumn(i))} />)}
-        </tr>
-    )
-}
-
-const RoleSelect = ({label, selected, onSelect}) => {
-    const { teamId } = useParams()
-    const [roles, setRoles] = useState([])
-    useEffect(()=> {
-        axios.get(`${API_URL}/team/${teamId}/roles`)
-            .then((response)=> {
-                setRoles(response.data)
-            })
-    }, [setRoles, teamId])
-
-    const options = roles.map((role) => <option key={role.id} value={role.name}>{role.name}</option> )
-
-    return (
-        <label className='py-2 pr-2'>
-            {label}:
-            <select className='bg-white' value={selected} onChange={(e) => onSelect(e.target.value)}>
-                <option value="">ALL</option>
-                { options }
-            </select>
-        </label>
-    )
-}
+import { API_URL } from '../../../constants'
+import Row from './Row'
+import RoleSelect from './RoleSelect'
 
 const PairFrequency = () => {
     const today = new Date()
