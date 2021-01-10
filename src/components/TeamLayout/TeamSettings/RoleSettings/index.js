@@ -34,7 +34,7 @@ const RoleSettings = ({roles, setRoles}) => {
             <div className='grid grid-cols-2 md:grid-cols-4'>
                 {roleList}
             </div>
-            <button onClick={addRole} className='flex items-center'>
+            <button data-cy='add-role' onClick={addRole} className='flex items-center'>
                 <span className='text-2xl text-gray leading-tight'>&#8853;</span>
                 <span className='mx-2 text-gray'>Add Role</span>
             </button>

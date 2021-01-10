@@ -3,7 +3,7 @@ import { Draggable } from "react-beautiful-dnd";
 const User = ({ user, index }) => {
     return (
         <div>
-            <Draggable draggableId={user.uuid} index={index}>
+            <Draggable data-cy={`icon-${user.username}`} draggableId={user.uuid} index={index}>
                 {provided => (
                     <div 
                         {...provided.draggableProps}
