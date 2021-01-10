@@ -4,7 +4,7 @@ context('Home', () => {
       cy.visit(' http://localhost:3000')
     })
 
-    it('lets you create a new team', () => {
+    xit('lets you create a new team', () => {
         // create team
         cy.get("[data-cy='team-name-input']").first().type('Test Team', {force: true})
         cy.get("[data-cy='team-name-submit']").first().click()

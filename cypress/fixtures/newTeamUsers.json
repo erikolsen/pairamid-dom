@@ -1,0 +1,18 @@
+[
+    {
+      "created_at": "2021-01-10T03:51:50.852566", 
+      "deleted": false, 
+      "first_name": null, 
+      "id": 1, 
+      "last_name": null, 
+      "role": {
+        "color": "#7ff5bc", 
+        "created_at": "2021-01-10T03:51:50.848638", 
+        "id": 1, 
+        "name": "QA"
+      }, 
+      "username": null, 
+      "uuid": "13db8152-5bd6-4153-bad7-8d73170c8945"
+    }
+  ]
+  
