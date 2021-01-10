@@ -1,12 +1,18 @@
 context('Home', () => {
+    let teamId;
     beforeEach(() => {
       cy.visit(' http://localhost:3000')
     })
-  
-    xit('lets you create a new team', () => {
+
+    it('lets you create a new team', () => {
         // create team
         cy.get("[data-cy='team-name-input']").first().type('Test Team', {force: true})
         cy.get("[data-cy='team-name-submit']").first().click()
+        cy.wait(100)
+        cy.window().then((win) => {
+            teamId = win.location.pathname.split('/')[2]
+            console.log('TeamId', teamId)
+        })
 
         // add roles
         const role1 = 'QA'
@@ -60,6 +66,27 @@ context('Home', () => {
         cy.get("[data-cy='header']").within(()=> {
             cy.get("[data-cy='today']").click()
         })
+
+        // Add pair
+        cy.get(`[data-cy='icon-${user1}']`).as('user1')
+        cy.get(`[data-cy='icon-${user2}']`).as('user2')
+        cy.get(`[data-cy='active-pair']`).eq(0).as('active-pair')
+        cy.dragAndDrop('@user1', '@active-pair').as('drop1')
+        cy.wait(100)
+        cy.dragAndDrop('@user2', '@active-pair').as('drop2')
+        cy.wait(100)
+
+        cy.get("[data-cy='add-pair']").click({force: true})
+
+        // Add pair
+        cy.get(`[data-cy='icon-${user3}']`).as('user3')
+        cy.get(`[data-cy='icon-${user4}']`).as('user4')
+        cy.get("[data-cy='active-pair']").eq(1).as('active-pair2')
+        cy.dragAndDrop('@user3', '@active-pair2').as('drop3')
+        cy.wait(100)
+        cy.dragAndDrop('@user4', '@active-pair2').as('drop4')
+
+        cy.get("[data-cy='active-pair']").should('have.length', 2)
 
     })
 })

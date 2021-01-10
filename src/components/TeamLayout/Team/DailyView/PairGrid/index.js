@@ -92,7 +92,7 @@ const PairGrid = ({pairs, setSaved, setError}) => {
                 <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 lg:grid-rows-3'>
                     { activePairs }
                 </div>
-                <button onClick={addPair} className='flex items-center m-2'>
+                <button data-cy='add-pair' onClick={addPair} className='flex items-center m-2'>
                     <span className='text-2xl text-gray leading-tight'>&#8853;</span>
                     <span className='mx-2 text-lg text-gray'>Add Pair</span>
                 </button>
