@@ -80,6 +80,7 @@ const EditCard = ({user, roles, setEditing, onUpdate, onDelete }) => {
                                     className={`w-full pt-1 px-3 leading-normal outline-none ${classes}`}
                                     onChange={(e) => setInitials(e.target.value)} 
                                     id="initials" 
+                                    data-cy='user-initials-input'
                                     type="text" 
                                     name="initials" 
                                     placeholder='Initials' 
@@ -98,6 +99,7 @@ const EditCard = ({user, roles, setEditing, onUpdate, onDelete }) => {
                         <div className='relative col-span-3 mr-2'>
                             <select 
                                 onChange={(e) => setRoleId(e.target.value)} 
+                                data-cy='user-role-select'
                                 name='roleId' 
                                 value={roleId} 
                                 ref={register} 
@@ -117,7 +119,7 @@ const EditCard = ({user, roles, setEditing, onUpdate, onDelete }) => {
                 <input className='' type='hidden' name="userId" defaultValue={user.id} ref={register} />
                 <div className='flex justify-between mx-2'>
                     { cancelAction }
-                    <input className='m-2 px-2 border border-green rounded text-white bg-green text-xs font-bold' type="submit" value='Save'/>
+                    <input data-cy='user-submit' className='m-2 px-2 border border-green rounded text-white bg-green text-xs font-bold' type="submit" value='Save'/>
                 </div>
             </form>
         </div>

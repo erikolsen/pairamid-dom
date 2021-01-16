@@ -49,6 +49,7 @@ const CreateTeam = () => {
                 <div className='w-full md:w-3/5 relative appearance-none label-floating my-4'>
                     <input className={`text-lg p-2 w-full outline-none ${errorClass}`}
                            id='name'
+                           data-cy='team-name-input'
                            type='text'
                            name='name'
                            placeholder='Team Name'
@@ -58,7 +59,7 @@ const CreateTeam = () => {
                         Team Name
                     </label>
                 </div>
-                <input type='submit' value='START FOR FREE' className='bg-green-icon w-full md:w-2/5 md:mx-2 p-3 text-white font-bold' />
+                <input type='submit' data-cy='team-name-submit' value='START FOR FREE' className='bg-green-icon w-full md:w-2/5 md:mx-2 p-3 text-white font-bold' />
             </div>
             { errors.name && <p className='text-red'>Team Name is required</p> }
         </form>

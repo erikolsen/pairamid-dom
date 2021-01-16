@@ -10,7 +10,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
-    "cypress": "^4.2.0",
+    "cypress": "^6.2.1",
     "date-fns": "^2.16.1",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",

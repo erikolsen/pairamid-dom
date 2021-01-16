@@ -7,7 +7,7 @@ const IconButton = ({action, icon, classes, title}) => {
     const onClick = (e) => { e.preventDefault(); action() }
 
     return (
-        <button className={`focus:outline-none my-2 mx-4 ${classes}`} onClick={onClick} title={title}>
+        <button data-cy={title} className={`focus:outline-none my-2 mx-4 ${classes}`} onClick={onClick} title={title}>
             <FontAwesomeIcon icon={icon} />
         </button>
     )
@@ -15,7 +15,7 @@ const IconButton = ({action, icon, classes, title}) => {
 
 const DisplayCard = ({role, setEditing, onDelete}) => {
     return (
-        <div className='bg-white shadow-lg rounded-lg mr-4 mb-4'>
+        <div data-cy='role-card' className='bg-white shadow-lg rounded-lg mr-4 mb-4'>
             <div className='my-2 '>
                 <div style={{'backgroundColor': role.color}} className={`p-3 mx-2 border-gray-border flex items-center justify-center`}>
                     <p className="text-white font-bold text-xs">{role.name && role.name.toUpperCase()}</p>
@@ -41,6 +41,7 @@ const EditCard = ({role, setEditing, onUpdate, onDelete }) => {
                 <div className='flex justify-between my-2'>
                     <input 
                         className={`w-10 h-10 lg:w-12 lg:h-12 mx-2 border-gray-border flex items-center justify-center cursor-pointer`} 
+                        data-cy='role-color-input'
                         type='color' 
                         name="color" 
                         defaultValue={role.color} 
@@ -50,6 +51,7 @@ const EditCard = ({role, setEditing, onUpdate, onDelete }) => {
                         <input 
                             className={`w-full pt-1 px-3 leading-normal outline-none ${classes}`}
                             id='name'
+                            data-cy='role-name-input'
                             type='text'
                             name='name'
                             placeholder='Role Name'
@@ -64,7 +66,7 @@ const EditCard = ({role, setEditing, onUpdate, onDelete }) => {
                 <input className='' type='hidden' name="id" defaultValue={role.id} ref={register} />
                 <div className='flex justify-between'>
                     { cancelAction }
-                    <input className='m-2 px-2 border border-green rounded text-white bg-green text-xs font-bold' type="submit" value='Save'/>
+                    <input data-cy='role-submit' className='m-2 px-2 border border-green rounded text-white bg-green text-xs font-bold' type="submit" value='Save'/>
                 </div>
             </form>
         </div>

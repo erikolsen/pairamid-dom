@@ -11,7 +11,7 @@ const Header = () => {
     let classes = collapsed ? 'hidden' : 'block my-4'
     return (
         <div>
-            <header className="p-3 border-gray-border border-b-2 lg:pt-12 lg:block lg:justify-center lg:h-screen lg:border-r-2 lg:border-b-0">
+            <header data-cy='header' className="p-3 border-gray-border border-b-2 lg:pt-12 lg:block lg:justify-center lg:h-screen lg:border-r-2 lg:border-b-0">
                 <div className='flex items-center justify-between'>
                     <button className='focus:outline-none lg:hidden w-full text-left' onClick={(e)=> setCollapsed(!collapsed)}>
                         <FontAwesomeIcon icon={faBars} />
@@ -21,7 +21,7 @@ const Header = () => {
                         <img src={logo} alt='Paramid Logo' width="169" height="40" className="w-full max-w-logo lg:mt-8" />
                     </Link>
 
-                    <Link className='focus:outline-none lg:hidden w-full text-right' to={match.url}>
+                    <Link data-cy='today' className='focus:outline-none lg:hidden w-full text-right' to={match.url}>
                         <FontAwesomeIcon icon={faUserFriends} />
                     </Link>
                 </div>

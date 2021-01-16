@@ -55,7 +55,7 @@ const UserSettings = ({roles}) => {
             <div className='grid grid-cols-2 md:grid-cols-4'>
                 { usersList }
             </div>
-            <button onClick={addUser} className='flex items-center'>
+            <button data-cy='add-user' onClick={addUser} className='flex items-center'>
                 <span className='text-2xl text-gray leading-tight'>&#8853;</span>
                 <span className='mx-2 text-gray'>Add User</span>
             </button>
