@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt, faBan } from '@fortawesome/free-solid-svg-icons'
+import UtilizationByRole from './UtilizationByRole' 
 
 const localDate = date => date ? date.toLocaleDateString('en-US') : ''
 const spanOfDays = (d1, d2) => (localDate(d1) !== localDate(d2))
@@ -140,7 +141,7 @@ const DisplayCard = ({onDelete, reminder}) => {
 
 const TeamCalendar = () => {
     const { teamId } = useParams()
-    const [team, setTeam] = useState({name: '', users: []})
+    const [team, setTeam] = useState({name: '', users: [], roles: []})
     const [date, setDate] = useState([new Date(), new Date()])
     const [reminders, setReminders] = useState([])
     const [addable, setAddable] = useState(null)
@@ -183,15 +184,15 @@ const TeamCalendar = () => {
 
 
     return (
-        <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-screen">
+        <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-100">
             <section>
                 <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
                     <div className='w-full flex justify-between items-center'>
                         <h1>Calendar and Reminders</h1>
                     </div>
                 </header>
-                <div className='grid grid-cols-1 md:grid-cols-2 col-gap-4'>
-                    <div className='bg-white shadow-lg rounded-lg p-4 col-span-1 mb-2'>
+                <div className='grid grid-cols-1 md:grid-cols-2 col-gap-4 mb-2'>
+                    <div className='bg-white shadow-lg rounded-lg p-4 col-span-1 mb-4 md:mb-0'>
                         <p className='font-bold text-xl mb-2 text-center'>{team.name} Calendar</p>
                         <div className='flex justify-center'>
                             <Calendar 
@@ -203,32 +204,34 @@ const TeamCalendar = () => {
                                 value={date}
                             />
                         </div>
+                        <label className="flex mt-4">
+                            <div className="bg-white border-2 rounded border-gray-400 w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
+                                <input onClick={()=> setRangeSelect(!rangeSelect)} type="checkbox" className="opacity-0 absolute" name='repeatWeekly' />
+                                <svg className="fill-current hidden w-4 h-4 text-green-500 pointer-events-none" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
+                            </div>
+                            <div className="select-none">Select Range</div>
+                        </label>
                         { rangeSelect && <p className='text-center my-4'>First click will select start date. Second click will select end date. Third click will set a new start date.</p> }
                     </div>
+                    <UtilizationByRole reminders={reminders} team={team} startDate={date[0]} endDate={date[1]} />
+                </div>
 
-                    <div className=''>
-                        <div className='grid grid-cols-1'>
-                            <div className='bg-white shadow-lg rounded-lg p-3 mb-2'>
-                                <p className='font-bold text-center text-xl'>
-                                    Reminders for <span>{localDate(date[0])}</span>
-                                    {spanOfDays(date[0], date[1]) && <span>-{localDate(date[1])}</span>}
-                                </p>
-                                <div className='flex justify-between items-center'>
-                                    <label className="flex items-center justify-center">
-                                        <div className="bg-white border-2 rounded border-gray-400 w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
-                                            <input onClick={()=> setRangeSelect(!rangeSelect)} type="checkbox" className="opacity-0 absolute" name='repeatWeekly' />
-                                            <svg className="fill-current hidden w-4 h-4 text-green-500 pointer-events-none" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
-                                        </div>
-                                        <div className="select-none">Select Range</div>
-                                    </label>
-                                    <button className='focus:outline-none' onClick={(e) => setAddable(!addable)}>
-                                        <p className='text-3xl text-gray'>&#8853;</p> 
-                                    </button>
-                                </div>
-                            </div>
-                            { addable && <EditCard team={team} onUpdate={onUpdate} onDelete={onDelete} date={date} setRangeSelect={() => setRangeSelect(!rangeSelect)} /> }
-                            { reminders.map((reminder)=> <DisplayCard key={reminder.id} reminder={reminder} onDelete={onDelete} /> ) } 
+                <div className=''>
+                    <div className='bg-white shadow-lg rounded-lg p-3 mb-2'>
+                        <div className='flex justify-between'>
+                            <p className='flex items-center font-bold text-center text-xl m-2'>
+                                Reminders for <span className='ml-2'>{localDate(date[0])}</span>
+                                {spanOfDays(date[0], date[1]) && <span>-{localDate(date[1])}</span>}
+                            </p>
+                            <button className='flex items-center m-2 focus:outline-none' onClick={(e) => setAddable(!addable)}>
+                                <p>Add Reminder</p>
+                                <p className='text-3xl text-gray ml-2'>&#8853;</p> 
+                            </button>
                         </div>
+                    </div>
+                    <div className='grid grid-cols-1 col-gap-4'>
+                        { addable && <EditCard team={team} onUpdate={onUpdate} onDelete={onDelete} date={date} setRangeSelect={() => setRangeSelect(!rangeSelect)} /> }
+                        { reminders.map((reminder)=> <DisplayCard key={reminder.id} reminder={reminder} onDelete={onDelete} /> ) } 
                     </div>
                 </div>
             </section>
