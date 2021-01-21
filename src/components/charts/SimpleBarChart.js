@@ -10,7 +10,6 @@ import {
   Tooltip,
   Legend
 } from 'recharts';
-import { PAIR_FILTER } from '../../constants'
 
 const getCount = (acc, el) => {
   acc[el] = (acc[el] + 1) || 1;
@@ -19,7 +18,7 @@ const getCount = (acc, el) => {
 
 class SimpleBarChart extends React.Component {
   render() {
-    let users = this.props.user.active_pairing_sessions && this.props.user.active_pairing_sessions.filter(PAIR_FILTER).map(
+    let users = this.props.user.active_pairing_sessions && this.props.user.active_pairing_sessions.map(
       (session) => session.users.filter(u=> u.username !== this.props.user.username)
     ).flat()
     let userCounts = users && users.map(u => u.username).reduce(getCount, {})

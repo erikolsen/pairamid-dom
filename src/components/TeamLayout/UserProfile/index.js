@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { API_URL, PAIR_FILTER } from '../../../constants'
+import { API_URL } from '../../../constants'
 import { useParams } from 'react-router-dom'
 import LabeledPieChart from '../../charts/LabeledPieChart'
 import SimpleBarChart from '../../charts/SimpleBarChart'
@@ -83,7 +83,7 @@ const MyCalendar = ({pairingSessions, username}) => {
                 localizer={localizer}
                 views={['month']}
                 navigate={['back', 'next']}
-                events={myEventsList.filter(PAIR_FILTER).map((event) => ({...event, username: username}))}
+                events={myEventsList.map((event) => ({...event, username: username}))}
                 startAccessor="created_at"
                 endAccessor="created_at"
                 style={{ height: 600 }}
@@ -108,7 +108,7 @@ const UserProfile = () => {
             })
     }, [setUser, teamId, userId])
 
-    const allSessions = user && user.active_pairing_sessions.filter(PAIR_FILTER)
+    const allSessions = user && user.active_pairing_sessions
     const totalUsers = user && new Set(allSessions.flatMap(ps => ps.users.map(u => u.username)))
     const totalRoles = user && new Set(allSessions.flatMap(ps => ps.users.map(u => u.role.name)))
 

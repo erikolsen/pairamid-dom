@@ -1,5 +1,4 @@
 import React from 'react'
-import { PAIR_FILTER } from '../../constants'
 import { 
     ResponsiveContainer,
     PieChart, 
@@ -15,7 +14,7 @@ const getCount = (acc, el) => {
 const customLabel = entry => entry.name
 class LabeledPieChart extends React.Component {
     render() {
-        let roles = this.props.user.active_pairing_sessions && this.props.user.active_pairing_sessions.filter(PAIR_FILTER).map(
+        let roles = this.props.user.active_pairing_sessions && this.props.user.active_pairing_sessions.map(
             (session) => session.users.filter(user => user.username !== this.props.user.username).map((user) => user.role)
         ).flat()
         let roleCounts = roles && roles.map(role => role.name).reduce(getCount, {})
