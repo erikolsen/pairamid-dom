@@ -19,7 +19,7 @@ const getCount = (acc, el) => {
 
 class SimpleBarChart extends React.Component {
   render() {
-    let users = this.props.user.pairing_sessions && this.props.user.pairing_sessions.filter(PAIR_FILTER).map(
+    let users = this.props.user.active_pairing_sessions && this.props.user.active_pairing_sessions.filter(PAIR_FILTER).map(
       (session) => session.users.filter(u=> u.username !== this.props.user.username)
     ).flat()
     let userCounts = users && users.map(u => u.username).reduce(getCount, {})

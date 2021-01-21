@@ -97,7 +97,7 @@ const MyCalendar = ({pairingSessions, username}) => {
 }
 
 const UserProfile = () => {
-    const defaultUser = {pairing_sessions: [], username: '', team: {name: ''}}
+    const defaultUser = {active_pairing_sessions: [], username: '', team: {name: ''}}
     const { teamId, userId } = useParams()
     const [user, setUser] = useState(defaultUser)
 
@@ -108,7 +108,7 @@ const UserProfile = () => {
             })
     }, [setUser, teamId, userId])
 
-    const allSessions = user && user.pairing_sessions.filter(PAIR_FILTER)
+    const allSessions = user && user.active_pairing_sessions.filter(PAIR_FILTER)
     const totalUsers = user && new Set(allSessions.flatMap(ps => ps.users.map(u => u.username)))
     const totalRoles = user && new Set(allSessions.flatMap(ps => ps.users.map(u => u.role.name)))
 
