@@ -1,7 +1,11 @@
+import { startOfDay } from 'date-fns'
+
 export const businessDays = (start, end) => {
     let count = 0;
-    let curDate = new Date(start);
-    while (curDate <= new Date(end)) {
+    let curDate = startOfDay(new Date(start))
+    let endDate = startOfDay(new Date(end))
+
+    while (curDate <= endDate) {
         let dayOfWeek = curDate.getDay();
         if(!((dayOfWeek === 6) || (dayOfWeek === 0)))
            count++;
@@ -29,7 +33,7 @@ export const getPercent = (roleNames, role, startDate, endDate) => {
 
 export const formatReminders = (reminders, team, startDate, endDate) => {
     const roleNames = buildReminders(reminders, startDate, endDate)
-    return team.roles.map((role) => (
+    return team.roles.filter(role => role.total_members > 0).map((role) => (
         {
             name: role.name,
             color: role.color,

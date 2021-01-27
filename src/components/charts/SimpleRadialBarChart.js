@@ -4,28 +4,32 @@ import {
     PolarAngleAxis,
     RadialBar,
     Cell, 
+    Legend,
     Tooltip,
 } from 'recharts'
-    // <Legend 
-    //     iconSize={20} 
-    //     width={120} 
-    //     height={140} 
-    //     layout='vertical' 
-    //     verticalAlign='middle' 
-    //     wrapperStyle={style} 
-    // /> 
 
-    // const style = {
-    //     bottom: 0,
-    //     left: 0,
-    //     lineHeight: '24px'
-    // };
+const style = {
+	top: 0,
+	left: 350,
+	lineHeight: '24px',
+};
+
+const CustomTooltip = ({ active, payload, label }) => {
+	if (active) {
+		return (
+            <p>{payload[0].payload.name} - {payload[0].value}%</p>
+		);
+	}
+
+	return null;
+};
 
 const SimpleRadialBarChart = ({data}) => {
 
     return (
         <div className='flex justify-center'>
             <RadialBarChart 
+                cx={180} cy={160}
                 width={500} 
                 height={300} 
                 innerRadius={20} 
@@ -37,7 +41,6 @@ const SimpleRadialBarChart = ({data}) => {
                 <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
                 <RadialBar 
                     minAngle={15} 
-                    label={{ position: 'insideStart', fill: '#000', dataKey: 'name' }} 
                     background
                     clockWise={true} 
                     dataKey='percent' 
@@ -48,7 +51,15 @@ const SimpleRadialBarChart = ({data}) => {
                         })
                     }
                 </RadialBar >
-                <Tooltip />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend 
+                    iconSize={20} 
+                    width={120} 
+                    height={140} 
+                    layout='vertical' 
+                    verticalAlign='middle' 
+                    wrapperStyle={style} 
+                /> 
             </RadialBarChart>
         </div>
     );
