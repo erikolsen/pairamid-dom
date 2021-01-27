@@ -31,16 +31,29 @@ export const getPercent = (roleNames, role, startDate, endDate) => {
     return (100 - (( roleCount / (role.total_members*totalDays)) * 100)).toFixed(2)
 }
 
+const sortedTotalMembers = (a, b) => {
+    if(a.total_members > b.total_members){
+        return 1
+    }
+    if(a.total_members < b.total_members){
+        return -1
+    }
+    return 0
+}
+
 export const formatReminders = (reminders, team, startDate, endDate) => {
     const roleNames = buildReminders(reminders, startDate, endDate)
-    return team.roles.filter(role => role.total_members > 0).map((role) => (
-        {
-            name: role.name,
-            color: role.color,
-            percent: getPercent(roleNames, role, startDate, endDate),
-            memberCount: role.total_members
-        }
-    ))
+    return team.roles
+        .filter(role => role.total_members > 0)
+        .sort(sortedTotalMembers)
+        .map((role) => (
+            {
+                name: role.name,
+                color: role.color,
+                percent: getPercent(roleNames, role, startDate, endDate),
+                memberCount: role.total_members
+            }
+        ))
 }
 
 export const overLap = (selectedStart, selectedEnd, reminderStart, reminderEnd) => {
