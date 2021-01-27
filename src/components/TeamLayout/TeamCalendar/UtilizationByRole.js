@@ -17,7 +17,7 @@ const RolesAtRisk = ({roles})=> {
         <div className='m-4'>
             <div className='border-b-2 border-gray-border my-2' />
             <p className='font-bold text-xl mt-4 text-center'>Roles at Risk</p>
-            <div className='grid grid-cols-2'>
+            <div className='grid grid-cols-1 md:grid-cols-2'>
                 {roles.map(role => <Role key={role.name} role={role} />)}
             </div>
         </div>
