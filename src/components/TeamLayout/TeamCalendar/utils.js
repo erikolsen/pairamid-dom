@@ -21,7 +21,7 @@ export const arrayFrom = (reminder, startDate, endDate) => {
 }
 
 export const buildReminders = (reminders, startDate, endDate) => {
-    const relevant = reminders.filter(r => r.message === 'Out of Office').filter(r => r.user )
+    const relevant = reminders.filter(r => !!r.message.match(/Out of Office/)).filter(r => r.user )
     return relevant.flatMap(reminder => arrayFrom(reminder, startDate, endDate).fill(reminder.user.role.name))
 }
 
