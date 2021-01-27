@@ -8,7 +8,7 @@ const TeamLink = ({team}) => {
     return (
         <li>
             <Link className='' to={`/team/${team.uuid}`}>
-                <span>{team.name} - Last Active {displayDate}</span>
+                <span>{team.name}({team.members}) - Last Active {displayDate}</span>
             </Link>
         </li>
     )
