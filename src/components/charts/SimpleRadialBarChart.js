@@ -4,15 +4,22 @@ import {
     PolarAngleAxis,
     RadialBar,
     Cell, 
-    Legend,
     Tooltip,
 } from 'recharts'
 
-const style = {
-	top: 0,
-	left: 350,
-	lineHeight: '24px',
-};
+// const style = {
+// 	top: 0,
+// 	left: 350,
+// 	lineHeight: '24px',
+// };
+// <Legend 
+//     iconSize={20} 
+//     width={120} 
+//     height={140} 
+//     layout='vertical' 
+//     verticalAlign='middle' 
+//     wrapperStyle={style} 
+// /> 
 
 const CustomTooltip = ({ active, payload, label }) => {
 	if (active) {
@@ -29,7 +36,6 @@ const SimpleRadialBarChart = ({data}) => {
     return (
         <div className='flex justify-center'>
             <RadialBarChart 
-                cx={180} cy={160}
                 width={500} 
                 height={300} 
                 innerRadius={20} 
@@ -52,14 +58,6 @@ const SimpleRadialBarChart = ({data}) => {
                     }
                 </RadialBar >
                 <Tooltip content={<CustomTooltip />} />
-                <Legend 
-                    iconSize={20} 
-                    width={120} 
-                    height={140} 
-                    layout='vertical' 
-                    verticalAlign='middle' 
-                    wrapperStyle={style} 
-                /> 
             </RadialBarChart>
         </div>
     );

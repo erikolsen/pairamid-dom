@@ -17,7 +17,7 @@ const Admin = () => {
         <div className='m-2 col-span-2'>
             <h2>Teams</h2>
             <ul className=''>
-                { teams.sort(team => team.lastActive).reverse().map((team)=> <TeamLink key={team.uuid} team={team} /> ) }
+                { teams.map((team)=> <TeamLink key={team.uuid} team={team} /> ) }
             </ul>
         </div>
     )
