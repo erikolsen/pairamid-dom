@@ -219,7 +219,7 @@ const TeamCalendar = () => {
                 <div className=''>
                     <div className='bg-white shadow-lg rounded-lg p-3 mb-2'>
                         <div className='flex justify-between'>
-                            <p className='flex items-center font-bold text-center text-xl m-2'>
+                            <p className='flex items-center font-bold text-center text-lg md:text-xl m-2'>
                                 Reminders for <span className='ml-2'>{localDate(date[0])}</span>
                                 {spanOfDays(date[0], date[1]) && <span>-{localDate(date[1])}</span>}
                             </p>
