@@ -27,7 +27,6 @@ export const buildReminders = (reminders, startDate, endDate) => {
 
 export const getPercent = (roleNames, role, startDate, endDate) => {
     if(isWeekend(startDate) && isSameDay(startDate, endDate)){
-        console.log('Here')
         return 0.00
     }
     const totalDays = businessDays(startDate, endDate)
