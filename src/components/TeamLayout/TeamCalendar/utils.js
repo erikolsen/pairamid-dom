@@ -1,4 +1,4 @@
-import { startOfDay } from 'date-fns'
+import { startOfDay, isSameDay, isWeekend } from 'date-fns'
 
 export const businessDays = (start, end) => {
     let count = 0;
@@ -26,6 +26,10 @@ export const buildReminders = (reminders, startDate, endDate) => {
 }
 
 export const getPercent = (roleNames, role, startDate, endDate) => {
+    if(isWeekend(startDate) && isSameDay(startDate, endDate)){
+        console.log('Here')
+        return 0.00
+    }
     const totalDays = businessDays(startDate, endDate)
     const roleCount = roleNames.filter(name => name === role.name).length
     return (100 - (( roleCount / (role.total_members*totalDays)) * 100)).toFixed(2)
@@ -50,8 +54,8 @@ export const formatReminders = (reminders, team, startDate, endDate) => {
             {
                 name: role.name,
                 color: role.color,
+                memberCount: role.total_members,
                 percent: getPercent(roleNames, role, startDate, endDate),
-                memberCount: role.total_members
             }
         ))
 }

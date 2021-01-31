@@ -76,8 +76,8 @@ describe('utils', ()=> {
 
             const reminders = [
                 {
-
-                }
+                    message: '',
+                },
             ]
             const team = {
                 roles: [
@@ -94,23 +94,23 @@ describe('utils', ()=> {
                 ]
 
             }
-            const startDate = new Date()
-            const endDate = new Date()
+            const startDate = new Date('1/18/2021')
+            const endDate = new Date('1/18/2021')
         
             const result = formatReminders(reminders, team, startDate, endDate)
             expect(result).toEqual([
+                {
+                    name: 'bar', 
+                    color: 'blue',
+                    memberCount: 2,
+                    percent: '100.00'
+                },
                 {
                     name: 'foo', 
                     color: 'red',
                     memberCount: 10,
                     percent: '100.00'
                 },
-                {
-                    name: 'bar', 
-                    color: 'blue',
-                    memberCount: 2,
-                    percent: '100.00'
-                }
             ])
         })
     })

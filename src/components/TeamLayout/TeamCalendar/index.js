@@ -22,7 +22,7 @@ const IconButton = ({action, icon, classes}) => {
     )
 }
 
-const EditCard = ({onUpdate, team, date, onDelete, setRangeSelect}) => {
+const EditCard = ({onUpdate, team, date, onDelete}) => {
     const { register, handleSubmit, errors } = useForm()
     const [selected, setSelected] = useState('')
     const [weekly, setWeekly] = useState(false)
@@ -139,29 +139,16 @@ const DisplayCard = ({onDelete, reminder}) => {
     )
 }
 
-const TeamCalendar = () => {
-    const { teamId } = useParams()
-    const [team, setTeam] = useState({name: '', users: [], roles: []})
-    const [date, setDate] = useState([new Date(), new Date()])
-    const [reminders, setReminders] = useState([])
+const DisplayReminders = ({startDate, endDate, reminders, setReminders, team}) => {
+    const teamId = team.uuid
     const [addable, setAddable] = useState(null)
-    const [rangeSelect, setRangeSelect] = useState(false)
-
-    useEffect(()=> {
-        let startDate = date[0].toISOString()
-        let endDate = date[1].toISOString()
-        axios.get(`${API_URL}/team/${teamId}`).then((response)=> { setTeam(response.data) })
-        axios.get(`${API_URL}/team/${teamId}/reminders?startDate=${startDate}&endDate=${endDate}`)
-            .then((response)=> {
-                setReminders(response.data)
-            })
-    }, [teamId, date])
+    const [showTeam, setShowTeam] = useState(true)
 
     const onUpdate = (data)=> {
         const payload = {
             ...data, 
-            startDate: date[0].toISOString(), 
-            endDate: date[1].toISOString(),
+            startDate: startDate.toISOString(), 
+            endDate: endDate.toISOString(),
             teamId: teamId
         }
         axios.post(`${API_URL}/team/${teamId}/reminder`, payload)
@@ -182,6 +169,56 @@ const TeamCalendar = () => {
         }
     }
 
+    const teamFilter = (reminder) => showTeam || !!reminder.user
+
+    return (
+        <div className=''>
+            <div className='bg-white shadow-lg rounded-lg p-3 mb-2'>
+                <div className=''>
+                    <div className='flex justify-between'>
+                        <p className='flex items-center font-bold text-center text-lg md:text-xl'>
+                            Reminders for <span className='ml-2'>{localDate(startDate)}</span>
+                            {spanOfDays(startDate, endDate) && <span>-{localDate(endDate)}</span>}
+                        </p>
+                        <button className='flex items-center m-2 focus:outline-none' onClick={(e) => setAddable(!addable)}>
+                            <p>Add Reminder</p>
+                            <p className='text-3xl text-gray ml-2'>&#8853;</p> 
+                        </button>
+                    </div>
+                    <div className='flex justify-between'>
+                        <label className="flex mt-4 my-2">
+                            <div className="bg-white border-2 rounded border-gray-400 w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
+                                <input onChange={()=> setShowTeam(!showTeam)} type="checkbox" className="opacity-0 absolute" checked={showTeam} />
+                                <svg className="fill-current hidden w-4 h-4 text-green-500 pointer-events-none" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
+                            </div>
+                            <div className="select-none">Show Team Reminders</div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div className=''>
+                { addable && <EditCard team={team} onUpdate={onUpdate} onDelete={onDelete} date={[startDate,endDate]} /> }
+                { reminders.filter(teamFilter).map((reminder)=> <DisplayCard key={reminder.id} reminder={reminder} onDelete={onDelete} /> ) } 
+            </div>
+        </div>
+    )
+}
+
+const TeamCalendar = () => {
+    const { teamId } = useParams()
+    const [team, setTeam] = useState({name: '', users: [], roles: []})
+    const [date, setDate] = useState([new Date(), new Date()])
+    const [reminders, setReminders] = useState([])
+    const [rangeSelect, setRangeSelect] = useState(false)
+    const [startDate, endDate] = date
+
+    useEffect(()=> {
+        axios.get(`${API_URL}/team/${teamId}`).then((response)=> { setTeam(response.data) })
+        axios.get(`${API_URL}/team/${teamId}/reminders?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`)
+            .then((response)=> {
+                setReminders(response.data)
+            })
+    }, [teamId, startDate, endDate])
 
     return (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-100">
@@ -213,27 +250,16 @@ const TeamCalendar = () => {
                         </label>
                         { rangeSelect && <p className='text-center my-4'>First click will select start date. Second click will select end date. Third click will set a new start date.</p> }
                     </div>
-                    <UtilizationByRole reminders={reminders} team={team} startDate={date[0]} endDate={date[1]} />
+                    <UtilizationByRole reminders={reminders} team={team} startDate={startDate} endDate={endDate} />
                 </div>
+                <DisplayReminders 
+                    team={team}
+                    startDate={startDate}
+                    endDate={endDate}
+                    reminders={reminders}
+                    setReminders={setReminders}
+                />
 
-                <div className=''>
-                    <div className='bg-white shadow-lg rounded-lg p-3 mb-2'>
-                        <div className='flex justify-between'>
-                            <p className='flex items-center font-bold text-center text-lg md:text-xl m-2'>
-                                Reminders for <span className='ml-2'>{localDate(date[0])}</span>
-                                {spanOfDays(date[0], date[1]) && <span>-{localDate(date[1])}</span>}
-                            </p>
-                            <button className='flex items-center m-2 focus:outline-none' onClick={(e) => setAddable(!addable)}>
-                                <p>Add Reminder</p>
-                                <p className='text-3xl text-gray ml-2'>&#8853;</p> 
-                            </button>
-                        </div>
-                    </div>
-                    <div className='grid grid-cols-1 col-gap-4'>
-                        { addable && <EditCard team={team} onUpdate={onUpdate} onDelete={onDelete} date={date} setRangeSelect={() => setRangeSelect(!rangeSelect)} /> }
-                        { reminders.map((reminder)=> <DisplayCard key={reminder.id} reminder={reminder} onDelete={onDelete} /> ) } 
-                    </div>
-                </div>
             </section>
         </main>
 

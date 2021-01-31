@@ -22,7 +22,7 @@ import {
 // /> 
 
 const CustomTooltip = ({ active, payload, label }) => {
-	if (active) {
+	if (active && payload) {
 		return (
             <p>{payload[0].payload.name} - {payload[0].value}%</p>
 		);
