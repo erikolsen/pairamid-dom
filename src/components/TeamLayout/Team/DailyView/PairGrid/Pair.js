@@ -37,7 +37,7 @@ const Pair = ({pair, updatePairInfo, onDelete}) => {
 
     let users =  pair.users.length ? pair.users.map((user, i)=> <User index={i} user={user} key={user.uuid}/>) : <Empty pair={pair} onDelete={onDelete} />
     return (
-        <div className="bg-white shadow-lg rounded-lg flex whoa">
+        <div className="bg-white shadow-lg rounded-lg flex">
             <div className={`bg-${tagColor(pair.streak)} w-2 rounded-lg rounded-r-none`}></div>
             <Droppable droppableId={pair.uuid} direction='horizontal'>
                 {(provided, _)=> {

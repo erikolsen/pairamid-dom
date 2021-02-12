@@ -7564,6 +7564,10 @@ input:checked + svg {
   font-size: 4rem;
 }
 
+.text-2xs {
+  font-size: 0.5rem;
+}
+
 .italic {
   font-style: italic;
 }
@@ -17261,6 +17265,10 @@ input:checked + svg {
 
   .sm\:text-6xl {
     font-size: 4rem;
+  }
+
+  .sm\:text-2xs {
+    font-size: 0.5rem;
   }
 
   .sm\:italic {
@@ -26963,6 +26971,10 @@ input:checked + svg {
     font-size: 4rem;
   }
 
+  .md\:text-2xs {
+    font-size: 0.5rem;
+  }
+
   .md\:italic {
     font-style: italic;
   }
@@ -36663,6 +36675,10 @@ input:checked + svg {
     font-size: 4rem;
   }
 
+  .lg\:text-2xs {
+    font-size: 0.5rem;
+  }
+
   .lg\:italic {
     font-style: italic;
   }
@@ -46361,6 +46377,10 @@ input:checked + svg {
 
   .xl\:text-6xl {
     font-size: 4rem;
+  }
+
+  .xl\:text-2xs {
+    font-size: 0.5rem;
   }
 
   .xl\:italic {

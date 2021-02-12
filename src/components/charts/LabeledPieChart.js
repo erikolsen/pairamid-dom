@@ -19,6 +19,7 @@ class LabeledPieChart extends React.Component {
         ).flat()
         let roleCounts = roles && roles.map(role => role.name).reduce(getCount, {})
         let data = roleCounts ? Object.entries(roleCounts).map(([key, value]) => ({name: key, value: value})) : []
+        console.log('data', data)
 
         const colorFor = (rolename) => { 
             let role = roles.find(u => u.name === rolename)
