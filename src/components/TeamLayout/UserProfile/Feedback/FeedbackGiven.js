@@ -64,7 +64,7 @@ const FeedbackTag = ({tag, selected, select}) => {
     )
 }
 
-const CreateFeedback = ({username}) => {
+export const CreateFeedback = ({username}) => {
     const { teamId } = useParams()
     const [selected, setSelected] = useState('')
     const [selectedTags, setSelectedTags] = useState([])
@@ -122,19 +122,16 @@ const CreateFeedback = ({username}) => {
                     <ul className='flex my-2'>
                         { availableTags.map((tag) => <FeedbackTag key={tag.name} tag={tag} selected={selectedTags.includes(tag)} select={toggleTag} />) }
                     </ul>
-                    <textarea name='feedback-text' className='h-32 border border-gray-border w-full my-2' value={feedbackText} onChange={(e) => setfeedbackText(e.target.value)} ref={register} />
+                    <textarea name='feedback-text' className='h-64 border border-gray-border w-full my-2' value={feedbackText} onChange={(e) => setfeedbackText(e.target.value)} ref={register} />
                     <input type='submit' value={submitText} className='bg-green-icon w-full p-3 text-white font-bold' />
                 </div>
                 { errors.name && <p className='text-red'>Tag Name is required</p> }
             </form>
-            <div className='rounded-full rounded-t-none'>
-                <ManageTags />
-            </div>
         </div>
     )
 }
 
-const ManageTags = ()=> {
+export const ManageTags = ()=> {
     const emptyTag = {
         name: '',
         color: '#9AE6B4',
@@ -152,11 +149,11 @@ const ManageTags = ()=> {
 
     return (
         <div className=''>
-            <div onClick={toggleExpanded} className='cursor-pointer flex justify-between items-center bg-white shadow-lg rounded-lg px-4 pb-4 rounded-t-none'>
-                <h2 className='text-center text-sm'>Manage Feedback Tags</h2>
+            <div onClick={toggleExpanded} className='cursor-pointer flex justify-between items-center bg-white shadow-lg rounded-lg rounded-t-none p-4'>
+                <p className='text-center font-bold'>Manage Feedback Tags</p>
                 <FontAwesomeIcon icon={expanded ? faAngleDoubleUp : faAngleDoubleDown} size='1x' />
             </div>
-            <div className={`bg-gray-light ${showSection}`}>
+            <div className={`bg-gray-light shadow-none ${showSection}`}>
                 <div className='grid grid-cols-2 lg:grid-cols-3 col-gap-2 row-gap-2 my-2'>
                     {tags.map(tag => <NewTag key={tag.id} tag={tag} updateTag={updateTag} onDelete={removeTag} />) }
                 </div>

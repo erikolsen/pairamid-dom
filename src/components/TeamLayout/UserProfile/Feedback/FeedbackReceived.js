@@ -10,6 +10,10 @@ import { useForm } from 'react-hook-form'
 import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import { Link } from 'react-router-dom'
+import _ from 'lodash'
+
+var randomColor = () => '#9AE6B4' //`#${Math.floor(Math.random()*16777215).toString(16)}`;
+
 const feedback = [
     {
         uuid: uuidv4(),
@@ -31,9 +35,9 @@ const feedback = [
         createdAt: '01/02/2020',
         tags: [
             {
-                name: 'Glow',
-                color: '#9AE6B4',
-                id: 1,
+                name: 'Grow',
+                color: '#FAF089',
+                id: 2,
             },
         ]
     },
@@ -51,10 +55,10 @@ const feedback = [
                 id: 1,
             },
             {
-                name: 'Grow',
-                color: '#FAF089',
-                id: 2,
-            }
+                name: 'Company Knowledge',
+                color: randomColor(),
+                id: 8,
+            },
         ]
     }
 ]
@@ -62,18 +66,18 @@ const feedback = [
 const FeedbackCard = ({feedback}) => {
     if(!feedback) return null
     return (
-        <div className='col-span-2 md:col-span-1 bg-white shadow-lg rounded-lg p-4'>
-            <p className='text-right mb-2 text-sm'>{format(new Date(feedback.createdAt), 'MM/dd/yyyy')}</p>
-            <div className='mx-6'>
+        <div className='col-span-1 bg-white shadow-lg rounded-lg p-4'>
+            <p className='text-right mb-2 mr-4 text-sm'>{format(new Date(feedback.createdAt), 'MM/dd/yyyy')}</p>
+            <div className='mx-4'>
                 <FontAwesomeIcon icon={faQuoteLeft} size='xs' /> 
-                <p className='text-sm mx-6'>{feedback.text}</p>
+                <p className='text-sm mx-4'>{feedback.text}</p>
                 <span className='flex justify-end items-center'>
                     <FontAwesomeIcon icon={faQuoteRight} size='xs' />
                     <FontAwesomeIcon className='mx-2' icon={faMinus} size='xs' />
                     <span className='font-bold text-sm'>{feedback.from.name}</span>
                 </span>
             </div>
-            <div className='mx-12 my-6'>
+            <div className='mx-8 mt-1'>
                 <ul className='flex flex-wrap'>
                     { feedback.tags.map((tag) => <FeedbackTagGiven key={tag.name} tag={tag} />)}
                 </ul>
@@ -94,21 +98,67 @@ const FeedbackTagGiven = ({tag}) => {
 
 const availableTags = [
     {
-        name: 'Glow',
-        color: '#9AE6B4',
-        id: 1,
+        name: 'Company Knowledge',
+        color: randomColor(),
+        id: 8,
+    },
+    {
+        name: 'Quanity of Work',
+        color: randomColor(),
+        id: 7,
+    },
+    {
+        name: 'Quality of Work',
+        color: randomColor(),
+        id: 6,
+    },
+    {
+        name: 'Attitude',
+        color: randomColor(),
+        id: 5,
+    },
+    {
+        name: 'Team Player',
+        color: randomColor(),
+        id: 4,
+    },
+    {
+        name: 'Trust',
+        color: randomColor(),
+        id: 3,
     },
     {
         name: 'Grow',
         color: '#FAF089',
         id: 2,
-    }
+    },
+    {
+        name: 'Glow',
+        color: '#9AE6B4',
+        id: 1,
+    },
 ]
+
+const TagSelect = ({tags, setTags}) => {
+    const toggleTag = (tag) => {
+        const newTags = tags.includes(tag) ? tags.filter(selected => selected !== tag) : [...tags, tag]
+        setTags(newTags)
+    }
+
+    return (
+        <div className='bg-white shadow-lg rounded-lg p-4'>
+            <h2 className='mx-2'>Tags</h2>
+            <ul className='flex flex-wrap my-2'>
+                { availableTags.map((tag) => <FeedbackTag key={tag.name} tag={tag} selected={tags.includes(tag)} select={toggleTag} />) }
+            </ul>
+        </div>
+    )
+}
 
 const FeedbackTag = ({tag, selected, select}) => {
     const selectedStyle = selected ? '' : 'opacity-50'
     return (
-        <li onClick={()=> select(tag)} style={{'backgroundColor': tag.color}} className={`cursor-pointer py-1 px-5 mr-2 rounded-full flex items-center justify-center ${selectedStyle}`}>
+        <li onClick={()=> select(tag)} style={{'backgroundColor': tag.color}} className={`cursor-pointer py-1 px-5 m-2 rounded-full flex items-center justify-center ${selectedStyle}`}>
             <p className="text-gray font-bold text-xs">
                 {tag.name.toUpperCase()}
             </p>
@@ -116,114 +166,15 @@ const FeedbackTag = ({tag, selected, select}) => {
     )
 }
 
-const CreateFeedback = ({username}) => {
-    const { teamId } = useParams()
-    const [selected, setSelected] = useState('')
-    const [selectedTags, setSelectedTags] = useState([])
-    const [team, setTeam] = useState({name: '', users: [], roles: []})
-    const [feedbackText, setfeedbackText] = useState('Situation-Behavior-Impact...')
-    const { register, handleSubmit, errors } = useForm()
-    const history = useHistory()
-
-    useEffect(()=> {
-        axios.get(`${API_URL}/team/${teamId}`).then((response)=> { setTeam(response.data) })
-    }, [teamId])
-
-    const onUpdate = (data) => {
-        console.log('Submitting')
-        // axios.post(`${API_URL}/team`, data)
-        //      .then((response) => {
-        //          history.push(`/team/${response.data.uuid}/settings`)
-        //      })
-    }
-    const submitText = selected ? `Share Feedback with ${selected.toUpperCase()}` : 'Share Feedback'
-    const errorClass = errors.name ? 'border border-red' : 'border-b border-gray-border' 
-
-    const toggleTag = (tag) => {
-        const newTags = selectedTags.includes(tag) ? selectedTags.filter(selected => selected !== tag) : [...selectedTags, tag]
-        setSelectedTags(newTags)
-    }
-
-    return (
-        <div className=''>
-            <form className='bg-white shadow-lg rounded-lg rounded-b-none p-4' onSubmit={handleSubmit(onUpdate)}>
-                <div className=''>
-                    <h2 className='text-center'>Share Feedback</h2>
-                    <div className='flex justify-between items-center'>
-                        <div className='flex items-center'>
-                            <p className='text-center'>Feedback for </p>
-                            <div className='relative appearance-none label-floating my-4'>
-                                <select 
-                                    onChange={(e) => setSelected(e.target.value)} 
-                                    name='userId' 
-                                    value={selected} 
-                                    ref={register} 
-                                    className="outline-none block appearance-none border-b border-gray-border w-full bg-white pl-2 py-2 pr-8 rounded leading-tight"
-                                >
-                                    <option value=''>Select a User</option>
-                                    { team.users.map((user) => <option key={user.id} className='' value={user.username}>{user.username}</option> ) }
-                                </select>
-                                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 py-2 text-gray-700">
-                                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <ul className='flex my-2'>
-                        { availableTags.map((tag) => <FeedbackTag key={tag.name} tag={tag} selected={selectedTags.includes(tag)} select={toggleTag} />) }
-                    </ul>
-                    <textarea name='feedback-text' className='h-32 border border-gray-border w-full my-2' value={feedbackText} onChange={(e) => setfeedbackText(e.target.value)} ref={register} />
-                    <input type='submit' value={submitText} className='bg-green-icon w-full p-3 text-white font-bold' />
-                </div>
-                { errors.name && <p className='text-red'>Tag Name is required</p> }
-            </form>
-            <div className='rounded-full rounded-t-none'>
-                <ManageTags />
-            </div>
-        </div>
-    )
-}
-
-const ManageTags = ()=> {
-    const emptyTag = {
-        name: '',
-        color: '#9AE6B4',
-        id: uuidv4()
-    }
-    const [expanded, setExpanded] = useState(false)
-    const [tags, setTags] = useState(availableTags)
-    const toggleExpanded = () => setExpanded(!expanded)
-
-    const addTag = () => setTags([...tags, emptyTag])
-    const updateTag = (newTag) => setTags(tags.map(oldTag => (oldTag.id === newTag.id ? newTag : oldTag)))
-    const removeTag = (id) => setTags(tags.filter((oldTag) => oldTag.id !== id))
-
-    const showSection = expanded ? 'block' : 'hidden'
-
-    return (
-        <div className=''>
-            <div onClick={toggleExpanded} className='cursor-pointer flex justify-between items-center bg-white shadow-lg rounded-lg px-4 pb-4 rounded-t-none'>
-                <h2 className='text-center text-sm'>Manage Feedback Tags</h2>
-                <FontAwesomeIcon icon={expanded ? faAngleDoubleUp : faAngleDoubleDown} size='1x' />
-            </div>
-            <div className={`bg-gray-light ${showSection}`}>
-                <div className='grid grid-cols-2 lg:grid-cols-3 col-gap-2 row-gap-2 my-2'>
-                    {tags.map(tag => <NewTag key={tag.id} tag={tag} updateTag={updateTag} onDelete={removeTag} />) }
-                </div>
-                <button onClick={addTag} className='mx-2 flex items-center'>
-                    <span className='text-2xl text-gray leading-tight'>&#8853;</span>
-                    <span className='mx-2 text-gray'>Add Tag</span>
-                </button>
-            </div>
-        </div>
-
-    )
-}
-
 const FeedbackReceived = ()=> {
     const { teamId, userId } = useParams()
+    const [ open, setOpen ] = useState(true)
+    const [ tags, setTags ] = useState([])
+
+    const toggleFilters = () => setOpen(!open)
+    const filterZone = open ? 'block' : 'hidden'
+    const filterIcon = open ? faAngleDoubleDown : faAngleDoubleUp
+    const filteredFeedback = feedback.filter(feedback => _.difference(tags.map(t=> t.id), feedback.tags.map(t=> t.id)).length === 0)
 
     return (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
@@ -237,9 +188,21 @@ const FeedbackReceived = ()=> {
                         <h1>Parks and Rec</h1>
                     </div>
                 </header>
-                <h2 className='my-2'>Feedback Received</h2>
-                <div className='grid grid-cols-3 col-gap-4 row-gap-4'>
-                    {feedback.map((feedback) => <FeedbackCard key={feedback.uuid} feedback={feedback} />) }
+                <div className='flex justify-between my-2'>
+                    <h2 className='my-2'>Feedback Received</h2>
+                    <button onClick={toggleFilters} className='flex items-center border border-gray-border rounded-lg px-4 py-2'>
+                        <p className='mr-2'>Filters</p>
+                        <FontAwesomeIcon icon={filterIcon} />
+                    </button>
+                </div>
+                <div className={`${filterZone}`}>
+                    <div className=''>
+                        <TagSelect tags={tags} setTags ={setTags} />
+                    </div>
+                    <div className='border-b-2 border-gray-border my-4' />
+                </div>
+                <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 col-gap-4 row-gap-4'>
+                    {filteredFeedback.map((feedback) => <FeedbackCard key={feedback.uuid} feedback={feedback} />) }
                 </div>
             </section>
         </main>

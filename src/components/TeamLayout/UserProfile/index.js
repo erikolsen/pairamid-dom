@@ -10,6 +10,8 @@ import { format, parse, startOfWeek, getDay } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faChevronRight, faChevronCircleRight } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
+import { ManageTags, CreateFeedback } from './Feedback/FeedbackGiven'
+import RadarChartRecharts from '../../charts/RadarChart'
 
 
 class CalendarToolbar extends React.Component {
@@ -50,18 +52,6 @@ const User = (props)=> {
     return (
         <div className='mx-px'>
             <div style={{'backgroundColor': color}} className={`bg-gray-med col-span-1 w-6 h-6 md:w-8 md:h-8 border-gray-border rounded-full flex items-center justify-center`}>
-                <p className="text-white font-bold text-xs">{username}</p>
-            </div>
-        </div>
-    )
-}
-
-const UserLarge = (props)=> {
-    let username = props.user.username || ''
-    let color = props.user.role.color || '#64dfdfff'
-    return (
-        <div className='mx-px'>
-            <div style={{'backgroundColor': color}} className={`bg-gray-med col-span-1 w-8 h-8 md:w-10 md:h-10 border-gray-border rounded-full flex items-center justify-center`}>
                 <p className="text-white font-bold text-xs">{username}</p>
             </div>
         </div>
@@ -111,6 +101,8 @@ const MyCalendar = ({pairingSessions, username}) => {
 }
 
 
+    // <div className='border-b-2 border-gray-border my-4' />
+
 const UserProfile = () => {
     const defaultUser = {active_pairing_sessions: [], username: '', team: {name: ''}}
     const { teamId, userId } = useParams()
@@ -137,8 +129,8 @@ const UserProfile = () => {
                     </div>
                 </header>
 
-                <div className='grid grid-cols-2 col-gap-4'>
-                    <Link className='flex items-center justify-between bg-white shadow-lg rounded-lg my-4 p-2' to={`/team/${teamId}/users/${userId}/feedback-given`}>
+                <div className='grid grid-cols-2 col-gap-4 row-gap-4'>
+                    <Link className='col-span-2 md:col-span-1 bg-white rounded-lg flex items-center justify-between p-2' to={`/team/${teamId}/users/${userId}/feedback-given`}>
                         <div className={`bg-gray-med col-span-1 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center`}>
                             <p className="text-black font-bold text-lg">0</p>
                         </div>
@@ -147,7 +139,8 @@ const UserProfile = () => {
                             <FontAwesomeIcon icon={faChevronCircleRight} size="lg" />
                         </button>
                     </Link>
-                    <Link className='flex items-center justify-between bg-white shadow-lg rounded-lg my-4 p-2' to={`/team/${teamId}/users/${userId}/feedback-received`}>
+
+                    <Link className='col-span-2 md:col-span-1 bg-white rounded-lg flex items-center justify-between p-2' to={`/team/${teamId}/users/${userId}/feedback-received`}>
                         <div className={`bg-green-500 col-span-1 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center`}>
                             <p className="text-black font-bold text-lg">3</p>
                         </div>
@@ -156,6 +149,18 @@ const UserProfile = () => {
                             <FontAwesomeIcon icon={faChevronCircleRight} size="lg" />
                         </button>
                     </Link>
+
+                    <div className='col-span-2 md:col-span-1'>
+                        <CreateFeedback />
+                    </div>
+
+                    <div className='col-span-2 md:col-span-1'>
+                        <div className='bg-white rounded-lg shadow-lg rounded-b-none'>
+                            <h2 className='text-center pt-3'>Tag Frequency</h2>
+                            <RadarChartRecharts />
+                        </div>
+                        <ManageTags />
+                    </div>
 
                     <div className='col-span-2 md:col-span-1 bg-white shadow-lg rounded-lg'>
                         <h2 className='mt-4 text-center'>Pairing Totals</h2>
