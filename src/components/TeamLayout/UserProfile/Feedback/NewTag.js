@@ -26,8 +26,8 @@ const DisplayCard = ({tag, setEditing, onDelete}) => {
     return (
         <div data-cy='tag-card' className='bg-white shadow-lg rounded-lg'>
             <div className='mt-2 '>
-                <div style={{'backgroundColor': tag.color}} className={`cursor-pointer py-1 px-5 mx-2 rounded-full flex items-center justify-center`}>
-                    <p className="text-black font-bold text-xs">{tag.name && tag.name.toUpperCase()}</p>
+                <div className={`cursor-pointer py-1 px-5 mx-2 rounded-full flex items-center justify-center border border-gray-borde`}>
+                    <p className="text-black font-semibold text-2xs">{tag.name && tag.name.toUpperCase()}</p>
                 </div>
             </div>
             <div className='flex justify-between'>
