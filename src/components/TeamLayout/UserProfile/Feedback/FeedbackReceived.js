@@ -24,15 +24,15 @@ const FeedbackReceived = ()=> {
     const toggleFilters = () => setOpenFilters(!openFilters)
     const toggleCharts = () => setOpenCharts(!openCharts)
     const filterZone = openFilters ? 'block' : 'hidden'
-    const filterIcon = openFilters ? faAngleDoubleDown : faAngleDoubleUp
+    const filterIcon = openFilters ? faAngleDoubleUp : faAngleDoubleDown
 
     const chartZone = openCharts ? 'block' : 'hidden'
-    const chartIcon = openCharts ? faAngleDoubleDown : faAngleDoubleUp
+    const chartIcon = openCharts ? faAngleDoubleUp : faAngleDoubleDown
 
     const filteredFeedback = feedback.filter(feedback => _.difference(tags.map(t=> t.id), feedback.tags.map(t=> t.id)).length === 0)
+
     const chartFeedback = filteredFeedback.flatMap(feedback => feedback.tags.map(tag => tag.name)).reduce(getCount, {}) 
     const maxSize = Math.max(...Object.values(chartFeedback))
-
     const data = Object.entries(chartFeedback).map(([name, value]) => ({
         tag: name,
         tagCount: value,

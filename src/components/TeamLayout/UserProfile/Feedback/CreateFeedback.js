@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom'
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import TagSelect from './TagSelect'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleDoubleDown, faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons'
 
 export const CreateFeedback = ({username}) => {
     const { teamId } = useParams()
@@ -14,6 +16,11 @@ export const CreateFeedback = ({username}) => {
     const [feedbackText, setfeedbackText] = useState('Situation-Behavior-Impact...')
     const { register, handleSubmit, errors } = useForm()
     const history = useHistory()
+
+    const [ openFilters, setOpenFilters] = useState(false)
+    const toggleFilters = () => setOpenFilters(!openFilters)
+    const filterZone = openFilters ? 'block' : 'hidden'
+    const filterIcon = openFilters ? faAngleDoubleUp : faAngleDoubleDown
 
     useEffect(()=> {
         axios.get(`${API_URL}/team/${teamId}`).then((response)=> { setTeam(response.data) })
@@ -28,11 +35,6 @@ export const CreateFeedback = ({username}) => {
     }
     const submitText = selected ? `Share Feedback with ${selected.toUpperCase()}` : 'Share Feedback'
     const errorClass = errors.name ? 'border border-red' : 'border-b border-gray-border' 
-
-    const toggleTag = (tag) => {
-        const newTags = selectedTags.includes(tag) ? selectedTags.filter(selected => selected !== tag) : [...selectedTags, tag]
-        setSelectedTags(newTags)
-    }
 
     return (
         <div className=''>
@@ -60,8 +62,14 @@ export const CreateFeedback = ({username}) => {
                                 </div>
                             </div>
                         </div>
+                        <button onClick={toggleFilters} className='flex items-center border border-gray-border rounded-lg px-4 py-1'>
+                            <p className='mr-2 text-sm'>Tags</p>
+                            <FontAwesomeIcon icon={filterIcon} size="sm" />
+                        </button>
                     </div>
-                    <TagSelect tags={selectedTags} setTags={setSelectedTags} />
+                    <div className={`${filterZone}`}>
+                        <TagSelect tags={selectedTags} setTags={setSelectedTags} />
+                    </div>
                     <textarea name='feedback-text' className='h-48 border border-gray-border w-full my-2' value={feedbackText} onChange={(e) => setfeedbackText(e.target.value)} ref={register} />
                     <input type='submit' value={submitText} className='bg-green-icon w-full p-3 text-white font-bold' />
                 </div>
