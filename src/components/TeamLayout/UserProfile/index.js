@@ -34,11 +34,12 @@ const UserProfile = () => {
     const totalUsers = user && new Set(allSessions.flatMap(ps => ps.users.map(u => u.username)))
     const totalRoles = user && new Set(allSessions.flatMap(ps => ps.users.map(u => u.role.name)))
 
-    const totalFeedbackGiven = feedback.length
+    // const totalFeedbackGiven = feedback.length
     const totalFeedbackRecieved = feedback.length
 
     const chartFeedback = feedback.flatMap(feedback => feedback.tags.map(tag => tag.name)).reduce(getCount, {}) 
     const maxSize = Math.max(...Object.values(chartFeedback))
+    // { name: 'Communication', date: '02/01/2021', z: 20 }, 
     const data = Object.entries(chartFeedback).map(([name, value]) => ({
         tag: name,
         tagCount: value,

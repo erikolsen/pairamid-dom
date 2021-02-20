@@ -2,7 +2,6 @@ import React from 'react'
 import { format } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faQuoteLeft, faQuoteRight, faMinus } from '@fortawesome/free-solid-svg-icons'
-import _ from 'lodash'
 
 const FeedbackTagGiven = ({tag}) => {
     const selectedStyle = 'border border-gray-dark'

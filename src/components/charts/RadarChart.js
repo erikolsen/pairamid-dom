@@ -1,12 +1,11 @@
 import React from 'react';
 import {
-  Radar, RadarChart, PolarGrid, Legend,
+  Radar, RadarChart, PolarGrid,
   PolarAngleAxis, PolarRadiusAxis,
   ResponsiveContainer
 } from 'recharts';
 
 const RadarChartRecharts = ({ data, maxSize }) => {
-  console.log('Data', data)
   return (
     <ResponsiveContainer width='100%' height={400}>
       <RadarChart outerRadius={150} data={data}>

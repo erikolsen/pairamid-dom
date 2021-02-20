@@ -17,8 +17,8 @@ const getCount = (acc, el) => {
 
 const FeedbackReceived = ()=> {
     const { teamId, userId } = useParams()
-    const [ openFilters, setOpenFilters ] = useState(false)
-    const [ openCharts, setOpenCharts ] = useState(false)
+    const [ openFilters, setOpenFilters ] = useState(true)
+    const [ openCharts, setOpenCharts ] = useState(true)
     const [ tags, setTags ] = useState([])
 
     const toggleFilters = () => setOpenFilters(!openFilters)

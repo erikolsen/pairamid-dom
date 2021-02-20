@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { API_URL } from '../../../../constants'
 import { useParams } from 'react-router-dom'
-import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import TagSelect from './TagSelect'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -15,7 +14,6 @@ export const CreateFeedback = ({username}) => {
     const [team, setTeam] = useState({name: '', users: [], roles: []})
     const [feedbackText, setfeedbackText] = useState('Situation-Behavior-Impact...')
     const { register, handleSubmit, errors } = useForm()
-    const history = useHistory()
 
     const [ openFilters, setOpenFilters] = useState(false)
     const toggleFilters = () => setOpenFilters(!openFilters)
@@ -34,7 +32,6 @@ export const CreateFeedback = ({username}) => {
         //      })
     }
     const submitText = selected ? `Share Feedback with ${selected.toUpperCase()}` : 'Share Feedback'
-    const errorClass = errors.name ? 'border border-red' : 'border-b border-gray-border' 
 
     return (
         <div className=''>

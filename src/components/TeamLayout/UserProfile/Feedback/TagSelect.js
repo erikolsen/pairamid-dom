@@ -1,7 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
-import _ from 'lodash'
 import { availableTags } from './testData'
 
 const TagSelect = ({tags, setTags}) => {
