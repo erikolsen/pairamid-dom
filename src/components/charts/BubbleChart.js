@@ -11,16 +11,16 @@ import {
 } from 'recharts';
 import { format } from 'date-fns'
 
-const oldData = [
-    { name: 'Communication', date: '02/01/2021', z: 20 }, 
-    { name: 'Glow', date: '02/01/2021', z: 90 }, 
-    { name: 'Attitude', date: '02/01/2021', z: 280 },
-    { name: 'Grow', date: '02/02/2021', z: 160 },
-    { name: 'Team Player', date: '02/02/2021', z: 400 }, 
-    { name: 'Glow', date: '02/03/2021', z: 280 },
-    { name: 'Trust', date: '02/03/2021', z: 500 }, 
-    { name: 'Leadership', date: '02/03/2021', z: 200 },
-]
+// const oldData = [
+//     { name: 'Communication', date: '02/01/2021', z: 20 }, 
+//     { name: 'Glow', date: '02/01/2021', z: 90 }, 
+//     { name: 'Attitude', date: '02/01/2021', z: 280 },
+//     { name: 'Grow', date: '02/02/2021', z: 160 },
+//     { name: 'Team Player', date: '02/02/2021', z: 400 }, 
+//     { name: 'Glow', date: '02/03/2021', z: 280 },
+//     { name: 'Trust', date: '02/03/2021', z: 500 }, 
+//     { name: 'Leadership', date: '02/03/2021', z: 200 },
+// ]
 // const data = [
 //     { name: 'Communication', date: 2, z: 20 }, 
 //     { name: 'Glow', date: 2, z: 90 }, 
@@ -38,8 +38,10 @@ const dateToInt = (date) => {
     return new Date(date).getTime()
 }
 
-const SimpleScatterChart = () => {
-    const data = oldData.map(d => ({...d, date: dateToInt(d.date)}))
+const SimpleScatterChart = ({data}) => {
+    data = data.map(d => ({...d, date: dateToInt(d.date)}))
+    const min = Math.min(...data.map(d => d.z))
+    const max = Math.max(...data.map(d => d.z))
 
     return (
         <ResponsiveContainer width='100%' height={400}>
@@ -47,7 +49,7 @@ const SimpleScatterChart = () => {
                 <CartesianGrid />
                 <XAxis padding={{left: 20, right: 20}} domain={['auto','auto']} dataKey='date' type='number' name='date' scale='time' tickFormatter={formatXAxis} />
                 <YAxis allowDuplicatedCategory={false} dataKey='name' type='category' name='name' />
-                <ZAxis dataKey='z' range={[20, 500]} name='quantity' />
+                <ZAxis dataKey='z' range={[min*100, max*100]} name='quantity' />
                 <Scatter name='Feedback Tags' data={data} fill='#8884d8' />
                 <Tooltip cursor={{ strokeDasharray: '3 3' }} />
             </ScatterChart>

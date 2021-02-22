@@ -7,21 +7,14 @@ import SimpleBarChart from '../../charts/SimpleBarChart'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
-import RadarChartRecharts from '../../charts/RadarChart'
 import CreateFeedback from './Feedback/CreateFeedback'
 import ManageTags from './Feedback/ManageTags'
 import ProfileCalendar from './ProfileCalendar'
 import {feedback} from './Feedback/testData'
 
-const getCount = (acc, el) => {
-    acc[el] = (acc[el] + 1) || 1;
-    return acc
-  };
-
 const UserProfile = () => {
-    const defaultUser = {active_pairing_sessions: [], username: '', team: {name: ''}}
     const { teamId, userId } = useParams()
-    const [user, setUser] = useState(defaultUser)
+    const [user, setUser] = useState(null)
 
     useEffect(()=> {
         axios.get(`${API_URL}/team/${teamId}/user/${userId}`)
@@ -30,23 +23,16 @@ const UserProfile = () => {
             })
     }, [setUser, teamId, userId])
 
-    const allSessions = user && user.active_pairing_sessions
-    const totalUsers = user && new Set(allSessions.flatMap(ps => ps.users.map(u => u.username)))
-    const totalRoles = user && new Set(allSessions.flatMap(ps => ps.users.map(u => u.role.name)))
+    if (!user) { return null }
+
+    const allSessions = user.active_pairing_sessions
+    const totalUsers  = new Set(allSessions.flatMap(ps => ps.users.map(u => u.username)))
+    const totalRoles  = new Set(allSessions.flatMap(ps => ps.users.map(u => u.role.name)))
 
     // const totalFeedbackGiven = feedback.length
     const totalFeedbackRecieved = feedback.length
 
-    const chartFeedback = feedback.flatMap(feedback => feedback.tags.map(tag => tag.name)).reduce(getCount, {}) 
-    const maxSize = Math.max(...Object.values(chartFeedback))
-    // { name: 'Communication', date: '02/01/2021', z: 20 }, 
-    const data = Object.entries(chartFeedback).map(([name, value]) => ({
-        tag: name,
-        tagCount: value,
-        fullMark: maxSize,
-    }))
-
-    return user && (
+    return (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
             <section>
                 <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
@@ -57,7 +43,13 @@ const UserProfile = () => {
                 </header>
 
                 <div className='grid grid-cols-2 col-gap-4 row-gap-4'>
-                    <Link className='col-span-2 md:col-span-1 bg-white rounded-lg flex items-center justify-between p-2' to={`/team/${teamId}/users/${userId}/feedback-given`}>
+                    <Link 
+                        className='col-span-2 md:col-span-1 bg-white rounded-lg flex items-center justify-between p-2' 
+                        to={{
+                            pathname:`/team/${teamId}/users/${userId}/feedback-given`,
+                            state: {user: user}
+                        }}
+                    >
                         <div className={`bg-gray-med col-span-1 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center`}>
                             <p className="text-black font-bold text-lg">0</p>
                         </div>
@@ -67,7 +59,13 @@ const UserProfile = () => {
                         </button>
                     </Link>
 
-                    <Link className='col-span-2 md:col-span-1 bg-white rounded-lg flex items-center justify-between p-2' to={`/team/${teamId}/users/${userId}/feedback-received`}>
+                    <Link 
+                        className='col-span-2 md:col-span-1 bg-white rounded-lg flex items-center justify-between p-2' 
+                        to={{
+                            pathname:`/team/${teamId}/users/${userId}/feedback-received`,
+                            state: {user: user}
+                        }}
+                    >
                         <div className={`bg-green-500 col-span-1 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center`}>
                             <p className="text-black font-bold text-lg">{totalFeedbackRecieved}</p>
                         </div>
@@ -77,16 +75,12 @@ const UserProfile = () => {
                         </button>
                     </Link>
 
-                    <div className='col-span-2 md:col-span-1'>
-                        <div className='bg-white rounded-lg shadow-lg rounded-b-none'>
-                            <h2 className='text-center pt-3'>Tag Frequency</h2>
-                            <RadarChartRecharts data={data} maxSize={maxSize} />
-                        </div>
-                        <ManageTags />
+                    <div className='col-span-2 lg:col-span-1'>
+                        <CreateFeedback user={user} />
                     </div>
 
-                    <div className='col-span-2 md:col-span-1'>
-                        <CreateFeedback />
+                    <div className='col-span-2 lg:col-span-1'>
+                        <ManageTags />
                     </div>
 
                     <div className='col-span-2 md:col-span-1 bg-white shadow-lg rounded-lg'>

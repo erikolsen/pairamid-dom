@@ -7,7 +7,7 @@ const IconButton = ({action, icon, classes, title}) => {
     const onClick = (e) => { e.preventDefault(); action() }
 
     return (
-        <button data-cy={title} className={`focus:outline-none my-2 mx-4 ${classes}`} onClick={onClick} title={title}>
+        <button data-cy={title} className={`focus:outline-none my-2 mx-2 ${classes}`} onClick={onClick} title={title}>
             <FontAwesomeIcon icon={icon} />
         </button>
     )
@@ -24,21 +24,27 @@ const IconButton = ({action, icon, classes, title}) => {
 
 const DisplayCard = ({tag, setEditing, onDelete}) => {
     return (
-        <div data-cy='tag-card' className='bg-white shadow-lg rounded-lg'>
+        <div className='bg-white shadow-lg rounded-lg relative'>
             <div className='mt-2 '>
-                <div className={`cursor-pointer py-1 px-5 mx-2 rounded-full flex items-center justify-center border border-gray-borde`}>
+                <div className={`py-1 px-5 mx-2 rounded-full flex items-center justify-center border border-gray-borde`}>
                     <p className="text-black font-semibold text-2xs">{tag.name && tag.name.toUpperCase()}</p>
                 </div>
+                <p className='text-sm mx-2'>Description:</p>
+                <p className='text-sm mx-2'>{tag.title}</p>
             </div>
-            <div className='flex justify-between'>
-                <IconButton action={()=> onDelete(tag.id)} icon={faTrashAlt} classes='text-red' title='Delete' /> 
-                <IconButton action={()=> setEditing(true)} icon={faPencilAlt} title='Edit' /> 
+            <div className='h-10' />
+            <div className='absolute bottom-0 left-0 w-full'>
+                <div className='flex justify-between'>
+                    <IconButton action={()=> onDelete(tag.id)} icon={faTrashAlt} classes='text-red' title='Delete' /> 
+                    <IconButton action={()=> setEditing(true)} icon={faPencilAlt} title='Edit' /> 
+                </div>
             </div>
         </div>
     )
 }
 
 const EditCard = ({tag, setEditing, onUpdate, onDelete }) => {
+    const [tagTitle, setTagTitle ] = useState(tag.title)
     const { register, handleSubmit, errors } = useForm()
     const cancelAction = tag.name ? <IconButton action={()=> setEditing(false)} icon={faBan} title='Cancel' />  :
                                      <IconButton action={()=> onDelete(tag.id)} icon={faTrashAlt} classes='text-red' title='Delete' /> 
@@ -46,16 +52,8 @@ const EditCard = ({tag, setEditing, onUpdate, onDelete }) => {
 
     return (
         <div className='bg-white shadow-lg rounded-lg'>
-            <form onSubmit={handleSubmit(onUpdate)}>
+            <form onSubmit={handleSubmit(onUpdate)} className='mx-2'>
                 <div className='flex justify-between my-2'>
-                    <input 
-                        className={`w-10 h-10 lg:w-12 lg:h-12 mx-2 border-gray-border flex items-center justify-center cursor-pointer`} 
-                        data-cy='tag-color-input'
-                        type='color' 
-                        name="color" 
-                        defaultValue={tag.color} 
-                        ref={register} 
-                    />
                     <div className='w-3/4 relative appearance-none label-floating'>
                         <input 
                             className={`w-full pt-1 px-3 leading-normal outline-none ${classes}`}
@@ -73,6 +71,10 @@ const EditCard = ({tag, setEditing, onUpdate, onDelete }) => {
                     </div>
                 </div>
                 <input className='' type='hidden' name="id" defaultValue={tag.id} ref={register} />
+                <label className='' htmlFor='tag-title'>
+                    Description:
+                    <textarea name='tag-title' className='h-24 border border-gray-border w-full my-2' value={tagTitle} onChange={(e) => setTagTitle(e.target.value)} ref={register} />
+                </label>
                 <div className='flex justify-between'>
                     { cancelAction }
                     <input data-cy='tag-submit' className='m-2 px-2 border border-green rounded text-white bg-green text-xs font-bold' type="submit" value='Save'/>

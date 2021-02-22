@@ -7,8 +7,9 @@ import FeedbackCard from './FeedbackCard'
 import { feedback } from './testData'
 import CreateFeedback from './CreateFeedback'
 
-const FeedbackGiven = ()=> {
+const FeedbackGiven = (props)=> {
     const { teamId, userId } = useParams()
+    const { user } = props.location.state
 
     return (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
@@ -22,7 +23,7 @@ const FeedbackGiven = ()=> {
                         <h1>Parks and Rec</h1>
                     </div>
                 </header>
-                <CreateFeedback />
+                <CreateFeedback user={user} />
                 <div className='border-b-2 border-gray-border my-4' />
                 <h2 className='my-2'>Feedback Given</h2>
                 <div className='grid grid-cols-3 col-gap-4 row-gap-4'>
