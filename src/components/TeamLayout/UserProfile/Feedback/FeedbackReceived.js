@@ -9,41 +9,41 @@ import SimpleScatterChart from '../../../charts/BubbleChart'
 import { feedback, testGroups } from './testData'
 import FeedbackCard from './FeedbackCard'
 import TagGroups from './TagGroups'
-import Calendar from 'react-calendar'
-import { subYears } from 'date-fns'
-
-const localDate = date => date ? date.toLocaleDateString('en-US') : ''
-const spanOfDays = (d1, d2) => (localDate(d1) !== localDate(d2))
+import DateSelect from './DateSelect'
+import { subMonths } from 'date-fns'
+import ManageTags from './ManageTags'
 
 const getCount = (acc, el) => {
     acc[el] = (acc[el] + 1) || 1;
     return acc
-  };
-
+};
 
 const FeedbackReceived = ()=> {
     const { teamId, userId } = useParams()
-    const [ openFilters, setOpenFilters ] = useState(false)
-    const [ openCharts, setOpenCharts ] = useState(false)
     const [ tags, setTags ] = useState([])
 
     const today = new Date()
-    const [date, setDate] = useState([subYears(today, 1), today])
-    const [rangeSelect, setRangeSelect] = useState(false)
+    const [date, setDate] = useState([subMonths(today, 1), today])
     const [startDate, endDate] = date
     const dateFilter = (feedback) => new Date(feedback.createdAt) >= startDate && new Date(feedback.createdAt) <= endDate
 
-    const tagUnion = feedback => _.difference(tags.map(t=> t.id), feedback.tags.map(t=> t.id)).length === 0
+    const [ openManageTags, setOpenManageTags ] = useState(false)
+    const toggleManageTags = () => setOpenManageTags(!openManageTags)
+    const manageTagsZone = openManageTags ? 'block' : 'hidden'
+    const manageTagsIcon = openManageTags ? faAngleDoubleUp : faAngleDoubleDown
 
+
+    const [ openFilters, setOpenFilters ] = useState(false)
     const toggleFilters = () => setOpenFilters(!openFilters)
-    const toggleCharts = () => setOpenCharts(!openCharts)
     const filterZone = openFilters ? 'block' : 'hidden'
     const filterIcon = openFilters ? faAngleDoubleUp : faAngleDoubleDown
 
+    const [ openCharts, setOpenCharts ] = useState(false)
+    const toggleCharts = () => setOpenCharts(!openCharts)
     const chartZone = openCharts ? 'block' : 'hidden'
     const chartIcon = openCharts ? faAngleDoubleUp : faAngleDoubleDown
 
-    console.log('Feedback', feedback)
+    const tagUnion = feedback => _.difference(tags.map(t=> t.id), feedback.tags.map(t=> t.id)).length === 0
     const filteredFeedback = feedback.filter(dateFilter).filter(tagUnion)
 
     const tagCounts = filteredFeedback.flatMap(feedback => feedback.tags.map(tag => tag.name)).reduce(getCount, {}) 
@@ -77,57 +77,46 @@ const FeedbackReceived = ()=> {
                 </header>
 
                 <div className='flex justify-between my-2'>
-                    <h2 className='my-2'>Feedback Received</h2>
+                    <h2 className=''>Feedback Received</h2>
                     <div className='flex'>
-                        <button onClick={toggleFilters} className='flex items-center border border-gray-border rounded-lg px-4 py-2'>
-                            <p className='mr-2'>Filters</p>
-                            <FontAwesomeIcon icon={filterIcon} />
+                        <button onClick={toggleManageTags} className='flex items-center border border-gray-border rounded-lg px-4 py-2'>
+                            <p className='mr-2 text-sm'>Manage Tags</p>
+                            <FontAwesomeIcon icon={manageTagsIcon} size={'sm'} />
                         </button>
-                        <button onClick={toggleCharts} className='ml-2 flex items-center border border-gray-border rounded-lg px-4 py-2'>
-                            <p className='mr-2'>Charts</p>
-                            <FontAwesomeIcon icon={chartIcon} />
+                        <button onClick={toggleFilters} className='mr-2 flex items-center border border-gray-border rounded-lg px-4 py-2'>
+                            <p className='mr-2 text-sm'>Filters</p>
+                            <FontAwesomeIcon icon={filterIcon} size={'sm'} />
+                        </button>
+                        <button onClick={toggleCharts} className='mr-2 flex items-center border border-gray-border rounded-lg px-4 py-2'>
+                            <p className='mr-2 text-sm'>Charts</p>
+                            <FontAwesomeIcon icon={chartIcon} size={'sm'} />
                         </button>
                     </div>
                 </div>
 
-                <div className={`${filterZone} grid grid-cols-2 col-gap-2`}>
+                <div className={`${manageTagsZone} my-4`}>
+                    <ManageTags />
+                </div>
+
+                <div className={`${filterZone} grid grid-cols-2 col-gap-4`}>
                     <div className='bg-white shadow-lg rounded-lg p-4'>
                         <h2 className='text-center my-2'>Filter by Tag</h2>
                         <TagGroups groups={testGroups} tags={tags} setTags={setTags} tagCounts={tagCounts} />
                     </div>
                     <div className='bg-white shadow-lg rounded-lg p-4'>
-                        <p className='flex justify-center items-center font-bold text-center text-lg my-2'>
-                            Filtering Dates <span className='ml-2'>{localDate(startDate)}</span>
-                            {spanOfDays(startDate, endDate) && <span>-{localDate(endDate)}</span>}
-                        </p>
-                        <div className='flex justify-center'>
-                            <Calendar 
-                                className='p-2'
-                                calendarType='US'
-                                onChange={(e)=> setDate(e)} 
-                                selectRange={rangeSelect}
-                                returnValue='range'
-                                value={date}
-                            />
-                        </div>
-                        <label className="flex mt-4">
-                            <div className="bg-white border-2 rounded border-gray-400 w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
-                                <input onClick={()=> setRangeSelect(!rangeSelect)} type="checkbox" className="opacity-0 absolute" name='repeatWeekly' />
-                                <svg className="fill-current hidden w-4 h-4 text-green-500 pointer-events-none" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
-                            </div>
-                            <div className="select-none">Select Range</div>
-                        </label>
-                        { rangeSelect && <p className='text-center my-4'>First click will select start date. Second click will select end date. Third click will set a new start date.</p> }
+                        <DateSelect date={date} setDate={setDate} />
                     </div>
-                    <div className='border-b-2 border-gray-border my-4' />
+                    <div className='col-span-2 border-b-2 border-gray-border my-4' />
                 </div>
 
                 <div className={`${chartZone}`}>
                     <div className='bg-white rounded-lg shadow-lg my-4'>
+                        <h2 className='text-center pt-4'>Tag Radar</h2>
                         <RadarChartRecharts data={radarData} maxSize={maxSize} />
                     </div>
 
                     <div className='bg-white rounded-lg shadow-lg my-4'>
+                        <h2 className='text-center pt-4'>Tags By Date</h2>
                         <SimpleScatterChart data={scatterData} />
                     </div>
                 </div>

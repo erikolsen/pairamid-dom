@@ -7,34 +7,22 @@ const IconButton = ({action, icon, classes, title}) => {
     const onClick = (e) => { e.preventDefault(); action() }
 
     return (
-        <button data-cy={title} className={`focus:outline-none my-2 mx-2 ${classes}`} onClick={onClick} title={title}>
+        <button data-cy={title} className={`focus:outline-none my-2 mx-4 ${classes}`} onClick={onClick} title={title}>
             <FontAwesomeIcon icon={icon} />
         </button>
     )
 }
-            // <div className='mt-2 '>
-            //     <div style={{'backgroundColor': tag.color}} className={`cursor-pointer py-1 px-5 mx-2 rounded-full flex items-center justify-center`}>
-            //         <p className="text-black font-bold text-xs">{tag.name && tag.name.toUpperCase()}</p>
-            //     </div>
-            // </div>
-            // <div className='flex justify-between'>
-            //     <IconButton action={()=> onDelete(tag.id)} icon={faTrashAlt} classes='text-red' title='Delete' /> 
-            //     <IconButton action={()=> setEditing(true)} icon={faPencilAlt} title='Edit' /> 
-            // </div>
 
 const DisplayCard = ({tag, setEditing, onDelete}) => {
     return (
         <div className='bg-white shadow-lg rounded-lg relative'>
-            <div className='mt-2 '>
-                <div className={`py-1 px-5 mx-2 rounded-full flex items-center justify-center border border-gray-borde`}>
-                    <p className="text-black font-semibold text-2xs">{tag.name && tag.name.toUpperCase()}</p>
-                </div>
-                <p className='text-sm mx-2'>Description:</p>
-                <p className='text-sm mx-2'>{tag.title}</p>
+            <div className='mt-4 mx-4'>
+                <p className='text-center text-black font-semibold mb-1'>{tag.name.toUpperCase()}</p>
+                { tag.title ? <p className='text-sm text-center'>{tag.title}</p> : <p className='text-sm text-center opacity-50'>No Description</p> }
             </div>
             <div className='h-10' />
             <div className='absolute bottom-0 left-0 w-full'>
-                <div className='flex justify-between'>
+                <div className='flex justify-between mx-2'>
                     <IconButton action={()=> onDelete(tag.id)} icon={faTrashAlt} classes='text-red' title='Delete' /> 
                     <IconButton action={()=> setEditing(true)} icon={faPencilAlt} title='Edit' /> 
                 </div>

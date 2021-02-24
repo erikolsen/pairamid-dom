@@ -7,8 +7,6 @@ import SimpleBarChart from '../../charts/SimpleBarChart'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
-import CreateFeedback from './Feedback/CreateFeedback'
-import ManageTags from './Feedback/ManageTags'
 import ProfileCalendar from './ProfileCalendar'
 import {feedback} from './Feedback/testData'
 
@@ -74,14 +72,6 @@ const UserProfile = () => {
                             <FontAwesomeIcon icon={faChevronCircleRight} size="lg" />
                         </button>
                     </Link>
-
-                    <div className='col-span-2 lg:col-span-1'>
-                        <CreateFeedback user={user} />
-                    </div>
-
-                    <div className='col-span-2 lg:col-span-1'>
-                        <ManageTags />
-                    </div>
 
                     <div className='col-span-2 md:col-span-1 bg-white shadow-lg rounded-lg'>
                         <h2 className='mt-4 text-center'>Pairing Totals</h2>

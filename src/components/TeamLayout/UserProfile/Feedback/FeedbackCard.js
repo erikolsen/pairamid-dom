@@ -25,7 +25,7 @@ const getCount = (acc, el) => {
 const AddTags = ({toggleFilters}) => {
     return (
         <p onClick={toggleFilters} className={`cursor-pointer w-full font-bold text-xs text-center`}>
-            ADD TAGS
+            Add Tags
             <FontAwesomeIcon className='mx-2' icon={faPlus} />
         </p>
     )
@@ -38,8 +38,8 @@ const TagFooter = ({toggleFilters}) => {
                 <FontAwesomeIcon icon={faBan} size='lg' />
             </p>
 
-            <p onClick={toggleFilters} className='cursor-pointer m-2 px-2 border border-green rounded text-white bg-green text-xs font-bold' >
-                SAVE
+            <p onClick={toggleFilters} className='cursor-pointer px-2 border border-green rounded text-white bg-green text-xs font-bold' >
+                Save
             </p>
         </div>
     )
@@ -75,8 +75,8 @@ const FeedbackCard = ({feedback}) => {
                     <TagGroups groups={testGroups} tags={selectedTags} setTags={setSelectedTags} tagCounts={tagCounts} />
                 </div>
                 <div className='h-10'/>
-                <div className='absolute bottom-0 left-0 w-full'>
-                    <div className='border-b-2 border-gray-border mb-2 mx-4' />
+                <div className='absolute bottom-0 left-0 w-full px-4'>
+                    <div className='border-b-2 border-gray-border mb-2' />
                     {openFilters ? <TagFooter toggleFilters={toggleFilters} /> : <AddTags toggleFilters={toggleFilters} />}
                 </div>
             </div>
