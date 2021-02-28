@@ -53,7 +53,6 @@ const EditGroup = ({group, setEditing, onUpdate, onDelete }) => {
     )
 }
 
-
 const TagGroup = ({addTag, updateTag, removeTag, group}) => {
     const [ open, setOpen ] = useState(false)
     const toggle = () => setOpen(!open)
