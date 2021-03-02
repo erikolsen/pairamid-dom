@@ -33,6 +33,10 @@ input:checked + svg {
     display: block;
 }
 
+input:disabled {
+    opacity: .50;
+}
+
 .profile-edit-icon {
     @apply bg-white p-1 border border-gray-border rounded-full flex items-center justify-center;
     position: absolute;

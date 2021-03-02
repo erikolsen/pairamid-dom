@@ -619,6 +619,10 @@ input:checked + svg {
   display: block;
 }
 
+input:disabled {
+  opacity: .50;
+}
+
 .profile-edit-icon {
   background-color: #fff;
   padding: 0.25rem;

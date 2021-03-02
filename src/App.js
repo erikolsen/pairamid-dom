@@ -5,6 +5,7 @@ import Admin from './components/Admin';
 import Teams from './components/Teams';
 import SignUp from './components/SignUp';
 import TeamLayout from './components/TeamLayout';
+import User from './components/User';
 
 const App = () => {
     return (
@@ -13,6 +14,7 @@ const App = () => {
                 <Switch>
                     <Route path='/teams' component={Teams} />
                     <Route path='/team/:teamId' component={TeamLayout} />
+                    <Route path='/users/:userId' component={User} />
                     <Route path='/admin/teams' component={Admin} />
                     <Route path='/signup' component={SignUp} />
                     <Route exact path='/' component={Home} />
