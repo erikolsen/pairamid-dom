@@ -38,12 +38,12 @@ const SignUpUser = ({email}) => {
 
     const onUpdate = (data) => {
         console.log('Data', data)
-        const userId = '097d2bbd-284a-4ff7-a48b-2dba234d6988'
-        history.push(`/users/${userId}`)
-        // axios.post(`${API_URL}/team`, data)
-        //      .then((response) => {
-        //          history.push(`/team/${response.data.uuid}/settings`)
-        //      })
+        axios.post(`${API_URL}/users`, data)
+            .then((response) => {
+                console.log('response.data: ', response.data)
+                localStorage.setItem('currentUser', JSON.stringify(response.data))
+                history.push(`/users/${response.data.uuid}`)
+            })
     }
     const emailError = errors.email ? 'border border-red' : 'border border-gray-border' 
     const initialsError = errors.initials ? 'border border-red' : 'border border-gray-border' 

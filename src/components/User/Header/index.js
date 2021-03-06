@@ -27,7 +27,9 @@ const Header = () => {
                 </div>
 
                 <ul onClick={()=> setCollapsed(true)} className={`lg:block lg:text-base ${classes}`}>
-                    <ListIconLink path={`${match.url}`} icon={faUserFriends} text='Whee' />
+                    <div className='bg-gray-light'>
+                        <ListIconLink path={`${match.url}`} icon={faUserFriends} text='Whee' />
+                    </div>
                     <ListIconLink path={`${match.url}/frequency`} icon={faBalanceScale} text='Frequency' />
                     <ListIconLink path={`${match.url}/history`} icon={faHistory} text='History' />
                     <ListIconLink path={`${match.url}/settings`} icon={faCog} text='Settings' />

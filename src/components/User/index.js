@@ -2,15 +2,43 @@ import React, { useState, useEffect } from 'react'
 import Header from './Header';
 import axios from 'axios'
 import { API_URL } from '../../constants'
+import { useHistory } from "react-router-dom";
 import { useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
 
+export function authHeader() {
+    // return authorization header with jwt token
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser && currentUser.access_token) {
+        console.log('currentUser: ', currentUser)
+        return { 'Authorization': `Bearer ${currentUser.access_token}` };
+    } else {
+        return {};
+    }
+}
+
 const User = () => {
-    const userId = '097d2bbd-284a-4ff7-a48b-2dba234d6988'
-    const user = {username: 'EO'}
+    const { userId } = useParams()
+    const history = useHistory()
+    const [user, setUser] = useState()
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    console.log('currentUser: ', currentUser)
+
+    useEffect(()=> {
+        axios.get(`${API_URL}/users/${userId}`, {headers: authHeader()})
+            .then((response)=> {
+                setUser(response.data)
+            })
+            .catch((error)=> {
+                console.log('error: ', error)
+                history.push('/signup')
+            })
+    }, [setUser, userId])
     const totalFeedbackRecieved = 14
+    console.log('User', user)
+    if (!user) { return null }
     return (
         <div className='grid grid-cols-1 lg:grid-cols-8'>
             <Header />
@@ -54,33 +82,6 @@ const User = () => {
                                 <FontAwesomeIcon icon={faChevronCircleRight} size="lg" />
                             </button>
                         </Link>
-
-                        <div className='col-span-2 md:col-span-1 bg-white shadow-lg rounded-lg'>
-                            <h2 className='mt-4 text-center'>Pairing Totals</h2>
-                            <div className='my-2 flex justify-center'>
-                                <div>
-                                    <div className={`mt-4 mx-4 col-span-1 w-16 h-16 border-4 border-blue-400 rounded-full flex items-center justify-center`}>
-                                        <p className='text-center font-bold'>{120}</p>
-                                    </div>
-                                    <p className='text-center'>Total</p>
-                                    <p className='text-center'>Sessions</p>
-                                </div>
-                                <div>
-                                    <div className={`mt-4 mx-4 col-span-1 w-16 h-16 border-4 border-blue-400 rounded-full flex items-center justify-center`}>
-                                        <p className='text-center font-bold'>{32}</p>
-                                    </div>
-                                    <p className='text-center'>Different</p>
-                                    <p className='text-center'>Users</p>
-                                </div>
-                                <div>
-                                    <div className={`mt-4 mx-4 col-span-1 w-16 h-16 border-4 border-blue-400 rounded-full flex items-center justify-center`}>
-                                        <p className='text-center font-bold'>{8}</p>
-                                    </div>
-                                    <p className='text-center'>Unique</p>
-                                    <p className='text-center'>Roles</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </section>
             </main>
