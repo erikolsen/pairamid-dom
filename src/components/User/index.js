@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Header from '../TeamLayout/Header';
+import Header from './Header';
 import axios from 'axios'
 import { API_URL } from '../../constants'
 import { useParams } from 'react-router-dom'
