@@ -12,7 +12,6 @@ export function authHeader() {
     // return authorization header with jwt token
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (currentUser && currentUser.access_token) {
-        console.log('currentUser: ', currentUser)
         return { 'Authorization': `Bearer ${currentUser.access_token}` };
     } else {
         return {};
@@ -23,8 +22,7 @@ const User = () => {
     const { userId } = useParams()
     const history = useHistory()
     const [user, setUser] = useState()
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    console.log('currentUser: ', currentUser)
+    // const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     useEffect(()=> {
         axios.get(`${API_URL}/users/${userId}`, {headers: authHeader()})
@@ -33,11 +31,10 @@ const User = () => {
             })
             .catch((error)=> {
                 console.log('error: ', error)
-                history.push('/signup')
+                history.push('/login')
             })
     }, [setUser, userId])
     const totalFeedbackRecieved = 14
-    console.log('User', user)
     if (!user) { return null }
     return (
         <div className='grid grid-cols-1 lg:grid-cols-8'>

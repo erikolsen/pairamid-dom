@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import logo from '../../../assets/pairamid-logo.png';
 import { Link, useRouteMatch } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserFriends, faBalanceScale, faHistory, faCog, faCalendarAlt, faBars } from '@fortawesome/free-solid-svg-icons'
+import { faUserFriends, faBalanceScale, faHistory, faCog, faCalendarAlt, faBars, faUserPlus} from '@fortawesome/free-solid-svg-icons'
 import ListIconLink from './ListIconLink'
+import Logout from '../../Logout'
 
 const Header = () => {
     const match = useRouteMatch()
@@ -28,8 +29,9 @@ const Header = () => {
 
                 <ul onClick={()=> setCollapsed(true)} className={`lg:block lg:text-base ${classes}`}>
                     <div className='bg-gray-light'>
-                        <ListIconLink path={`${match.url}`} icon={faUserFriends} text='Whee' />
+                        <ListIconLink path={`/signup`} icon={faUserPlus} text='Sign Up' />
                     </div>
+                    <Logout />
                     <ListIconLink path={`${match.url}/frequency`} icon={faBalanceScale} text='Frequency' />
                     <ListIconLink path={`${match.url}/history`} icon={faHistory} text='History' />
                     <ListIconLink path={`${match.url}/settings`} icon={faCog} text='Settings' />
