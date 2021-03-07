@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import FeedbackCard from './FeedbackCard'
-import { feedback } from './testData'
+import { feedback } from '../../../localTestData'
 import CreateFeedback from './CreateFeedback'
 
 const FeedbackGiven = (props)=> {
@@ -18,9 +18,9 @@ const FeedbackGiven = (props)=> {
                     <div className='w-full flex justify-between items-center'>
                         <Link className='flex items-center' to={`/users/${userId}`}>
                             <FontAwesomeIcon icon={faChevronCircleLeft} size="lg" />
-                            <h1 className='ml-2'>User EO</h1>
+                            <h1 className='ml-2'>{user.full_name || user.username}</h1>
                         </Link>
-                        <h1>Parks and Rec</h1>
+                        <h1>{user.team && user.team.name}</h1>
                     </div>
                 </header>
                 <CreateFeedback user={user} />

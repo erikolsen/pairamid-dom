@@ -4,8 +4,8 @@ import { faCheck, faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-sv
 
 const SUM = (a,b) => a+b
 
-const TagGroups = ({groups, tagCounts, tags, setTags}) => { 
-    const [ open, setOpen ] = useState(false)
+const TagGroups = ({groups, tagCounts, tags, setTags, defaultExpand}) => { 
+    const [ open, setOpen ] = useState(defaultExpand)
     const toggle = () => setOpen(!open)
     const collpaseIcon = open ? faMinusSquare : faPlusSquare
     const collpaseText = open ? 'Collapse All' : 'Expand All'

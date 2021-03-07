@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import NewTag from './NewTag'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { v4 as uuidv4 } from 'uuid';
-import { testGroups } from './testData'
+import { testGroups } from '../../../localTestData'
 import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import { useForm } from 'react-hook-form'
 import { faPlus, faTrashAlt, faBan } from '@fortawesome/free-solid-svg-icons'

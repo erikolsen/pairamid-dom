@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
 import ProfileCalendar from './ProfileCalendar'
-import {feedback} from './Feedback/testData'
+import {feedback} from '../../../localTestData'
 
 const UserProfile = () => {
     const { teamId, userId } = useParams()

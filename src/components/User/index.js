@@ -36,6 +36,7 @@ const User = () => {
     }, [setUser, userId])
     const totalFeedbackRecieved = 14
     if (!user) { return null }
+    console.log('User', user)
     return (
         <div className='grid grid-cols-1 lg:grid-cols-8'>
             <Header />
@@ -43,7 +44,7 @@ const User = () => {
                 <section>
                     <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
                         <div className='w-full flex justify-between items-center'>
-                            <h1>User {user.username}</h1>
+                            <h1>{user.full_name || user.username}</h1>
                         </div>
                     </header>
 

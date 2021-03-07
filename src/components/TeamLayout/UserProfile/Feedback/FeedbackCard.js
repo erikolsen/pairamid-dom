@@ -3,7 +3,7 @@ import { format } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faQuoteLeft, faQuoteRight, faMinus, faPlus, faBan} from '@fortawesome/free-solid-svg-icons'
 import TagGroups from './TagGroups'
-import { testGroups } from './testData'
+import { testGroups } from '../../../../localTestData'
 
 const FeedbackTagGiven = ({tag}) => {
     const selectedStyle = 'border border-gray-dark'

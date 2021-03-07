@@ -9,6 +9,7 @@ import TeamLayout from './components/TeamLayout';
 import User from './components/User';
 import FeedbackGiven from './components/User/Feedback/FeedbackGiven';
 import FeedbackReceived from './components/User/Feedback/FeedbackReceived';
+import FeedbackRequest from './components/User/Feedback/FeedbackRequest';
 
 const App = () => {
     return (
@@ -17,6 +18,7 @@ const App = () => {
                 <Switch>
                     <Route path='/teams' component={Teams} />
                     <Route path='/team/:teamId' component={TeamLayout} />
+                    <Route path='/feedback-request/:requestId' component={FeedbackRequest} />
                     <Route path='/users/:userId/feedback-given' component={FeedbackGiven} />
                     <Route path='/users/:userId/feedback-received' component={FeedbackReceived} />
                     <Route path='/users/:userId' component={User} />

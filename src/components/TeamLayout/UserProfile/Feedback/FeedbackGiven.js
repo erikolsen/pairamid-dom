@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import FeedbackCard from './FeedbackCard'
-import { feedback } from './testData'
+import { feedback } from '../../../../localTestData'
 import CreateFeedback from './CreateFeedback'
 
 const FeedbackGiven = (props)=> {

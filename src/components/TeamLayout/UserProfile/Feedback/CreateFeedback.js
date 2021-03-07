@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import TagGroups from './TagGroups'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDoubleDown, faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons'
-import { testGroups } from './testData'
+import { testGroups } from '../../../../localTestData'
 
 export const CreateFeedback = ({user}) => {
     const { teamId } = useParams()

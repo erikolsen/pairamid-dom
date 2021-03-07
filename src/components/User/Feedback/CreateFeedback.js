@@ -6,14 +6,14 @@ import { useForm } from "react-hook-form";
 import TagGroups from './TagGroups'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDoubleDown, faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons'
-import { testGroups } from './testData'
+import { testGroups } from '../../../localTestData'
 
 export const CreateFeedback = ({user}) => {
-    const { teamId } = useParams()
+    // const { teamId } = useParams()
     const [selected, setSelected] = useState('')
     const [giverId, setGiverId] = useState(user.username)
     const [selectedTags, setSelectedTags] = useState([])
-    const [team, setTeam] = useState({name: '', users: [], roles: []})
+    const [team, setTeam] = useState({name: '', users: [user], roles: []})
     const [feedbackText, setfeedbackText] = useState('Situation-Behavior-Impact...')
     const { register, handleSubmit, errors } = useForm()
 
@@ -22,9 +22,9 @@ export const CreateFeedback = ({user}) => {
     const filterZone = openFilters ? 'block' : 'hidden'
     const filterIcon = openFilters ? faAngleDoubleUp : faAngleDoubleDown
 
-    useEffect(()=> {
-        axios.get(`${API_URL}/team/${teamId}`).then((response)=> { setTeam(response.data) })
-    }, [teamId])
+    // useEffect(()=> {
+    //     axios.get(`${API_URL}/team/${teamId}`).then((response)=> { setTeam(response.data) })
+    // }, [teamId])
 
     const onUpdate = (data) => {
         console.log('Submitting')
