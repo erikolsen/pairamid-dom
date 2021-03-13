@@ -4,11 +4,7 @@ import { API_URL } from '../../../constants'
 import { useParams } from 'react-router-dom'
 import LabeledPieChart from '../../charts/LabeledPieChart'
 import SimpleBarChart from '../../charts/SimpleBarChart'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons'
-import { Link } from "react-router-dom";
 import ProfileCalendar from './ProfileCalendar'
-import {feedback} from '../../../localTestData'
 
 const UserProfile = () => {
     const { teamId, userId } = useParams()
@@ -27,9 +23,6 @@ const UserProfile = () => {
     const totalUsers  = new Set(allSessions.flatMap(ps => ps.users.map(u => u.username)))
     const totalRoles  = new Set(allSessions.flatMap(ps => ps.users.map(u => u.role.name)))
 
-    // const totalFeedbackGiven = feedback.length
-    const totalFeedbackRecieved = feedback.length
-
     return (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
             <section>
@@ -41,38 +34,6 @@ const UserProfile = () => {
                 </header>
 
                 <div className='grid grid-cols-2 col-gap-4 row-gap-4'>
-                    <Link 
-                        className='col-span-2 md:col-span-1 bg-white rounded-lg flex items-center justify-between p-2' 
-                        to={{
-                            pathname:`/team/${teamId}/users/${userId}/feedback-given`,
-                            state: {user: user}
-                        }}
-                    >
-                        <div className={`bg-gray-med col-span-1 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center`}>
-                            <p className="text-black font-bold text-lg">0</p>
-                        </div>
-                        <h2 className='text-center'>Monthly Feedback Given</h2>
-                        <button className='cursor-pointer'>
-                            <FontAwesomeIcon icon={faChevronCircleRight} size="lg" />
-                        </button>
-                    </Link>
-
-                    <Link 
-                        className='col-span-2 md:col-span-1 bg-white rounded-lg flex items-center justify-between p-2' 
-                        to={{
-                            pathname:`/team/${teamId}/users/${userId}/feedback-received`,
-                            state: {user: user}
-                        }}
-                    >
-                        <div className={`bg-green-500 col-span-1 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center`}>
-                            <p className="text-black font-bold text-lg">{totalFeedbackRecieved}</p>
-                        </div>
-                        <h2 className='text-center'>Monthly Feedback Recieved</h2>
-                        <button className='cursor-pointer'>
-                            <FontAwesomeIcon icon={faChevronCircleRight} size="lg" />
-                        </button>
-                    </Link>
-
                     <div className='col-span-2 md:col-span-1 bg-white shadow-lg rounded-lg'>
                         <h2 className='mt-4 text-center'>Pairing Totals</h2>
                         <div className='my-2 flex justify-center'>
