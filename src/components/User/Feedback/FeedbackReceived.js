@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleDoubleDown, faAngleDoubleUp, faChevronCircleLeft } from '@fortawesome/free-solid-svg-icons'
+import { faChevronCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import RadarChartRecharts from '../../charts/RadarChart'
@@ -19,35 +19,32 @@ const getCount = (acc, el) => {
 
 const FeedbackReceived = (props)=> {
     const user = props.location.state.user
-    console.log('user: ', user)
     const { userId } = useParams()
     const [ tags, setTags ] = useState([])
 
     const today = new Date()
-    const [date, setDate] = useState([subMonths(today, 6), today])
+    const [date, setDate] = useState([subMonths(today, 1), today])
     const [startDate, endDate] = date
     const dateFilter = (feedback) => new Date(feedback.created_at) >= startDate && new Date(feedback.created_at) <= endDate
 
     const [ openManageTags, setOpenManageTags ] = useState(false)
     const toggleManageTags = () => setOpenManageTags(!openManageTags)
     const manageTagsZone = openManageTags ? 'block' : 'hidden'
-    const manageTagsIcon = openManageTags ? faAngleDoubleUp : faAngleDoubleDown
+    const manageTagsClasses = openManageTags ? 'bg-blue-700 text-white' : 'hover:border-2 hover:border-blue-700'
 
 
     const [ openFilters, setOpenFilters ] = useState(false)
     const toggleFilters = () => setOpenFilters(!openFilters)
     const filterZone = openFilters ? 'block' : 'hidden'
-    const filterIcon = openFilters ? faAngleDoubleUp : faAngleDoubleDown
+    const filterZoneClasses = openFilters ? 'bg-blue-700 text-white' : 'hover:border-2 hover:border-blue-700'
 
     const [ openCharts, setOpenCharts ] = useState(false)
     const toggleCharts = () => setOpenCharts(!openCharts)
     const chartZone = openCharts ? 'block' : 'hidden'
-    const chartIcon = openCharts ? faAngleDoubleUp : faAngleDoubleDown
+    const chartZoneClasses = openCharts ? 'bg-blue-700 text-white' : 'hover:border-2 hover:border-blue-700'
 
     const tagUnion = fb => _.difference(tags.map(t=> t.id), fb.tags.map(t=> t.id)).length === 0
-    console.log('user.feedback: ', user.feedback)
     const filteredFeedback = user.feedback_received.filter(dateFilter).filter(tagUnion)
-    console.log('filteredFeedback: ', filteredFeedback)
 
     const tagCounts = filteredFeedback.flatMap(feedback => feedback.tags.map(tag => tag.name)).reduce(getCount, {}) 
 
@@ -81,17 +78,14 @@ const FeedbackReceived = (props)=> {
                 <div className='flex justify-between my-2'>
                     <h2 className=''>Feedback Received</h2>
                     <div className='flex'>
-                        <button onClick={toggleManageTags} className='flex items-center border border-gray-border rounded-lg px-4 py-2'>
-                            <p className='mr-2 text-sm'>Manage Tags</p>
-                            <FontAwesomeIcon icon={manageTagsIcon} size={'sm'} />
+                        <button onClick={toggleManageTags} className={`mr-2 flex items-center border border-gray-border rounded-lg px-4 py-2 border border-gray-border focus:outline-none ${manageTagsClasses}`}>
+                            <p className='text-sm'>Manage Tags</p>
                         </button>
-                        <button onClick={toggleFilters} className='mr-2 flex items-center border border-gray-border rounded-lg px-4 py-2'>
-                            <p className='mr-2 text-sm'>Filters</p>
-                            <FontAwesomeIcon icon={filterIcon} size={'sm'} />
+                        <button onClick={toggleFilters} className={`mr-2 flex items-center border border-gray-border rounded-lg px-4 py-2 focus:outline-none ${filterZoneClasses}`}>
+                            <p className='text-sm'>Filters</p>
                         </button>
-                        <button onClick={toggleCharts} className='mr-2 flex items-center border border-gray-border rounded-lg px-4 py-2'>
-                            <p className='mr-2 text-sm'>Charts</p>
-                            <FontAwesomeIcon icon={chartIcon} size={'sm'} />
+                        <button onClick={toggleCharts} className={`flex items-center border border-gray-border rounded-lg px-4 py-2 focus:outline-none ${chartZoneClasses}`}>
+                            <p className='text-sm'>Charts</p>
                         </button>
                     </div>
                 </div>
