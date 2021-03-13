@@ -1,50 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Header from './Header';
 import axios from 'axios'
-import { useForm } from "react-hook-form";
 import { API_URL } from '../../constants'
 import { useHistory } from "react-router-dom";
 import { useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
-
-export const CreateFeedbackRequest = ({user}) => {
-    // const { teamId } = useParams()
-    const [selected, setSelected] = useState('')
-    const [giverId, setGiverId] = useState(user.username)
-    const [requestMessage, setRequestMessage] = useState(null)
-    const { register, handleSubmit, errors } = useForm()
-
-    const onUpdate = (data) => {
-        console.log('Submitting')
-        // axios.post(`${API_URL}/team`, data)
-        //      .then((response) => {
-        //          history.push(`/team/${response.data.uuid}/settings`)
-        //      })
-    }
-    return (
-        <div className=''>
-            <form className='bg-white shadow-lg rounded-lg rounded-b-none p-4' onSubmit={handleSubmit(onUpdate)}>
-                <div className=''>
-                    <div className='flex items-center justify-between'>
-                        <h2 className=''>Create Feedback Request</h2>
-                    </div>
-                    <textarea 
-                        name='feedback-text' 
-                        className='h-48 border border-gray-border w-full my-2' 
-                        value={requestMessage} 
-                        onChange={(e) => setRequestMessage(e.target.value)} 
-                        ref={register} 
-                    />
-                    <input className='' type='hidden' name="id" defaultValue={user.id} ref={register} />
-                    <input type='submit' value={'Create New Link'} className='bg-green-icon w-full p-3 text-white font-bold' />
-                </div>
-                { errors.name && <p className='text-red'>Message text is required.</p> }
-            </form>
-        </div>
-    )
-}
 
 export function authHeader() {
     // return authorization header with jwt token
@@ -71,7 +33,7 @@ const User = () => {
                 console.log('error: ', error)
                 history.push('/login')
             })
-    }, [setUser, userId])
+    }, [setUser, userId, history])
     if (!user) { return null }
     console.log('User', user)
     return (

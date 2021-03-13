@@ -5,10 +5,9 @@ import { faChevronCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import FeedbackCard from './FeedbackCard'
 import { feedback } from '../../../localTestData'
-import CreateFeedback from './CreateFeedback'
 
 const FeedbackGiven = (props)=> {
-    const { teamId, userId } = useParams()
+    const { userId } = useParams()
     const { user } = props.location.state
 
     return (
@@ -23,7 +22,6 @@ const FeedbackGiven = (props)=> {
                         <h1>{user.team && user.team.name}</h1>
                     </div>
                 </header>
-                <CreateFeedback user={user} />
                 <div className='border-b-2 border-gray-border my-4' />
                 <h2 className='my-2'>Feedback Given</h2>
                 <div className='grid grid-cols-3 col-gap-4 row-gap-4'>

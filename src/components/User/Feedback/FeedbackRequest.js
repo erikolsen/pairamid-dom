@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import logo from '../../../assets/pairamid-logo.png';
-import { Link, useRouteMatch } from "react-router-dom";
-import Header from '../Header';
+import { Link } from "react-router-dom";
 import axios from 'axios'
 import { API_URL } from '../../../constants'
 import { useParams } from 'react-router-dom'
@@ -9,18 +8,7 @@ import { useForm } from "react-hook-form";
 import TagGroups from './TagGroups'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDoubleDown, faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons'
-                    // <div className='w-full flex justify-center items-center'>
-                    //     <div className='max-w-lg my-8 mx-4 p-6 bg-white border border-gray-border shadow-lg'>
-                    //         <p className='text-lg'>{FbReq1.message} - {user.full_name || user.username}</p>
-                    //     </div>
-                    // </div>
 
-const FbReq1 = {
-    requesterUuid: '123',
-    giverId: '456',
-    feedbackRequestId: 'asdf92347',
-    message: "I'm looking for glow/grows. If you can target them to my personal goals that would be great but I'll appriciate anything. Thanks!"
-}
 export const FeedbackRequest = () => {
     const { userId } = useParams()
     const [user, setUser] = useState()
