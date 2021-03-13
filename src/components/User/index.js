@@ -66,10 +66,7 @@ const User = () => {
 
                         <Link 
                             className='col-span-2 md:col-span-1 bg-white rounded-lg flex items-center justify-between p-2' 
-                            to={{
-                                pathname:`/users/${userId}/feedback/received`,
-                                state: {user: user}
-                            }}
+                            to={`/users/${userId}/feedback/received`}
                         >
                             <div className={`bg-green-500 col-span-1 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center`}>
                                 <p className="text-black font-bold text-lg">{user.feedback_received.length}</p>

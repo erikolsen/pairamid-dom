@@ -13,8 +13,8 @@ export const FeedbackRequest = () => {
     const { userId } = useParams()
     const [user, setUser] = useState()
     const [selectedTags, setSelectedTags] = useState([])
-    const [feedbackText, setfeedbackText] = useState('Situation-Behavior-Impact...')
-    const { register, handleSubmit, errors } = useForm()
+    const [feedbackText, setfeedbackText] = useState()
+    const { register, handleSubmit, errors, reset } = useForm()
 
     const [ openFilters, setOpenFilters] = useState(true)
     const toggleFilters = (e) => { e.preventDefault(); setOpenFilters(!openFilters) }
@@ -25,13 +25,16 @@ export const FeedbackRequest = () => {
         axios.get(`${API_URL}/users/${userId}/feedback/new`).then((response)=> { setUser(response.data) })
     }, [userId])
 
-    const onUpdate = (data) => {
+    const onUpdate = (data, e) => {
         console.log('Submitting')
-        console.log('data: ', {...data, ...{tags: selectedTags}})
-        // axios.post(`${API_URL}/team`, data)
-        //      .then((response) => {
-        //          history.push(`/team/${response.data.uuid}/settings`)
-        //      })
+        let payload = {...data, ...{tags: selectedTags.map(tag=> tag.id)}}
+        console.log('payload: ', payload)
+        axios.post(`${API_URL}/feedbacks`, payload)
+             .then((response) => {
+                 console.log('response: ', response)
+                 setSelectedTags([])
+                 e.target.reset()
+             })
     }
     if (!user) { return null}
     console.log('user: ', user)
@@ -60,12 +63,12 @@ export const FeedbackRequest = () => {
                                     <div className='col-span-2 md:col-span-1 flex items-center'>
                                         <p className=''>From </p>
                                         <input className={`border-b border-gray-border p-2 outline-none text-center text-sm`}
-                                            id='name'
+                                            id='authorName'
                                             type='text'
-                                            name='giverName'
+                                            name='authorName'
                                             placeholder='Anonymous'
                                             defaultValue={''}
-                                            ref={register()} 
+                                            ref={register} 
                                         />
                                     </div>
                                 </div>
@@ -73,13 +76,15 @@ export const FeedbackRequest = () => {
                                     <TagGroups groups={user.feedback_tag_groups} tags={selectedTags} setTags={setSelectedTags} tagCounts={{}} defaultExpand={true} />
                                 </div>
                                 <textarea 
-                                    name='feedback-text' 
+                                    name='message' 
                                     className='h-48 border border-gray-border w-full my-2' 
+                                    placeholder='Situation-Behavior-Impact...'
                                     value={feedbackText} 
+                                    defaultValue=''
                                     onChange={(e) => setfeedbackText(e.target.value)} 
                                     ref={register} 
                                 />
-                                <input className='' type='hidden' name="receiverId" defaultValue={user.uuid} ref={register} />
+                                <input className='' type='hidden' name="recipientId" defaultValue={user.id} ref={register} />
                                 <input type='submit' value='Submit' className='bg-green-icon w-full p-3 text-white font-bold' />
                             </div>
                             { errors.name && <p className='text-red'>Tag Name is required</p> }

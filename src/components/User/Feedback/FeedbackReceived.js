@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
@@ -9,8 +10,20 @@ import SimpleScatterChart from '../../charts/BubbleChart'
 import FeedbackCard from './FeedbackCard'
 import TagGroups from './TagGroups'
 import DateSelect from './DateSelect'
-import { subMonths } from 'date-fns'
+import { subMonths, addDays } from 'date-fns'
 import ManageTags from './ManageTags'
+import axios from 'axios'
+import { API_URL } from '../../../constants'
+
+export function authHeader() {
+    // return authorization header with jwt token
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser && currentUser.access_token) {
+        return { 'Authorization': `Bearer ${currentUser.access_token}` };
+    } else {
+        return {};
+    }
+}
 
 const getCount = (acc, el) => {
     acc[el] = (acc[el] + 1) || 1;
@@ -18,12 +31,25 @@ const getCount = (acc, el) => {
 };
 
 const FeedbackReceived = (props)=> {
-    const user = props.location.state.user
     const { userId } = useParams()
+    const history = useHistory()
+    const [user, setUser] = useState()
+
+    useEffect(()=> {
+        axios.get(`${API_URL}/users/${userId}`, {headers: authHeader()})
+            .then((response)=> {
+                setUser(response.data)
+            })
+            .catch((error)=> {
+                console.log('error: ', error)
+                history.push('/login')
+            })
+    }, [setUser, userId, history])
+
     const [ tags, setTags ] = useState([])
 
     const today = new Date()
-    const [date, setDate] = useState([subMonths(today, 1), today])
+    const [date, setDate] = useState([subMonths(today, 1), addDays(today, 1)])
     const [startDate, endDate] = date
     const dateFilter = (feedback) => new Date(feedback.created_at) >= startDate && new Date(feedback.created_at) <= endDate
 
@@ -42,6 +68,8 @@ const FeedbackReceived = (props)=> {
     const toggleCharts = () => setOpenCharts(!openCharts)
     const chartZone = openCharts ? 'block' : 'hidden'
     const chartZoneClasses = openCharts ? 'bg-blue-700 text-white' : 'hover:border-2 hover:border-blue-700'
+
+    if (!user) { return null }
 
     const tagUnion = fb => _.difference(tags.map(t=> t.id), fb.tags.map(t=> t.id)).length === 0
     const filteredFeedback = user.feedback_received.filter(dateFilter).filter(tagUnion)
