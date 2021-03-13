@@ -18,9 +18,9 @@ const App = () => {
                 <Switch>
                     <Route path='/teams' component={Teams} />
                     <Route path='/team/:teamId' component={TeamLayout} />
-                    <Route path='/feedback-request/:requestId' component={FeedbackRequest} />
-                    <Route path='/users/:userId/feedback-given' component={FeedbackGiven} />
-                    <Route path='/users/:userId/feedback-received' component={FeedbackReceived} />
+                    <Route path='/users/:userId/feedback/new' component={FeedbackRequest} />
+                    <Route path='/users/:userId/feedback/given' component={FeedbackGiven} />
+                    <Route path='/users/:userId/feedback/received' component={FeedbackReceived} />
                     <Route path='/users/:userId' component={User} />
                     <Route path='/admin/teams' component={Admin} />
                     <Route path='/signup' component={SignUp} />

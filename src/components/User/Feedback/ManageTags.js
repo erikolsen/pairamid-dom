@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import NewTag from './NewTag'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { v4 as uuidv4 } from 'uuid';
-import { testGroups } from '../../../localTestData'
 import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import { useForm } from 'react-hook-form'
 import { faPlus, faTrashAlt, faBan } from '@fortawesome/free-solid-svg-icons'
@@ -78,7 +77,7 @@ const TagGroup = ({addTag, updateTag, removeTag, group}) => {
     )
 }
 
-const ManageTags = ()=> {
+const ManageTags = ({feedback_tag_groups})=> {
     const emptyGroup = {
         name: '',
         tags: [],
@@ -91,7 +90,7 @@ const ManageTags = ()=> {
         id: uuidv4()
     }
 
-    const [groups, setGroups] = useState(testGroups)
+    const [groups, setGroups] = useState(feedback_tag_groups)
 
     const addGroup = () => setGroups([...groups, emptyGroup])
     const updateGroup = (newGroup) => setGroups(groups.map(oldGroup => (oldGroup.id === newGroup.id ? {...newGroup, tags: []} : oldGroup)))

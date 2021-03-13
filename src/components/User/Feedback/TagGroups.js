@@ -10,12 +10,13 @@ const TagGroups = ({groups, tagCounts, tags, setTags, defaultExpand}) => {
     const collpaseIcon = open ? faMinusSquare : faPlusSquare
     const collpaseText = open ? 'Collapse All' : 'Expand All'
     const totalCount = Object.values(tagCounts).reduce(SUM, 0)
-    const title = totalCount ? `Tags-${totalCount}` : 'Tags'
+    const tagHintText = '( Hover over tag for description. )'
+    const title = totalCount ? `Tags-${totalCount}` : `Tags`
 
     return (
         <div className=''>
             <div className='flex items-center justify-between text-sm'>
-                <p className='font-bold'>{title}</p>
+                <p className='font-bold'>{title}<span className='text-xs text-gray ml-2'>{tagHintText}</span></p>
                 <div className='cursor-pointer' onClick={toggle}><span>{collpaseText}</span><FontAwesomeIcon className='ml-2' icon={collpaseIcon} size='xs' /></div>
             </div>
             <div className='border-b-2 border-gray-border my-2' />
@@ -69,7 +70,7 @@ const FeedbackTag = ({tag, selected, select, tagCounts}) => {
     const title = count ? `${tag.name.toUpperCase()}-${count}` : tag.name.toUpperCase()
 
     return (
-        <li title={tag.title} onClick={()=> select(tag)} className={`cursor-pointer py-1 px-5 mr-2 rounded-full flex items-center justify-center ${selectedStyle} my-1`}>
+        <li title={tag.description} onClick={()=> select(tag)} className={`cursor-pointer py-1 px-5 mr-2 rounded-full flex items-center justify-center ${selectedStyle} my-1`}>
             <p className={`${selectedText} font-semibold text-2xs`}>
                 { selected ? <span className='mr-2'><FontAwesomeIcon icon={faCheck} size='lg' /></span> : null }
                 { title }

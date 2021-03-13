@@ -27,7 +27,7 @@ const FeedbackGiven = (props)=> {
                 <div className='border-b-2 border-gray-border my-4' />
                 <h2 className='my-2'>Feedback Given</h2>
                 <div className='grid grid-cols-3 col-gap-4 row-gap-4'>
-                    { feedback.map((feedback) => <FeedbackCard key={feedback.uuid} feedback={feedback} />) }
+                    { feedback.map((feedback) => <FeedbackCard key={feedback.id} feedback={feedback} />) }
                 </div>
             </section>
         </main>

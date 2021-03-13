@@ -18,7 +18,7 @@ const DisplayCard = ({tag, setEditing, onDelete}) => {
         <div className='bg-white shadow-lg rounded-lg relative'>
             <div className='mt-4 mx-4'>
                 <p className='text-center text-black font-semibold mb-1'>{tag.name.toUpperCase()}</p>
-                { tag.title ? <p className='text-sm text-center'>{tag.title}</p> : <p className='text-sm text-center opacity-50'>No Description</p> }
+                { tag.description ? <p className='text-sm text-center'>{tag.description}</p> : <p className='text-sm text-center opacity-50'>No Description</p> }
             </div>
             <div className='h-10' />
             <div className='absolute bottom-0 left-0 w-full'>
@@ -32,7 +32,7 @@ const DisplayCard = ({tag, setEditing, onDelete}) => {
 }
 
 const EditCard = ({tag, setEditing, onUpdate, onDelete }) => {
-    const [tagTitle, setTagTitle ] = useState(tag.title)
+    const [tagTitle, setTagTitle ] = useState(tag.description)
     const { register, handleSubmit, errors } = useForm()
     const cancelAction = tag.name ? <IconButton action={()=> setEditing(false)} icon={faBan} title='Cancel' />  :
                                      <IconButton action={()=> onDelete(tag.id)} icon={faTrashAlt} classes='text-red' title='Delete' /> 

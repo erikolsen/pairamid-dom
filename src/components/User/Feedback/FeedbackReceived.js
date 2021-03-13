@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import RadarChartRecharts from '../../charts/RadarChart'
 import SimpleScatterChart from '../../charts/BubbleChart'
-import { feedback, testGroups } from '../../../localTestData'
 import FeedbackCard from './FeedbackCard'
 import TagGroups from './TagGroups'
 import DateSelect from './DateSelect'
@@ -18,14 +17,16 @@ const getCount = (acc, el) => {
     return acc
 };
 
-const FeedbackReceived = ()=> {
-    const { teamId, userId } = useParams()
+const FeedbackReceived = (props)=> {
+    const user = props.location.state.user
+    console.log('user: ', user)
+    const { userId } = useParams()
     const [ tags, setTags ] = useState([])
 
     const today = new Date()
-    const [date, setDate] = useState([subMonths(today, 1), today])
+    const [date, setDate] = useState([subMonths(today, 6), today])
     const [startDate, endDate] = date
-    const dateFilter = (feedback) => new Date(feedback.createdAt) >= startDate && new Date(feedback.createdAt) <= endDate
+    const dateFilter = (feedback) => new Date(feedback.created_at) >= startDate && new Date(feedback.created_at) <= endDate
 
     const [ openManageTags, setOpenManageTags ] = useState(false)
     const toggleManageTags = () => setOpenManageTags(!openManageTags)
@@ -43,8 +44,10 @@ const FeedbackReceived = ()=> {
     const chartZone = openCharts ? 'block' : 'hidden'
     const chartIcon = openCharts ? faAngleDoubleUp : faAngleDoubleDown
 
-    const tagUnion = feedback => _.difference(tags.map(t=> t.id), feedback.tags.map(t=> t.id)).length === 0
-    const filteredFeedback = feedback.filter(dateFilter).filter(tagUnion)
+    const tagUnion = fb => _.difference(tags.map(t=> t.id), fb.tags.map(t=> t.id)).length === 0
+    console.log('user.feedback: ', user.feedback)
+    const filteredFeedback = user.feedback_received.filter(dateFilter).filter(tagUnion)
+    console.log('filteredFeedback: ', filteredFeedback)
 
     const tagCounts = filteredFeedback.flatMap(feedback => feedback.tags.map(tag => tag.name)).reduce(getCount, {}) 
 
@@ -56,7 +59,7 @@ const FeedbackReceived = ()=> {
     }))
 
     const JOINER = '<->'
-    const scatterFeedback = filteredFeedback.flatMap(feedback => feedback.tags.map(tag => `${tag.name}${JOINER}${feedback.createdAt}`)).reduce(getCount, {}) 
+    const scatterFeedback = filteredFeedback.flatMap(feedback => feedback.tags.map(tag => `${tag.name}${JOINER}${feedback.created_at}`)).reduce(getCount, {}) 
     const scatterData = Object.entries(scatterFeedback).map(([key, value]) => ({
         name: key.split(JOINER)[0],
         date: key.split(JOINER)[1],
@@ -70,9 +73,8 @@ const FeedbackReceived = ()=> {
                     <div className='w-full flex justify-between items-center'>
                         <Link className='flex items-center' to={`/users/${userId}`}>
                             <FontAwesomeIcon icon={faChevronCircleLeft} size="lg" />
-                            <h1 className='ml-2'>User EO</h1>
+                            <h1 className='ml-2'>{user.full_name || user.username}</h1>
                         </Link>
-                        <h1>Mighty Ducks</h1>
                     </div>
                 </header>
 
@@ -95,13 +97,13 @@ const FeedbackReceived = ()=> {
                 </div>
 
                 <div className={`${manageTagsZone} my-4`}>
-                    <ManageTags />
+                    <ManageTags feedback_tag_groups={user.feedback_tag_groups} />
                 </div>
 
                 <div className={`${filterZone} grid grid-cols-2 col-gap-4`}>
                     <div className='bg-white shadow-lg rounded-lg p-4'>
                         <h2 className='text-center my-2'>Filter by Tag</h2>
-                        <TagGroups groups={testGroups} tags={tags} setTags={setTags} tagCounts={tagCounts} />
+                        <TagGroups groups={user.feedback_tag_groups} tags={tags} setTags={setTags} tagCounts={tagCounts} />
                     </div>
                     <div className='bg-white shadow-lg rounded-lg p-4'>
                         <DateSelect date={date} setDate={setDate} />
@@ -122,7 +124,7 @@ const FeedbackReceived = ()=> {
                 </div>
 
                 <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 col-gap-4 row-gap-4'>
-                    {filteredFeedback.map((feedback) => <FeedbackCard key={feedback.uuid} feedback={feedback} />) }
+                    {filteredFeedback.map((feedback) => <FeedbackCard key={feedback.id} feedback={feedback} groups={user.feedback_tag_groups}/>) }
                 </div>
             </section>
         </main>
