@@ -6,6 +6,7 @@ import { API_URL } from '../../constants'
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsers, faEye } from '@fortawesome/free-solid-svg-icons'
+import { Link } from "react-router-dom";
 
 const parseTeams = (teams)=> {return teams ? teams.split(',') : ''}
 const IconButton = ({classes}) => {
@@ -34,13 +35,10 @@ const SignUpUser = ({email}) => {
     const { register, handleSubmit, errors, formState } = useForm({mode: "onChange"})
     const history = useHistory()
     const EMAIL_PATTERN = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
-    console.log('Email', email)
 
     const onUpdate = (data) => {
-        console.log('Data', data)
         axios.post(`${API_URL}/users`, data)
             .then((response) => {
-                console.log('response.data: ', response.data)
                 localStorage.setItem('currentUser', JSON.stringify(response.data))
                 history.push(`/users/${response.data.uuid}`)
             })
@@ -90,7 +88,10 @@ const SignUpUser = ({email}) => {
                     </div>
                 </div>
                 { errors.password && <p className='text-red'>Password is required</p> }
-                <input type='submit' disabled={!formState.isValid} value='Sign up' className={`rounded-md bg-green-icon w-full md:w-2/5 md:mx-2 p-3 text-white font-bold my-4`} />
+                <div className='w-full md:w-3/5 md:flex md:justify-between md:items-center'>
+                    <Link className='text-green-icon' to={`/login`} >Already have an account? Log In</Link>
+                    <input type='submit' disabled={!formState.isValid} value='Sign up' className={`rounded-md bg-green-icon w-full md:w-2/5 md:mx-2 p-3 text-white font-bold my-4`} />
+                </div>
             </div>
         </form>
     )

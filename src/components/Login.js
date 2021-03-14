@@ -6,6 +6,7 @@ import { API_URL } from '../constants'
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsers, faEye } from '@fortawesome/free-solid-svg-icons'
+import { Link } from "react-router-dom";
 
 const parseTeams = (teams)=> {return teams ? teams.split(',') : ''}
 const IconButton = ({classes}) => {
@@ -73,7 +74,10 @@ const LoginUser = () => {
                     </div>
                 </div>
                 { errors.password && <p className='text-red'>Password is required</p> }
-                <input type='submit' value='Login' className={`rounded-md bg-green-icon w-full md:w-2/5 md:mx-2 p-3 text-white font-bold my-4`} />
+                <div className='w-full md:w-3/5 flex justify-between items-center'>
+                    <Link className='text-green-icon' to={`/signup`} >Create Account</Link>
+                    <input type='submit' value='Login' className={`rounded-md bg-green-icon w-full md:w-2/5 md:mx-2 p-3 text-white font-bold my-4`} />
+                </div>
             </div>
         </form>
     )
