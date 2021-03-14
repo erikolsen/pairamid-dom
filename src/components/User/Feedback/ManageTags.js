@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import NewTag from './NewTag'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { v4 as uuidv4 } from 'uuid';
 import { faMinusSquare, faPlusSquare, faPlus, faTrashAlt, faBan } from '@fortawesome/free-solid-svg-icons'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
@@ -79,13 +78,7 @@ const TagGroup = ({addTag, updateTag, removeTag, group, removeGroup}) => {
     )
 }
 
-const ManageTags = ({user, feedback_tag_groups})=> {
-    const emptyTag = {
-        name: '',
-        color: '#9AE6B4',
-        id: uuidv4()
-    }
-
+const ManageTags = ({user})=> {
     const [groups, setGroups] = useState(user.feedback_tag_groups)
 
     const addGroup = () => {

@@ -35,7 +35,6 @@ const User = () => {
             })
     }, [setUser, userId, history])
     if (!user) { return null }
-    console.log('User', user)
     return (
         <div className='grid grid-cols-1 lg:grid-cols-8'>
             <Header />

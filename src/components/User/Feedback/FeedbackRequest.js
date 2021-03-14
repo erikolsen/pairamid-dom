@@ -14,7 +14,7 @@ export const FeedbackRequest = () => {
     const [user, setUser] = useState()
     const [selectedTags, setSelectedTags] = useState([])
     const [feedbackText, setfeedbackText] = useState()
-    const { register, handleSubmit, errors, reset } = useForm()
+    const { register, handleSubmit, errors } = useForm()
 
     const [ openFilters, setOpenFilters] = useState(true)
     const toggleFilters = (e) => { e.preventDefault(); setOpenFilters(!openFilters) }
@@ -26,18 +26,14 @@ export const FeedbackRequest = () => {
     }, [userId])
 
     const onUpdate = (data, e) => {
-        console.log('Submitting')
         let payload = {...data, ...{tags: selectedTags.map(tag=> tag.id)}}
-        console.log('payload: ', payload)
         axios.post(`${API_URL}/feedbacks`, payload)
              .then((response) => {
-                 console.log('response: ', response)
                  setSelectedTags([])
                  e.target.reset()
              })
     }
     if (!user) { return null}
-    console.log('user: ', user)
     return (
         <div className='bg-gray-light h-screen'>
             <header className="p-3 bg-white border-gray-border border-b-2">
