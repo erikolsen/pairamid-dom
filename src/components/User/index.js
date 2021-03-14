@@ -22,7 +22,6 @@ const User = () => {
     const { userId } = useParams()
     const history = useHistory()
     const [user, setUser] = useState()
-    // const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     useEffect(()=> {
         axios.get(`${API_URL}/users/${userId}`, {headers: authHeader()})
@@ -34,6 +33,7 @@ const User = () => {
                 history.push('/login')
             })
     }, [setUser, userId, history])
+
     if (!user) { return null }
     return (
         <div className='grid grid-cols-1 lg:grid-cols-8'>
@@ -49,22 +49,6 @@ const User = () => {
                     <div className='grid grid-cols-2 col-gap-4 row-gap-4'>
                         <Link 
                             className='col-span-2 md:col-span-1 bg-white rounded-lg flex items-center justify-between p-2' 
-                            to={{
-                                pathname:`/users/${userId}/feedback/given`,
-                                state: {user: user}
-                            }}
-                        >
-                            <div className={`bg-gray-med col-span-1 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center`}>
-                                <p className="text-black font-bold text-lg">0</p>
-                            </div>
-                            <h2 className='text-center'>Monthly Feedback Given</h2>
-                            <button className='cursor-pointer'>
-                                <FontAwesomeIcon icon={faChevronCircleRight} size="lg" />
-                            </button>
-                        </Link>
-
-                        <Link 
-                            className='col-span-2 md:col-span-1 bg-white rounded-lg flex items-center justify-between p-2' 
                             to={`/users/${userId}/feedback/received`}
                         >
                             <div className={`bg-green-500 col-span-1 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center`}>
@@ -78,10 +62,7 @@ const User = () => {
 
                         <Link 
                             className='col-span-2 md:col-span-1 bg-white rounded-lg flex items-center justify-between p-2' 
-                            to={{
-                                pathname:`/users/${userId}/feedback/new`,
-                                state: {user: user}
-                            }}
+                            to={`/users/${userId}/feedback/new`}
                         >
                             <h2 className='text-center'>Feedback Request form</h2>
                             <button className='cursor-pointer'>

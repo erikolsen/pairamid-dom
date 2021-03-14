@@ -6,12 +6,14 @@ import { API_URL } from '../../../constants'
 import { useParams } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import TagGroups from './TagGroups'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleDoubleDown, faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons'
+import Faded from '../../shared/Faded'
 
 export const FeedbackRequest = () => {
     const { userId } = useParams()
     const [user, setUser] = useState()
+    const [showSuccess, setShowSuccess] = useState(false)
+    const successZone = showSuccess ? 'block' : 'hidden'
+    const successMessage = showSuccess ? <Faded duration={30} isOut={true}><p className='w-full text-xl text-center text-green'>Your feedback has been sent! Thank you for the feedback!</p></Faded> : <div />
     const [selectedTags, setSelectedTags] = useState([])
     const [feedbackText, setfeedbackText] = useState()
     const { register, handleSubmit, errors } = useForm()
@@ -19,7 +21,7 @@ export const FeedbackRequest = () => {
     const [ openFilters, setOpenFilters] = useState(true)
     const toggleFilters = (e) => { e.preventDefault(); setOpenFilters(!openFilters) }
     const filterZone = openFilters ? 'block' : 'hidden'
-    const filterIcon = openFilters ? faAngleDoubleUp : faAngleDoubleDown
+    const filterZoneClasses = openFilters ? 'bg-blue-700 text-white' : 'hover:border-2 hover:border-blue-700'
 
     useEffect(()=> {
         axios.get(`${API_URL}/users/${userId}/feedback/new`).then((response)=> { setUser(response.data) })
@@ -31,11 +33,13 @@ export const FeedbackRequest = () => {
              .then((response) => {
                  setSelectedTags([])
                  e.target.reset()
+                 setShowSuccess(true)
              })
+        setShowSuccess(false)
     }
     if (!user) { return null}
     return (
-        <div className='bg-gray-light h-screen'>
+        <div className='bg-gray-light h-full'>
             <header className="p-3 bg-white border-gray-border border-b-2">
                 <div className='flex items-center justify-between'>
                     <Link className='w-full flex justify-center items-center' to='/'>
@@ -45,14 +49,13 @@ export const FeedbackRequest = () => {
             </header>
             <main className="">
                 <section className='w-full flex justify-center items-center my-8'>
-                    <div className='max-w-3xl mx-4'>
+                    <div className='max-w-3xl mb-4'>
                         <form className='bg-white shadow-lg rounded-lg rounded-b-none p-4 mx-2' onSubmit={handleSubmit(onUpdate)}>
                             <div className=''>
                                 <div className='flex items-center justify-between'>
                                     <h2 className=''>Feedback for {user.full_name}</h2>
-                                    <button onClick={toggleFilters} className='flex items-center border border-gray-border rounded-lg px-4 py-1'>
-                                        <p className='mr-2 text-sm'>Tags</p>
-                                        <FontAwesomeIcon icon={filterIcon} size="sm" />
+                                    <button onClick={toggleFilters} className={`flex items-center border border-gray-border rounded-lg px-4 py-1 ${filterZoneClasses}`}>
+                                        <p className='text-sm'>Tags</p>
                                     </button>
                                 </div>
                                 <div className='grid grid-cols-2 col-gap-4 items-center my-4'>
@@ -71,19 +74,22 @@ export const FeedbackRequest = () => {
                                 <div className={`py-4 ${filterZone}`}>
                                     <TagGroups groups={user.feedback_tag_groups} tags={selectedTags} setTags={setSelectedTags} tagCounts={{}} defaultExpand={true} />
                                 </div>
+                                { errors.message && <p className='text-red'>Please add a short message to your feedback. Thanks.</p> }
                                 <textarea 
                                     name='message' 
-                                    className='h-48 border border-gray-border w-full my-2' 
+                                    className='h-32 border border-gray-border w-full my-2' 
                                     placeholder='Situation-Behavior-Impact...'
                                     value={feedbackText} 
                                     defaultValue=''
                                     onChange={(e) => setfeedbackText(e.target.value)} 
-                                    ref={register} 
+                                    ref={register({required: true})} 
                                 />
                                 <input className='' type='hidden' name="recipientId" defaultValue={user.id} ref={register} />
+                                <div className={`mb-2 ${successZone}`}>
+                                    {successMessage}
+                                </div>
                                 <input type='submit' value='Submit' className='bg-green-icon w-full p-3 text-white font-bold' />
                             </div>
-                            { errors.name && <p className='text-red'>Tag Name is required</p> }
                         </form>
                     </div>
                 </section>
