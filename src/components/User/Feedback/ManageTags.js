@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import NewTag from './NewTag'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { v4 as uuidv4 } from 'uuid';
-import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
+import { faMinusSquare, faPlusSquare, faPlus, faTrashAlt, faBan } from '@fortawesome/free-solid-svg-icons'
 import { useForm } from 'react-hook-form'
-import { faPlus, faTrashAlt, faBan } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import { API_URL } from '../../../constants'
 
@@ -109,23 +108,38 @@ const ManageTags = ({user, feedback_tag_groups})=> {
             })
     }
 
-    const addTag = (group) => () => setGroups(
-        groups.map(
-            oldGroup => (oldGroup.id === group.id ? { ...group, tags: [...group.tags, emptyTag] } : oldGroup)
-        )
-    )
+    const addTag = (group) => () => {
+        axios.post(`${API_URL}/feedback-tags`, {groupId: group.id})
+            .then((response) => {
+                setGroups(
+                    groups.map(
+                        oldGroup => (oldGroup.id === group.id ? { ...group, tags: [...group.tags, response.data] } : oldGroup)
+                    )
+                )
+            })
+    }
 
-    const updateTag = (group) => (newTag) => setGroups(
-        groups.map(
-            oldGroup => (oldGroup.id === group.id ? { ...group, tags: group.tags.map(oldTag => (oldTag.id === newTag.id ? newTag : oldTag))} : oldGroup)
-        )
-    )
+    const updateTag = (group) => (data) => {
+        axios.post(`${API_URL}/feedback-tags/${data.id}`, data)
+            .then((response) => {
+                setGroups(
+                    groups.map(
+                        oldGroup => (oldGroup.id === group.id ? { ...group, tags: group.tags.map(oldTag => (oldTag.id === response.data.id ? response.data : oldTag)) } : oldGroup)
+                    )
+                )
+            })
+    }
 
-    const removeTag = (group) => (id) => setGroups(
-        groups.map(
-            oldGroup => (oldGroup.id === group.id ? { ...group, tags: group.tags.filter((oldTag) => oldTag.id !== id)} : oldGroup)
-        )
-    )
+    const removeTag = (group) => (id) => {
+        axios.delete(`${API_URL}/feedback-tags/${id}`)
+            .then((response) => {
+                setGroups(
+                    groups.map(
+                        oldGroup => (oldGroup.id === group.id ? { ...group, tags: group.tags.filter((oldTag) => oldTag.id !== response.data) } : oldGroup)
+                    )
+                )
+            })
+    }
 
     return (
         <div className=''>

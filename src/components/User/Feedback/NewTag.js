@@ -17,7 +17,7 @@ const DisplayCard = ({tag, setEditing, onDelete}) => {
     return (
         <div className='bg-white shadow-lg rounded-lg relative'>
             <div className='mt-4 mx-4'>
-                <p className='text-center text-black font-semibold mb-1'>{tag.name.toUpperCase()}</p>
+                <p className='text-center text-black font-semibold mb-1'>{tag.name}</p>
                 { tag.description ? <p className='text-sm text-center'>{tag.description}</p> : <p className='text-sm text-center opacity-50'>No Description</p> }
             </div>
             <div className='h-10' />
@@ -32,7 +32,7 @@ const DisplayCard = ({tag, setEditing, onDelete}) => {
 }
 
 const EditCard = ({tag, setEditing, onUpdate, onDelete }) => {
-    const [tagTitle, setTagTitle ] = useState(tag.description)
+    const [tagTitle, setTagTitle ] = useState(tag.description || '')
     const { register, handleSubmit, errors } = useForm()
     const cancelAction = tag.name ? <IconButton action={()=> setEditing(false)} icon={faBan} title='Cancel' />  :
                                      <IconButton action={()=> onDelete(tag.id)} icon={faTrashAlt} classes='text-red' title='Delete' /> 
@@ -46,11 +46,10 @@ const EditCard = ({tag, setEditing, onUpdate, onDelete }) => {
                         <input 
                             className={`w-full pt-1 px-3 leading-normal outline-none ${classes}`}
                             id='name'
-                            data-cy='tag-name-input'
                             type='text'
                             name='name'
                             placeholder='Tag Name'
-                            defaultValue={tag.name} ref={register({required: true})} 
+                            defaultValue={tag.name || ''} ref={register({required: true})} 
                         />
                         { errors.name && <p className='text-red'>Name is required</p> }
                         <label className='absolute block text-green-darker top-0 left-0 w-full px-3 pt-1 leading-normal' htmlFor='name'>
@@ -59,9 +58,15 @@ const EditCard = ({tag, setEditing, onUpdate, onDelete }) => {
                     </div>
                 </div>
                 <input className='' type='hidden' name="id" defaultValue={tag.id} ref={register} />
-                <label className='' htmlFor='tag-title'>
+                <label className='' htmlFor='description'>
                     Description:
-                    <textarea name='tag-title' className='h-24 border border-gray-border w-full my-2' value={tagTitle} onChange={(e) => setTagTitle(e.target.value)} ref={register} />
+                    <textarea
+                        name='description'
+                        className='h-24 border border-gray-border w-full my-2'
+                        value={tagTitle}
+                        onChange={(e) => setTagTitle(e.target.value)}
+                        ref={register}
+                    />
                 </label>
                 <div className='flex justify-between'>
                     { cancelAction }

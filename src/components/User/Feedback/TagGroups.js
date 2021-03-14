@@ -67,7 +67,7 @@ const FeedbackTag = ({tag, selected, select, tagCounts}) => {
     const selectedStyle = selected ? 'border-2 border-blue-700' : 'border border-gray-border hover:border-blue-700'
     const selectedText = selected ? 'text-blue-700' : 'text-gray-dark hover:text-blue-700'
     const count = tagCounts[tag.name] || 0
-    const title = count ? `${tag.name.toUpperCase()}-${count}` : tag.name.toUpperCase()
+    const title = count ? `${tag.name}-${count}` : tag.name
 
     return (
         <li title={tag.description} onClick={()=> select(tag)} className={`cursor-pointer py-1 px-5 mr-2 rounded-full flex items-center justify-center ${selectedStyle} my-1`}>
