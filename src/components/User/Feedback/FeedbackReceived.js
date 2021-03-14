@@ -53,7 +53,7 @@ const FeedbackReceived = (props)=> {
     const [startDate, endDate] = date
     const dateFilter = (feedback) => new Date(feedback.created_at) >= startDate && new Date(feedback.created_at) <= endDate
 
-    const [ openManageTags, setOpenManageTags ] = useState(false)
+    const [ openManageTags, setOpenManageTags ] = useState(true)
     const toggleManageTags = () => setOpenManageTags(!openManageTags)
     const manageTagsZone = openManageTags ? 'block' : 'hidden'
     const manageTagsClasses = openManageTags ? 'bg-blue-700 text-white' : 'hover:border-2 hover:border-blue-700'
@@ -119,7 +119,7 @@ const FeedbackReceived = (props)=> {
                 </div>
 
                 <div className={`${manageTagsZone} my-4`}>
-                    <ManageTags feedback_tag_groups={user.feedback_tag_groups} />
+                    <ManageTags user={user} feedback_tag_groups={user.feedback_tag_groups} />
                 </div>
 
                 <div className={`${filterZone} grid grid-cols-2 col-gap-4`}>

@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { faMinusSquare, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import { useForm } from 'react-hook-form'
 import { faPlus, faTrashAlt, faBan } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios'
+import { API_URL } from '../../../constants'
 
 const IconButton = ({action, icon, classes, title}) => {
     const onClick = (e) => { e.preventDefault(); action() }
@@ -52,7 +54,7 @@ const EditGroup = ({group, setEditing, onUpdate, onDelete }) => {
     )
 }
 
-const TagGroup = ({addTag, updateTag, removeTag, group}) => {
+const TagGroup = ({addTag, updateTag, removeTag, group, removeGroup}) => {
     const [ open, setOpen ] = useState(false)
     const toggle = () => setOpen(!open)
     const collpaseIcon = open ? faMinusSquare : faPlusSquare
@@ -63,6 +65,7 @@ const TagGroup = ({addTag, updateTag, removeTag, group}) => {
             <div className='flex items-center bg-white px-4 py-2'>
                 <p className='mr-2'>{group.name}</p>
                 <div onClick={toggle}><FontAwesomeIcon icon={collpaseIcon} size='xs' /></div>
+                <p onClick={() => removeGroup(group.id)} className={`text-red ml-4 cursor-pointer ${groupZone}`}>Delete</p>
             </div>
             <div className={`${groupZone}`}>
                 <div className='grid grid-cols-2 lg:grid-cols-3 col-gap-2 row-gap-2 my-2'>
@@ -77,24 +80,34 @@ const TagGroup = ({addTag, updateTag, removeTag, group}) => {
     )
 }
 
-const ManageTags = ({feedback_tag_groups})=> {
-    const emptyGroup = {
-        name: '',
-        tags: [],
-        id: uuidv4()
-    }
-
+const ManageTags = ({user, feedback_tag_groups})=> {
     const emptyTag = {
         name: '',
         color: '#9AE6B4',
         id: uuidv4()
     }
 
-    const [groups, setGroups] = useState(feedback_tag_groups)
+    const [groups, setGroups] = useState(user.feedback_tag_groups)
 
-    const addGroup = () => setGroups([...groups, emptyGroup])
-    const updateGroup = (newGroup) => setGroups(groups.map(oldGroup => (oldGroup.id === newGroup.id ? {...newGroup, tags: []} : oldGroup)))
-    const removeGroup = (id) => setGroups(groups.filter((oldGroup) => oldGroup.id !== id))
+    const addGroup = () => {
+        axios.post(`${API_URL}/feedback-tag-groups`, {userId: user.id})
+            .then((response) => {
+                setGroups([...groups, response.data])
+            })
+    }
+    const updateGroup = (data) => {
+        axios.post(`${API_URL}/feedback-tag-groups/${data.id}`, data)
+            .then((response) => {
+                setGroups(groups.map(oldGroup => (oldGroup.id === response.data.id ? response.data : oldGroup)))
+            })
+    }
+
+    const removeGroup = (id) => {
+        axios.delete(`${API_URL}/feedback-tag-groups/${id}`)
+            .then((response) => {
+                setGroups(groups.filter((oldGroup) => oldGroup.id !== response.data))
+            })
+    }
 
     const addTag = (group) => () => setGroups(
         groups.map(
@@ -128,7 +141,7 @@ const ManageTags = ({feedback_tag_groups})=> {
                     { groups.filter(group => !group.name).map(group => <EditGroup key={group.id} group={group} onUpdate={updateGroup} onDelete={removeGroup} />) }
                 </div>
                 <div className={``}>
-                    { groups.filter(group => group.name).map(group => <TagGroup key={group.id} group={group} addTag={addTag(group)} updateTag={updateTag(group)} removeTag={removeTag(group)} />) }
+                    { groups.filter(group => group.name).map(group => <TagGroup key={group.id} group={group} removeGroup={removeGroup} addTag={addTag(group)} updateTag={updateTag(group)} removeTag={removeTag(group)} />) }
                 </div>
                 <div className='bg-white shadow-lg rounded-lg rounded-t-none p-1' />
             </div>
