@@ -1,13 +1,46 @@
 import React, { useState } from 'react'
 import logo from '../../../assets/pairamid-logo.png';
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserFriends, faBalanceScale, faHistory, faCog, faCalendarAlt, faBars, faUserPlus} from '@fortawesome/free-solid-svg-icons'
+import { faUser, faBars, faUserPlus, faComments, faCommentDots, faShareSquare} from '@fortawesome/free-solid-svg-icons'
 import ListIconLink from './ListIconLink'
-import Logout from '../../Logout'
+import SignOut from '../../SignOut'
+
+const AuthLink = () => {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser) {
+        return <SignOut />
+    } else {
+        return <ListIconLink path={`/login`} icon={faUserPlus} text='Login' />
+    }
+}
+
+const UserLinks = ({currentUser}) => {
+    const userId = currentUser.uuid
+    const [copySuccess, setCopySuccess] = useState('')
+    const copyLink = () => {
+        const feedbackUrl = `/users/${userId}/feedback/new`
+        navigator.clipboard.writeText(window.location.origin + feedbackUrl)
+        setCopySuccess('Copied to Clipboard!')
+        setTimeout(() => setCopySuccess(''), 3000);
+    }
+    return (
+        <div>
+            <ListIconLink path={`/users/${userId}`} icon={faComments} text='Feedback' />
+            <ListIconLink path={`/users/${userId}`} icon={faCommentDots} text='Feedback Form' />
+            <li onClick={copyLink} className='cursor-pointer text-gray my-2 lg:mx-0 hover:text-green-icon hover:bg-gray-light lg:hover:bg-white'>
+                <FontAwesomeIcon icon={faShareSquare} />
+                <span className='ml-2'>Share Link</span>
+            </li>
+            <li className='text-gray my-2 lg:mx-0 hover:text-green-icon hover:bg-gray-light lg:hover:bg-white'>
+                <span className=''>{copySuccess}</span>
+            </li>
+        </div>
+    )
+}
 
 const Header = () => {
-    const match = useRouteMatch()
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const [collapsed, setCollapsed] = useState(true)
     let classes = collapsed ? 'hidden' : 'block my-4'
     return (
@@ -22,20 +55,14 @@ const Header = () => {
                         <img src={logo} alt='Paramid Logo' width="169" height="40" className="w-full max-w-logo lg:mt-8" />
                     </Link>
 
-                    <Link data-cy='today' className='focus:outline-none lg:hidden w-full text-right' to={match.url}>
-                        <FontAwesomeIcon icon={faUserFriends} />
-                    </Link>
+                    {currentUser && <Link className='focus:outline-none lg:hidden w-full text-right' to={`/users/${currentUser.uuid}`}>
+                        <FontAwesomeIcon icon={faUser} />
+                    </Link>}
                 </div>
-
                 <ul onClick={()=> setCollapsed(true)} className={`lg:block lg:text-base ${classes}`}>
-                    <div className='bg-gray-light'>
-                        <ListIconLink path={`/signup`} icon={faUserPlus} text='Sign Up' />
-                    </div>
-                    <Logout />
-                    <ListIconLink path={`${match.url}/frequency`} icon={faBalanceScale} text='Frequency' />
-                    <ListIconLink path={`${match.url}/history`} icon={faHistory} text='History' />
-                    <ListIconLink path={`${match.url}/settings`} icon={faCog} text='Settings' />
-                    <ListIconLink path={`${match.url}/calendar`} icon={faCalendarAlt} text='Calendar' />
+                    { currentUser && <UserLinks currentUser={currentUser} /> }
+                    <div className='border-b-2 border-gray-border my-4' />
+                    <AuthLink />
                 </ul>
             </header>
         </div>

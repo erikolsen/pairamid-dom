@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useHistory } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronCircleLeft } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import RadarChartRecharts from '../../charts/RadarChart'
 import SimpleScatterChart from '../../charts/BubbleChart'
@@ -53,7 +50,8 @@ const FeedbackReceived = (props)=> {
     const [startDate, endDate] = date
     const dateFilter = (feedback) => new Date(feedback.created_at) >= startDate && new Date(feedback.created_at) <= endDate
 
-    const [ openManageTags, setOpenManageTags ] = useState(false)
+    
+    const [ openManageTags, setOpenManageTags ] = useState(true)
     const toggleManageTags = () => setOpenManageTags(!openManageTags)
     const manageTagsZone = openManageTags ? 'block' : 'hidden'
     const manageTagsClasses = openManageTags ? 'bg-blue-700 text-white' : 'hover:border-2 hover:border-blue-700'
@@ -92,19 +90,10 @@ const FeedbackReceived = (props)=> {
     }))
 
     return (
-        <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
+        <main className="bg-gray-light col-span-7 h-full">
             <section>
-                <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
-                    <div className='w-full flex justify-between items-center'>
-                        <Link className='flex items-center' to={`/users/${userId}`}>
-                            <FontAwesomeIcon icon={faChevronCircleLeft} size="lg" />
-                            <h1 className='ml-2'>{user.full_name || user.username}</h1>
-                        </Link>
-                    </div>
-                </header>
-
                 <div className='flex justify-between my-2'>
-                    <h2 className=''>Feedback Received</h2>
+                    <h2 className=''>Feedback</h2>
                     <div className='flex'>
                         <button onClick={toggleManageTags} className={`mr-2 flex items-center border border-gray-border rounded-lg px-4 py-2 border border-gray-border focus:outline-none ${manageTagsClasses}`}>
                             <p className='text-sm'>Manage Tags</p>

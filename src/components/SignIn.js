@@ -28,7 +28,7 @@ const IconButton = ({classes}) => {
     )
 }
 
-const LoginUser = () => {
+const SignInUser = () => {
     const [showPassword, setShowPassword] = useState(false)
     const togglePassword = () => setShowPassword(!showPassword)
     const { register, handleSubmit, errors } = useForm()
@@ -83,7 +83,7 @@ const LoginUser = () => {
     )
 }
 
-const Login = () => {
+const SignIn = () => {
     return (
         <div className=''>
             <header className='flex items-center justify-between border-gray-border border-b-2 w-screen'>
@@ -96,7 +96,7 @@ const Login = () => {
                 <section>
                     <div className='bg-white rounded-lg shadow-lg mx-8 md:mx-16'>
                         <p className='font-bold pt-8 text-center text-lg'>Please login to continue</p>
-                        <LoginUser />
+                        <SignInUser />
                     </div>
                 </section>
             </main>
@@ -104,4 +104,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default SignIn

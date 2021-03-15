@@ -34,13 +34,10 @@ const SignUpUser = ({email}) => {
     const { register, handleSubmit, errors, formState } = useForm({mode: "onChange"})
     const history = useHistory()
     const EMAIL_PATTERN = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
-    console.log('Email', email)
 
     const onUpdate = (data) => {
-        console.log('Data', data)
         axios.post(`${API_URL}/users`, data)
             .then((response) => {
-                console.log('response.data: ', response.data)
                 localStorage.setItem('currentUser', JSON.stringify(response.data))
                 history.push(`/users/${response.data.uuid}`)
             })

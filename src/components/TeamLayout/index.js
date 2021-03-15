@@ -7,8 +7,6 @@ import PairHistory from './PairHistory';
 import TeamSettings from './TeamSettings';
 import TeamCalendar from './TeamCalendar';
 import UserProfile from './UserProfile'
-import FeedbackGiven from './UserProfile/Feedback/FeedbackGiven'
-import FeedbackReceived from './UserProfile/Feedback/FeedbackReceived'
 
 const TeamLayout = ({match}) => {
     const { teamId } = useParams()
@@ -30,8 +28,6 @@ const TeamLayout = ({match}) => {
                 <Route path={`${match.path}/history`} component={PairHistory} />
                 <Route path={`${match.path}/settings`} component={TeamSettings} />
                 <Route path={`${match.path}/calendar`} component={TeamCalendar} />
-                <Route path={`${match.path}/users/:userId/feedback-given`} component={FeedbackGiven} />
-                <Route path={`${match.path}/users/:userId/feedback-received`} component={FeedbackReceived} />
                 <Route path={`${match.path}/users/:userId`} component={UserProfile} />
                 <Route exact path={`${match.path}/`} component={Team} />
             </Switch>

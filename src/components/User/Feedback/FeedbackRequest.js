@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react'
-import logo from '../../../assets/pairamid-logo.png';
-import { Link } from "react-router-dom";
 import axios from 'axios'
 import { API_URL } from '../../../constants'
 import { useParams } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import TagGroups from './TagGroups'
 import Faded from '../../shared/Faded'
+import logo from '../../../assets/pairamid-logo.png';
+import { Link} from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 export const FeedbackRequest = () => {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const { userId } = useParams()
     const [user, setUser] = useState()
+
     const [showSuccess, setShowSuccess] = useState(false)
     const successZone = showSuccess ? 'block' : 'hidden'
     const successMessage = showSuccess ? <Faded duration={30} isOut={true}><p className='w-full text-xl text-center text-green'>Your feedback has been sent! Thank you for the feedback!</p></Faded> : <div />
+
     const [selectedTags, setSelectedTags] = useState([])
     const [feedbackText, setfeedbackText] = useState()
     const { register, handleSubmit, errors } = useForm()
@@ -39,17 +44,20 @@ export const FeedbackRequest = () => {
     }
     if (!user) { return null}
     return (
-        <div className='bg-gray-light h-full'>
-            <header className="p-3 bg-white border-gray-border border-b-2">
+        <div className='grid grid-cols-1'>
+            <header className="p-3 border-gray-border border-b-2">
                 <div className='flex items-center justify-between'>
-                    <Link className='w-full flex justify-center items-center' to='/'>
+                    <Link className='mx-2' to='/'>
                         <img src={logo} alt='Paramid Logo' width="169" height="40" className="w-full max-w-logo" />
                     </Link>
+                    {currentUser && <Link className='focus:outline-none mx-2' to={`/users/${currentUser.uuid}`}>
+                        <FontAwesomeIcon icon={faUser} />
+                    </Link>}
                 </div>
             </header>
-            <main className="">
-                <section className='w-full flex justify-center items-center my-8'>
-                    <div className='max-w-3xl mb-4'>
+            <main className="bg-gray-light col-span-1 p-2 lg:p-12 h-screen">
+                <section className='flex justify-center'>
+                    <div className='w-full md:w-3/4 lg:w-1/2 mb-4'>
                         <form className='bg-white shadow-lg rounded-lg rounded-b-none p-4 mx-2' onSubmit={handleSubmit(onUpdate)}>
                             <div className=''>
                                 <div className='flex items-center justify-between'>

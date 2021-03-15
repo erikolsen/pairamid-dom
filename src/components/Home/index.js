@@ -31,42 +31,42 @@ const IconButton = ({classes}) => {
         </button>
     )
 }
-const CreateWithEmail = () => {
-    const { register, handleSubmit, errors } = useForm()
-    const history = useHistory()
-    const EMAIL_PATTERN = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
+// const CreateWithEmail = () => {
+//     const { register, handleSubmit, errors } = useForm()
+//     const history = useHistory()
+//     const EMAIL_PATTERN = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
 
-    const onUpdate = (data) => {
-        history.push({
-            pathname:'/signup',
-            state: {email: data.email}
-        })
-    }
-    const errorClass = errors.email ? 'border border-red' : 'border-b border-gray-border' 
-    return (
-        <form onSubmit={handleSubmit(onUpdate)}>
-            <div className='md:flex justify-between mr-2 items-center mt-4'>
-                <div className='w-full md:w-3/5 relative appearance-none label-floating my-4'>
-                    <input className={`text-lg p-2 w-full outline-none ${errorClass}`}
-                           id='email'
-                           type='text'
-                           name='email'
-                           placeholder='Email'
-                           defaultValue={''} 
-                           ref={register({
-                               required: true,
-                               pattern: EMAIL_PATTERN
-                            })} />
-                    <label className='text-gray-med absolute text-lg block top-0 left-0 w-full p-2' htmlFor='email'>
-                        Email
-                    </label>
-                </div>
-                <input type='submit' value='Sign up for free!' className='bg-green-icon w-full md:w-2/5 md:mx-2 p-3 text-white font-bold' />
-            </div>
-            { errors.email && <p className='text-red'>Valid email is required</p> }
-        </form>
-    )
-}
+//     const onUpdate = (data) => {
+//         history.push({
+//             pathname:'/signup',
+//             state: {email: data.email}
+//         })
+//     }
+//     const errorClass = errors.email ? 'border border-red' : 'border-b border-gray-border' 
+//     return (
+//         <form onSubmit={handleSubmit(onUpdate)}>
+//             <div className='md:flex justify-between mr-2 items-center mt-4'>
+//                 <div className='w-full md:w-3/5 relative appearance-none label-floating my-4'>
+//                     <input className={`text-lg p-2 w-full outline-none ${errorClass}`}
+//                            id='email'
+//                            type='text'
+//                            name='email'
+//                            placeholder='Email'
+//                            defaultValue={''} 
+//                            ref={register({
+//                                required: true,
+//                                pattern: EMAIL_PATTERN
+//                             })} />
+//                     <label className='text-gray-med absolute text-lg block top-0 left-0 w-full p-2' htmlFor='email'>
+//                         Email
+//                     </label>
+//                 </div>
+//                 <input type='submit' value='Sign up for free!' className='bg-green-icon w-full md:w-2/5 md:mx-2 p-3 text-white font-bold' />
+//             </div>
+//             { errors.email && <p className='text-red'>Valid email is required</p> }
+//         </form>
+//     )
+// }
 
 const CreateTeam = () => {
     const { register, handleSubmit, errors } = useForm()
@@ -103,7 +103,6 @@ const CreateTeam = () => {
 }
 
 const Home = () => {
-    const loggedIn = false
     return (
         <div className=''>
             <header className='flex items-center justify-between border-gray-border border-b-2 w-screen'>
@@ -123,7 +122,7 @@ const Home = () => {
                                 Easily visualize cross functional pairing. 
                                 Track pair frequency and duration to promote optimal pair switching.
                             </p>
-                            { loggedIn ? <CreateTeam /> : <CreateWithEmail /> }
+                            <CreateTeam />
                         </div>
                     </div>
                     <div className='col-span-1 mx-4 sm:mx-16 lg:ml-8 lg:mr-16'>

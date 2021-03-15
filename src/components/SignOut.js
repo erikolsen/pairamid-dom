@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
-const Logout = () => {
+const SignOut = () => {
     const history = useHistory()
 
     const onClick = (data) => {
@@ -14,10 +14,10 @@ const Logout = () => {
         <div className=''>
             <button onClick={onClick}>
                 <FontAwesomeIcon className='mr-2' icon={faSignOutAlt} />
-                Logout
+                Sign Out
             </button>
         </div>
     )
 }
 
-export default Logout
+export default SignOut
