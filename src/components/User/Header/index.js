@@ -27,7 +27,7 @@ const UserLinks = ({currentUser}) => {
     return (
         <div>
             <ListIconLink path={`/users/${userId}`} icon={faComments} text='Feedback' />
-            <ListIconLink path={`/users/${userId}`} icon={faCommentDots} text='Feedback Form' />
+            <ListIconLink path={`/users/${userId}/feedback/new`} icon={faCommentDots} text='Feedback Form' />
             <li onClick={copyLink} className='cursor-pointer text-gray my-2 lg:mx-0 hover:text-green-icon hover:bg-gray-light lg:hover:bg-white'>
                 <FontAwesomeIcon icon={faShareSquare} />
                 <span className='ml-2'>Share Link</span>

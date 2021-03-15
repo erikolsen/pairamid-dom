@@ -57,13 +57,14 @@ const TagGroup = ({addTag, updateTag, removeTag, group, removeGroup}) => {
     const toggle = () => setOpen(!open)
     const collpaseIcon = open ? faMinusSquare : faPlusSquare
     const groupZone = open ? 'block' : 'hidden'
+    const hasNoTags = group.tags.length === 0
 
     return (
         <div>
             <div className='flex items-center bg-white px-4 py-2'>
                 <p className='mr-2'>{group.name}</p>
                 <div onClick={toggle}><FontAwesomeIcon icon={collpaseIcon} size='xs' /></div>
-                <p onClick={() => removeGroup(group.id)} className={`text-red ml-4 cursor-pointer ${groupZone}`}>Delete</p>
+                { hasNoTags && <p onClick={() => removeGroup(group.id)} className={`text-red ml-4 cursor-pointer ${groupZone}`}>Delete</p> }
             </div>
             <div className={`${groupZone}`}>
                 <div className='grid grid-cols-2 lg:grid-cols-3 col-gap-2 row-gap-2 my-2'>
