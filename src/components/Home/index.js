@@ -9,11 +9,27 @@ import axios from 'axios'
 import { API_URL } from '../../constants'
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUsers, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faUsers, faArrowRight, faUser } from '@fortawesome/free-solid-svg-icons'
+
+const UserIconButton = ({classes}) => {
+    const history = useHistory()
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    const onClick = (e) => { 
+        e.preventDefault();
+        history.push(`/users/${currentUser.uuid}`)
+    }
+
+    return currentUser && (
+        <button className={`my-2 mx-4 sm:mx-16 ${classes}`} onClick={onClick}>
+            <FontAwesomeIcon icon={faUser} />
+            <p className='font-bold leading-tight'>Profile</p>
+        </button>
+    )
+}
 
 const parseTeams = (teams)=> {return teams ? teams.split(',') : ''}
-
-const IconButton = ({classes}) => {
+const TeamsIconButton = ({classes}) => {
     const history = useHistory()
     let teams = parseTeams(localStorage.getItem('pairamid-teams'))
 
@@ -106,10 +122,11 @@ const Home = () => {
     return (
         <div className=''>
             <header className='flex items-center justify-between border-gray-border border-b-2 w-screen'>
+                <UserIconButton />
                 <div className='my-4 mx-4 sm:mx-16'>
                     <img src={logo} alt='Paramid Logo' width='169' height='40' className='w-full max-w-logo' />
                 </div>
-                <IconButton />
+                <TeamsIconButton />
             </header>
             <div className='h-full w-screen'>
                 <div className='grid grid-cols-1 lg:grid-cols-2 my-8 sm:my-24 items-center'>
