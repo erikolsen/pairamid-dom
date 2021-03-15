@@ -11,25 +11,6 @@ import {
 } from 'recharts';
 import { format } from 'date-fns'
 
-// const oldData = [
-//     { name: 'Communication', date: '02/01/2021', z: 20 }, 
-//     { name: 'Glow', date: '02/01/2021', z: 90 }, 
-//     { name: 'Attitude', date: '02/01/2021', z: 280 },
-//     { name: 'Grow', date: '02/02/2021', z: 160 },
-//     { name: 'Team Player', date: '02/02/2021', z: 400 }, 
-//     { name: 'Glow', date: '02/03/2021', z: 280 },
-//     { name: 'Trust', date: '02/03/2021', z: 500 }, 
-//     { name: 'Leadership', date: '02/03/2021', z: 200 },
-// ]
-// const data = [
-//     { name: 'Communication', date: 2, z: 20 }, 
-//     { name: 'Glow', date: 2, z: 90 }, 
-//     { name: 'Grow', date: 3, z: 160 },
-//     { name: 'Team Player', date: 5, z: 400 }, 
-//     { name: 'Attitude', date: 6, z: 280 },
-//     { name: 'Trust', date: 7, z: 500 }, 
-//     { name: 'Leadership', date: 7, z: 200 },
-// ]
 const formatXAxis = (tickItem) => {
     return format(new Date(tickItem), 'MM/dd/yyyy')
   }
