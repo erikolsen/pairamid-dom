@@ -20,13 +20,7 @@ export const FeedbackRequest = () => {
     const successMessage = showSuccess ? <Faded duration={30} isOut={true}><p className='w-full text-xl text-center text-green'>Your feedback has been sent! Thank you for the feedback!</p></Faded> : <div />
 
     const [selectedTags, setSelectedTags] = useState([])
-    const [feedbackText, setfeedbackText] = useState()
     const { register, handleSubmit, errors } = useForm()
-
-    const [ openFilters, setOpenFilters] = useState(true)
-    const toggleFilters = (e) => { e.preventDefault(); setOpenFilters(!openFilters) }
-    const filterZone = openFilters ? 'block' : 'hidden'
-    const filterZoneClasses = openFilters ? 'bg-blue-700 text-white' : 'hover:border-2 hover:border-blue-700'
 
     useEffect(()=> {
         axios.get(`${API_URL}/users/${userId}/feedback/new`).then((response)=> { setUser(response.data) })
@@ -62,13 +56,10 @@ export const FeedbackRequest = () => {
                             <div className=''>
                                 <div className='flex items-center justify-between'>
                                     <h2 className=''>Feedback for {user.full_name}</h2>
-                                    <button onClick={toggleFilters} className={`flex items-center border border-gray-border rounded-lg px-4 py-1 ${filterZoneClasses}`}>
-                                        <p className='text-sm'>Tags</p>
-                                    </button>
                                 </div>
                                 <div className='grid grid-cols-2 col-gap-4 items-center my-4'>
                                     <div className='col-span-2 md:col-span-1 flex items-center'>
-                                        <p className=''>From </p>
+                                        <p className='text-sm font-bold'>From </p>
                                         <input className={`border-b border-gray-border p-2 outline-none text-center text-sm`}
                                             id='authorName'
                                             type='text'
@@ -79,20 +70,19 @@ export const FeedbackRequest = () => {
                                         />
                                     </div>
                                 </div>
-                                <div className={`py-4 ${filterZone}`}>
-                                    <TagGroups groups={user.feedback_tag_groups} tags={selectedTags} setTags={setSelectedTags} tagCounts={{}} defaultExpand={true} />
-                                </div>
                                 { errors.message && <p className='text-red'>Please add a short message to your feedback. Thanks.</p> }
+                                <p className='text-sm font-bold'>Message<span className='text-xs text-gray ml-2'>( Checkout the tags for targeted feedback areas. )</span></p>
                                 <textarea 
                                     name='message' 
                                     className='h-32 border border-gray-border w-full my-2' 
                                     placeholder='Situation-Behavior-Impact...'
-                                    value={feedbackText} 
-                                    defaultValue=''
-                                    onChange={(e) => setfeedbackText(e.target.value)} 
+                                    defaultValue={''}
                                     ref={register({required: true})} 
                                 />
                                 <input className='' type='hidden' name="recipientId" defaultValue={user.id} ref={register} />
+                                <div className={`py-4`}>
+                                    <TagGroups groups={user.feedback_tag_groups} tags={selectedTags} setTags={setSelectedTags} tagCounts={{}} defaultExpand={false} />
+                                </div>
                                 <div className={`mb-2 ${successZone}`}>
                                     {successMessage}
                                 </div>
