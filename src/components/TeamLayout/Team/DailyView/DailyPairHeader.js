@@ -32,8 +32,8 @@ const ErrorMessage = ({message}) => {
 const DailyPairHeader = ({saved, error, team}) => {
     return (
         <div>
-            <p className='text-3xl font-bold'>{team.name}</p>
-            <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
+            <p className='text-2xl font-bold'>{team.name}</p>
+            <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline mb-4'>
                 <div className='flex items-center'>
                     <p className='text-xl'>Today's Pairs</p>
                     <SaveStatus saved={saved} />

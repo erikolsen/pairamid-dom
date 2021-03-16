@@ -223,9 +223,10 @@ const TeamCalendar = () => {
     return (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-100">
             <section>
-                <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
+                <p className='text-2xl font-bold'>{team.name}</p>
+                <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline mb-4'>
                     <div className='w-full flex justify-between items-center'>
-                        <h1>Calendar and Reminders</h1>
+                        <p className='text-xl'>Calendar and Reminders</p>
                     </div>
                 </header>
                 <div className='grid grid-cols-1 md:grid-cols-2 col-gap-4 mb-2'>

@@ -79,9 +79,9 @@ const PairHistory = () => {
     return (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
             <section>
-                <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
+                <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline mb-4'>
                     <div className='w-full flex justify-between items-center'>
-                        <h1>Pair History</h1>
+                        <p className='text-2xl font-bold'>Pair History</p>
                         <DateRange history={history} />
                     </div>
                 </header>

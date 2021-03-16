@@ -31,9 +31,9 @@ const PairFrequency = () => {
     return (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
             <section>
-                <header className='border-b-2 border-gray-border md:flex md:flex-wrap justify-between items-baseline py-2 mb-4'>
+                <header className='border-b-2 border-gray-border md:flex md:flex-wrap justify-between items-baseline mb-4'>
                     <div className='flex items-center'>
-                        <h1>Pair Frequency</h1>
+                        <p className='text-2xl font-bold'>Pair Frequency</p>
                     </div>
                     <div>
                         <div className='flex items-center cursor-pointer' onClick={()=> setShowCalendar(!showCalendar)}>

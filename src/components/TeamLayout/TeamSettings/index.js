@@ -21,9 +21,10 @@ const TeamSettings = () => {
     return (
         <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
             <section>
-                <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4'>
+                <p className='text-2xl font-bold'>{name}</p>
+                <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline mb-4'>
                     <div className='w-full flex justify-between items-center'>
-                        <h1>{name} Settings</h1>
+                        <p className='text-xl'>Settings</p>
                     </div>
                 </header>
                 <div className='w-full'>
