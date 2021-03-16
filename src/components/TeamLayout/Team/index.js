@@ -22,6 +22,7 @@ const Team = () => {
             })
     }, [setPairs, teamId, setTeam])
 
+    if (!team) { return null }
     return (
         <div className='col-span-7'>
             <SocketHandler requestedData={pairs.length}>
