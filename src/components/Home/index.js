@@ -9,11 +9,27 @@ import axios from 'axios'
 import { API_URL } from '../../constants'
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUsers, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faUsers, faArrowRight, faUser } from '@fortawesome/free-solid-svg-icons'
+
+const UserIconButton = ({classes}) => {
+    const history = useHistory()
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    const onClick = (e) => { 
+        e.preventDefault();
+        history.push(`/users/${currentUser.uuid}`)
+    }
+
+    return currentUser && (
+        <button className={`my-2 mx-4 sm:mx-16 ${classes}`} onClick={onClick}>
+            <FontAwesomeIcon icon={faUser} />
+            <p className='font-bold leading-tight'>Profile</p>
+        </button>
+    )
+}
 
 const parseTeams = (teams)=> {return teams ? teams.split(',') : ''}
-
-const IconButton = ({classes}) => {
+const TeamsIconButton = ({classes}) => {
     const history = useHistory()
     let teams = parseTeams(localStorage.getItem('pairamid-teams'))
 
@@ -55,11 +71,11 @@ const CreateTeam = () => {
                            placeholder='Team Name'
                            defaultValue={''} 
                            ref={register({required: true})} />
-                    <label className='absolute text-lg block top-0 left-0 w-full p-2' htmlFor='name'>
+                    <label className='text-gray-med absolute text-lg block top-0 left-0 w-full p-2' htmlFor='name'>
                         Team Name
                     </label>
                 </div>
-                <input type='submit' data-cy='team-name-submit' value='START FOR FREE' className='bg-green-icon w-full md:w-2/5 md:mx-2 p-3 text-white font-bold' />
+                <input type='submit' data-cy='team-name-submit' value='Start for free!' className='bg-green-icon w-full md:w-2/5 md:mx-2 p-3 text-white font-bold' />
             </div>
             { errors.name && <p className='text-red'>Team Name is required</p> }
         </form>
@@ -70,13 +86,14 @@ const Home = () => {
     return (
         <div className=''>
             <header className='flex items-center justify-between border-gray-border border-b-2 w-screen'>
+                <UserIconButton />
                 <div className='my-4 mx-4 sm:mx-16'>
                     <img src={logo} alt='Paramid Logo' width='169' height='40' className='w-full max-w-logo' />
                 </div>
-                <IconButton />
+                <TeamsIconButton />
             </header>
             <div className='h-full w-screen'>
-                <div className='grid grid-cols-1 lg:grid-cols-2 my-8 sm:my-24'>
+                <div className='grid grid-cols-1 lg:grid-cols-2 my-8 sm:my-24 items-center'>
                     <div className='col-span-1 mx-4 sm:mx-16 lg:ml-16 lg:mr-8 my-8'>
                         <div className=''>
                             <p className='text-5xl font-bold leading-tight'>Pairamid helps you pair more efficiently</p>
@@ -89,7 +106,7 @@ const Home = () => {
                             <CreateTeam />
                         </div>
                     </div>
-                    <div className='col-span-1 mx-4 sm:mx-16 lg:ml-8 lg:mr-16 '>
+                    <div className='col-span-1 mx-4 sm:mx-16 lg:ml-8 lg:mr-16'>
                         <div className='bg-white shadow-lg rounded-lg'>
                             <img className='' src={daily} alt='Full Daily View' />
                         </div>
@@ -100,8 +117,8 @@ const Home = () => {
 
             <div className='h-full w-screen'>
                 <div className='grid grid-cols-1 lg:grid-cols-2'>
-                    <div className='col-span-1 mx-4 sm:mx-16 lg:ml-16 lg:mr-8'>
-                        <div className=''>
+                    <div className='col-span-1 mx-4 sm:mx-16 lg:ml-16 lg:mr-8 flex justify-center'>
+                        <div className='max-w-2xl'>
                             <img className='bg-white shadow-lg rounded-lg' src={duration} alt='Daily View' />
                         </div>
                     </div>

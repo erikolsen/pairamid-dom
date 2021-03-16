@@ -7,20 +7,6 @@ import {
     Tooltip,
 } from 'recharts'
 
-// const style = {
-// 	top: 0,
-// 	left: 350,
-// 	lineHeight: '24px',
-// };
-// <Legend 
-//     iconSize={20} 
-//     width={120} 
-//     height={140} 
-//     layout='vertical' 
-//     verticalAlign='middle' 
-//     wrapperStyle={style} 
-// /> 
-
 const CustomTooltip = ({ active, payload, label }) => {
 	if (active && payload) {
 		return (
@@ -62,44 +48,5 @@ const SimpleRadialBarChart = ({data}) => {
         </div>
     );
 }
-
-// const RadialChart = () => {
-//     const data = [
-//         { id: "1", name: "L1", value: 50 },
-//         { id: "2", name: "L2", value: 50 }
-//         ];
-//     return (
-//         <ResponsiveContainer width='100%' height={200} className=''>
-//             <PieChart >
-//                 <text
-//                     x={'50%'}
-//                     y={100}
-//                     textAnchor="middle"
-//                     dominantBaseline="middle"
-//                     className='text-3xl md:text-5xl'
-//                 >
-//                     50%
-//                 </text>
-//                 <Pie
-//                     data={data}
-//                     dataKey="value"
-//                     innerRadius="80%"
-//                     outerRadius="100%"
-//                     fill="#82ca9d"
-//                     startAngle={90}
-//                     endAngle={-270}
-//                     paddingAngle={0}
-//                     blendStroke
-//                 >
-//                     <Cell
-//                         key="test"
-//                         fill="#CCC"
-//                     />
-//                     <Label value="Pages of my website" offset={100} position="bottom" />
-//                 </Pie>
-//             </PieChart>
-//         </ResponsiveContainer>
-//     )
-// }
 
 export default SimpleRadialBarChart
