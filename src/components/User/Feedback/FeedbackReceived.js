@@ -92,9 +92,9 @@ const FeedbackReceived = (props)=> {
     return (
         <main className="bg-gray-light col-span-7 h-full">
             <section>
-                <div className='flex justify-between my-2'>
-                    <h2 className=''>Feedback</h2>
-                    <div className='flex'>
+                <div className='md:flex md:justify-between md:items-center'>
+                    <h2 className='my-2'>Feedback</h2>
+                    <div className='flex my-2'>
                         <button onClick={toggleManageTags} className={`mr-2 flex items-center border border-gray-border rounded-lg px-4 py-2 border border-gray-border focus:outline-none ${manageTagsClasses}`}>
                             <p className='text-sm'>Manage Tags</p>
                         </button>

@@ -139,9 +139,9 @@ const ManageTags = ({user})=> {
         <div className=''>
             <div className=''>
                 <div className='flex items-center justify-between bg-white shadow-lg rounded-lg rounded-b-none'>
-                    <p className='p-4 font-bold text-lg'>Manage Feedback Tags/Groups</p>
+                    <p className='p-4 font-bold text-lg'>Manage Tags</p>
                     <button onClick={addGroup} className='flex items-center border border-gray-border rounded-lg px-4 py-1 mx-4'>
-                        <p className='mr-2 text-sm'>Add Group</p>
+                        <p className='mr-2 text-xs md:text-sm'>Add Group</p>
                         <FontAwesomeIcon icon={faPlus} size="xs" />
                     </button>
                 </div>

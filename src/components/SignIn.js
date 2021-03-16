@@ -93,8 +93,8 @@ const SignIn = () => {
                 <IconButton />
             </header>
             <main className='h-screen bg-gray-light p-12'>
-                <section>
-                    <div className='bg-white rounded-lg shadow-lg mx-8 md:mx-16'>
+                <section className='flex justify-center'>
+                    <div className='bg-white rounded-lg shadow-lg mx-2 w-full md:w-4/5 lg:w-1/2'>
                         <p className='font-bold pt-8 text-center text-lg'>Please login to continue</p>
                         <SignInUser />
                     </div>
