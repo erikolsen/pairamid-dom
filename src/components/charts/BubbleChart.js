@@ -20,6 +20,7 @@ const dateToInt = (date) => {
 }
 
 const SimpleScatterChart = ({data}) => {
+    data =  data.map(d => ({...d, date: formatXAxis(d.date)}))
     data = data.map(d => ({...d, date: dateToInt(d.date)}))
     const min = Math.min(...data.map(d => d.z))
     const max = Math.max(...data.map(d => d.z))
