@@ -111,12 +111,12 @@ const FeedbackReceived = (props)=> {
                     <ManageTags user={user} feedback_tag_groups={user.feedback_tag_groups} />
                 </div>
 
-                <div className={`${filterZone} grid grid-cols-2 col-gap-4`}>
-                    <div className='bg-white shadow-lg rounded-lg p-4'>
+                <div className={`${filterZone} grid grid-cols-2 col-gap-4 row-gap-4`}>
+                    <div className='col-span-2 md:col-span-1 bg-white shadow-lg rounded-lg p-4'>
                         <h2 className='text-center my-2'>Filter by Tag</h2>
                         <TagGroups groups={user.feedback_tag_groups} tags={tags} setTags={setTags} tagCounts={tagCounts} />
                     </div>
-                    <div className='bg-white shadow-lg rounded-lg p-4'>
+                    <div className='col-span-2 md:col-span-1 bg-white shadow-lg rounded-lg p-4'>
                         <DateSelect date={date} setDate={setDate} />
                     </div>
                     <div className='col-span-2 border-b-2 border-gray-border my-4' />

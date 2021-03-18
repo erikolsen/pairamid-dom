@@ -30,15 +30,20 @@ const IconButton = ({classes}) => {
 
 const SignInUser = () => {
     const [showPassword, setShowPassword] = useState(false)
+    const [loginFailure, setLoginFailure] = useState(false)
     const togglePassword = () => setShowPassword(!showPassword)
     const { register, handleSubmit, errors } = useForm()
     const history = useHistory()
 
-    const onUpdate = (data) => {
+    const onUpdate = (data, e) => {
         axios.post(`${API_URL}/login`, data)
             .then((response) => {
                 localStorage.setItem('currentUser', JSON.stringify(response.data))
                 history.push(`/users/${response.data.uuid}`)
+            })
+            .catch((error)=> {
+                setLoginFailure(true)
+                e.target.reset()
             })
     }
     const emailError = errors.email ? 'border border-red' : 'border border-gray-border' 
@@ -74,6 +79,7 @@ const SignInUser = () => {
                     </div>
                 </div>
                 { errors.password && <p className='text-red'>Password is required</p> }
+                { loginFailure && <p className='text-red'>Email or password is incorrect.</p> }
                 <div className='w-full md:w-3/5 flex justify-between items-center'>
                     <Link className='text-green-icon' to={`/signup`} >Create Account</Link>
                     <input type='submit' value='Login' className={`rounded-md bg-green-icon w-full md:w-2/5 md:mx-2 p-3 text-white font-bold my-4`} />
