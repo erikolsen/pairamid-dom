@@ -47,7 +47,7 @@ const Header = () => {
         <div>
             <header data-cy='header' className="p-3 border-gray-border border-b-2 lg:pt-12 lg:block lg:justify-center lg:h-screen lg:border-r-2 lg:border-b-0">
                 <div className='flex items-center justify-between'>
-                    <button className='focus:outline-none lg:hidden w-full text-left' onClick={(e)=> setCollapsed(!collapsed)}>
+                    <button className='focus:outline-none lg:hidden w-full text-left' onClick={()=> setCollapsed(!collapsed)}>
                         <FontAwesomeIcon icon={faBars} />
                     </button>
 

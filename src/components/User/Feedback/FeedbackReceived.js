@@ -27,7 +27,7 @@ const getCount = (acc, el) => {
     return acc
 };
 
-const FeedbackReceived = (props)=> {
+const FeedbackReceived = ()=> {
     const { userId } = useParams()
     const history = useHistory()
     const [user, setUser] = useState()

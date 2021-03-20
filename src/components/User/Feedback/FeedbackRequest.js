@@ -29,7 +29,7 @@ export const FeedbackRequest = () => {
     const onUpdate = (data, e) => {
         let payload = {...data, ...{tags: selectedTags.map(tag=> tag.id)}}
         axios.post(`${API_URL}/feedbacks`, payload)
-             .then((response) => {
+             .then(() => {
                  setSelectedTags([])
                  e.target.reset()
                  setShowSuccess(true)

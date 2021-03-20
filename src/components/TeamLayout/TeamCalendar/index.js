@@ -180,7 +180,7 @@ const DisplayReminders = ({startDate, endDate, reminders, setReminders, team}) =
                             Reminders for <span className='ml-2'>{localDate(startDate)}</span>
                             {spanOfDays(startDate, endDate) && <span>-{localDate(endDate)}</span>}
                         </p>
-                        <button className='flex items-center m-2 focus:outline-none' onClick={(e) => setAddable(!addable)}>
+                        <button className='flex items-center m-2 focus:outline-none' onClick={() => setAddable(!addable)}>
                             <p>Add Reminder</p>
                             <p className='text-3xl text-gray ml-2'>&#8853;</p> 
                         </button>

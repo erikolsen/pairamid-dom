@@ -36,7 +36,7 @@ const SocketHandler = ({children, requestedData}) => {
     const [connected, setConnected] = useState(true)
 
     useEffect(() => {
-        const handleDisconnect = async (e) => {
+        const handleDisconnect = async (_e) => {
             console.log('Pairamid has disconnected.')
             SOCKET.io.off("connect_error")
             setConnected(false)
@@ -59,7 +59,7 @@ const SocketHandler = ({children, requestedData}) => {
 
         }
         SOCKET.on('disconnect', (e) => { handleDisconnect(e) });
-        SOCKET.io.on("connect_error", (e)=> { handleDisconnect() })
+        SOCKET.io.on("connect_error", (_e)=> { handleDisconnect() })
         return () => {
             SOCKET.off('disconnect');
         }
