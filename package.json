@@ -13,7 +13,7 @@
     "react-big-calendar": "^0.33.2",
     "react-calendar": "^3.1.0",
     "react-dom": "^17.0.1",
-    "react-hook-form": "^5.7.2",
+    "react-hook-form": "^6.15.5",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^4.0.3",
     "react-window": "^1.8.5",
