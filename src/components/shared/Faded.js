@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 import React from 'react'
 
 const Faded = ({ children, duration, isOut }) => {

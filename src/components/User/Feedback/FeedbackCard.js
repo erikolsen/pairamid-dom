@@ -61,7 +61,7 @@ const FeedbackCard = ({feedback, groups}) => {
     const onSave = () => { 
         let payload = {tags: selectedTags.map(tag=> tag.id)}
         axios.post(`${API_URL}/feedbacks/${feedback.id}`, payload)
-             .then((response) => {
+             .then(() => {
                  setUpdated(true)
                  setOpenFilters(false)
              })

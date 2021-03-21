@@ -6,7 +6,7 @@ import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 const SignOut = () => {
     const history = useHistory()
 
-    const onClick = (data) => {
+    const onClick = () => {
         localStorage.removeItem('currentUser')
         history.push(`/login`)
     }

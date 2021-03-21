@@ -20,7 +20,7 @@ const TagGroups = ({groups, tagCounts, tags, setTags, defaultExpand}) => {
                 <div className='cursor-pointer' onClick={toggle}><span>{collpaseText}</span><FontAwesomeIcon className='ml-2' icon={collpaseIcon} size='xs' /></div>
             </div>
             <div className='border-b-2 border-gray-border my-2' />
-            { groups.map((group, index) => <TagGroup key={group.id} group={group} tagCounts={tagCounts} tags={tags} setTags={setTags} expanded={open} />)}
+            { groups.map((group) => <TagGroup key={group.id} group={group} tagCounts={tagCounts} tags={tags} setTags={setTags} expanded={open} />)}
         </div>
     )
 }

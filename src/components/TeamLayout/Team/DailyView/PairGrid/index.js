@@ -82,7 +82,7 @@ const PairGrid = ({pairs, setSaved, setError}) => {
         SOCKET.emit('add pair', {teamId: teamId}, (response) => handleError(response))
     }
 
-    const activePairs = pairs.filter((p) => p.info !== 'UNPAIRED' && p.info !== 'OUT_OF_OFFICE').map((pair, i) => <Pair updatePairInfo={updatePairInfo} onDelete={deletePair} pair={pair} key={pair.uuid} />)
+    const activePairs = pairs.filter((p) => p.info !== 'UNPAIRED' && p.info !== 'OUT_OF_OFFICE').map((pair) => <Pair updatePairInfo={updatePairInfo} onDelete={deletePair} pair={pair} key={pair.uuid} />)
     const unpaired    = pairs.find((p) => p.info === 'UNPAIRED')
     const ooo         = pairs.find((p) => p.info === 'OUT_OF_OFFICE')
 

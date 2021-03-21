@@ -180,7 +180,7 @@ const DisplayReminders = ({startDate, endDate, reminders, setReminders, team}) =
                             Reminders for <span className='ml-2'>{localDate(startDate)}</span>
                             {spanOfDays(startDate, endDate) && <span>-{localDate(endDate)}</span>}
                         </p>
-                        <button className='flex items-center m-2 focus:outline-none' onClick={(e) => setAddable(!addable)}>
+                        <button className='flex items-center m-2 focus:outline-none' onClick={() => setAddable(!addable)}>
                             <p>Add Reminder</p>
                             <p className='text-3xl text-gray ml-2'>&#8853;</p> 
                         </button>
@@ -229,7 +229,7 @@ const TeamCalendar = () => {
                         <p className='text-xl'>Calendar and Reminders</p>
                     </div>
                 </header>
-                <div className='grid grid-cols-1 md:grid-cols-2 col-gap-4 mb-2'>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-x-4 mb-2'>
                     <div className='bg-white shadow-lg rounded-lg p-4 col-span-1 mb-4 md:mb-0'>
                         <p className='font-bold text-xl mb-2 text-center'>{team.name} Calendar</p>
                         <div className='flex justify-center'>

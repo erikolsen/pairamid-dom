@@ -6,26 +6,22 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "axios": "^0.19.2",
-    "cypress": "^6.2.1",
+    "axios": "^0.21.1",
     "date-fns": "^2.16.1",
-    "react": "^16.13.1",
+    "postcss": "^8.2.8",
+    "react": "^17.0.1",
     "react-beautiful-dnd": "^13.0.0",
-    "react-big-calendar": "^0.30.0",
+    "react-big-calendar": "^0.33.2",
     "react-calendar": "^3.1.0",
-    "react-dates": "^21.8.0",
-    "react-dom": "^16.13.1",
-    "react-hook-form": "^5.7.2",
+    "react-dom": "^17.0.1",
+    "react-hook-form": "^6.15.5",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1",
+    "react-scripts": "^4.0.3",
     "react-window": "^1.8.5",
-    "recharts": "2.0.7",
+    "recharts": "^2.0.8",
     "sass": "^1.26.3",
-    "socket.io-client": "^2.3.0",
-    "uuid": "^7.0.2",
+    "socket.io-client": "^4.0.0",
+    "uuid": "^8.3.2",
     "webfontloader": "^1.6.28"
   },
   "scripts": {
@@ -52,9 +48,10 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^9.7.4",
-    "faker": "^4.1.0",
-    "postcss-cli": "^7.1.0",
-    "tailwindcss": "^1.2.0"
+    "autoprefixer": "^10.2.5",
+    "cypress": "^6.8.0",
+    "eslint-plugin-jest": "^24.3.2",
+    "postcss-cli": "^8.3.1",
+    "tailwindcss": "^2.0.4"
   }
 }

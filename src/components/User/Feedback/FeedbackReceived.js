@@ -27,7 +27,7 @@ const getCount = (acc, el) => {
     return acc
 };
 
-const FeedbackReceived = (props)=> {
+const FeedbackReceived = ()=> {
     const { userId } = useParams()
     const history = useHistory()
     const [user, setUser] = useState()
@@ -111,7 +111,7 @@ const FeedbackReceived = (props)=> {
                     <ManageTags user={user} feedback_tag_groups={user.feedback_tag_groups} />
                 </div>
 
-                <div className={`${filterZone} grid grid-cols-2 col-gap-4 row-gap-4`}>
+                <div className={`${filterZone} grid grid-cols-2 gap-x-4 gap-y-4`}>
                     <div className='col-span-2 md:col-span-1 bg-white shadow-lg rounded-lg p-4'>
                         <h2 className='text-center my-2'>Filter by Tag</h2>
                         <TagGroups groups={user.feedback_tag_groups} tags={tags} setTags={setTags} tagCounts={tagCounts} />
@@ -134,7 +134,7 @@ const FeedbackReceived = (props)=> {
                     </div>
                 </div>
 
-                <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 col-gap-4 row-gap-4'>
+                <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-4'>
                     {filteredFeedback.map((feedback) => <FeedbackCard key={feedback.id} feedback={feedback} groups={user.feedback_tag_groups}/>) }
                 </div>
             </section>

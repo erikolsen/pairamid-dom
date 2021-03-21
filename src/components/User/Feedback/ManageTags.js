@@ -67,7 +67,7 @@ const TagGroup = ({addTag, updateTag, removeTag, group, removeGroup}) => {
                 { hasNoTags && <p onClick={() => removeGroup(group.id)} className={`text-red ml-4 cursor-pointer ${groupZone}`}>Delete</p> }
             </div>
             <div className={`${groupZone}`}>
-                <div className='grid grid-cols-2 lg:grid-cols-3 col-gap-2 row-gap-2 my-2'>
+                <div className='grid grid-cols-2 lg:grid-cols-3 gap-x-2 gap-y-2 my-2'>
                     {group.tags.map(tag => <NewTag key={tag.id} tag={tag} updateTag={updateTag} onDelete={removeTag} />) }
                 </div>
                 <button onClick={addTag} className='mx-2 flex items-center'>

@@ -7,7 +7,7 @@ import {
     Tooltip,
 } from 'recharts'
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload }) => {
 	if (active && payload) {
 		return (
             <p>{payload[0].payload.name} - {payload[0].value}%</p>

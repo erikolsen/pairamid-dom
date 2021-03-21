@@ -51,7 +51,7 @@ const Teams = () => {
 
             <section className='bg-gray-light h-screen'>
                 <div className=''>
-                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 col-gap-4 mx-4 sm:mx-16'>
+                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 mx-4 sm:mx-16'>
                         { teams.map(team => <TeamCard key={team.uuid} team={team} />) }
                     </div>
                 </div>

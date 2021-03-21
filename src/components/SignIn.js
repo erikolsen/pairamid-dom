@@ -41,7 +41,7 @@ const SignInUser = () => {
                 localStorage.setItem('currentUser', JSON.stringify(response.data))
                 history.push(`/users/${response.data.uuid}`)
             })
-            .catch((error)=> {
+            .catch((_error)=> {
                 setLoginFailure(true)
                 e.target.reset()
             })

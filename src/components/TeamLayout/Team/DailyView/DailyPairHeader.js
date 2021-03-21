@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react'
 
 const getTodaysDate = () => {
@@ -35,7 +36,7 @@ const DailyPairHeader = ({saved, error, team}) => {
             <p className='text-2xl font-bold'>{team.name}</p>
             <header className='border-b-2 border-gray-border flex flex-wrap justify-between items-baseline mb-4'>
                 <div className='flex items-center'>
-                    <p className='text-xl'>Today's Pairs</p>
+                    <p className='text-xl font-gray-50'>Today's Pairs</p>
                     <SaveStatus saved={saved} />
                 </div>
                 <p className="font-normal text-teal-dark text-xl">{getTodaysDate()}</p>
