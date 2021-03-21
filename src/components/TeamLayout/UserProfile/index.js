@@ -33,7 +33,7 @@ const UserProfile = () => {
                     </div>
                 </header>
 
-                <div className='grid grid-cols-2 col-gap-4 row-gap-4'>
+                <div className='grid grid-cols-2 gap-x-4 gap-y-4'>
                     <div className='col-span-2 md:col-span-1 bg-white shadow-lg rounded-lg'>
                         <h2 className='mt-4 text-center'>Pairing Totals</h2>
                         <div className='my-2 flex justify-center'>

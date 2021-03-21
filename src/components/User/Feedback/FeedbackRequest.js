@@ -57,7 +57,7 @@ export const FeedbackRequest = () => {
                                 <div className='flex items-center justify-between'>
                                     <h2 className=''>Feedback for {user.full_name}</h2>
                                 </div>
-                                <div className='grid grid-cols-2 col-gap-4 items-center my-4'>
+                                <div className='grid grid-cols-2 gap-x-4 items-center my-4'>
                                     <div className='col-span-2 md:col-span-1 flex items-center'>
                                         <p className='text-sm font-bold'>From </p>
                                         <input className={`border-b border-gray-border p-2 outline-none text-center text-sm`}
