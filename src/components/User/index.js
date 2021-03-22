@@ -21,12 +21,12 @@ const User = () => {
     const history = useHistory()
     const [user, setUser] = useState()
 
-    useEffect(()=> {
-        axios.get(`${API_URL}/users/${userId}`, {headers: authHeader()})
-            .then((response)=> {
+    useEffect(() => {
+        axios.get(`${API_URL}/users/${userId}`, { headers: authHeader() })
+            .then((response) => {
                 setUser(response.data)
             })
-            .catch((error)=> {
+            .catch((error) => {
                 console.log('error: ', error)
                 history.push('/login')
             })

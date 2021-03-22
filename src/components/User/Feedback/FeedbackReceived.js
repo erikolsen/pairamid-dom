@@ -27,10 +27,35 @@ const getCount = (acc, el) => {
     return acc
 };
 
+const useToggleZone = (name, initialOpen=false) => {
+    const [ open, setOpen ] = useState(initialOpen)
+    const toggleOpen = () => setOpen(!open)
+    const toggleZone = open ? 'block' : 'hidden'
+    const toggleButtonClasses = open ? 'bg-blue-700 text-white' : 'hover:border-2 hover:border-blue-700'
+    const ToggleButton = ({className}) => {
+        return (
+            <button onClick={toggleOpen} className={`ml-2 flex items-center border border-gray-border rounded-lg px-4 py-2 focus:outline-none ${toggleButtonClasses} ${className}`}>
+                <p className='text-sm'>{name}</p>
+            </button>
+        )
+    }
+    const ToggleZone = ({children, className}) => {
+        return (
+            <div className={`${toggleZone} ${className}`}>
+                {children}
+            </div>
+        )
+    }
+    return [ToggleButton, ToggleZone]
+}
+
 const FeedbackReceived = ()=> {
     const { userId } = useParams()
     const history = useHistory()
     const [user, setUser] = useState()
+    const [ManageTagsButton, ManageTagsZone] = useToggleZone('Manage Tags', true)
+    const [FilterButton, FilterZone] = useToggleZone('Filters')
+    const [ChartsButton, ChartsZone] = useToggleZone('Charts')
 
     useEffect(()=> {
         axios.get(`${API_URL}/users/${userId}`, {headers: authHeader()})
@@ -49,23 +74,6 @@ const FeedbackReceived = ()=> {
     const [date, setDate] = useState([subMonths(today, 1), addDays(today, 1)])
     const [startDate, endDate] = date
     const dateFilter = (feedback) => new Date(feedback.created_at) >= startDate && new Date(feedback.created_at) <= endDate
-
-    
-    const [ openManageTags, setOpenManageTags ] = useState(true)
-    const toggleManageTags = () => setOpenManageTags(!openManageTags)
-    const manageTagsZone = openManageTags ? 'block' : 'hidden'
-    const manageTagsClasses = openManageTags ? 'bg-blue-700 text-white' : 'hover:border-2 hover:border-blue-700'
-
-
-    const [ openFilters, setOpenFilters ] = useState(false)
-    const toggleFilters = () => setOpenFilters(!openFilters)
-    const filterZone = openFilters ? 'block' : 'hidden'
-    const filterZoneClasses = openFilters ? 'bg-blue-700 text-white' : 'hover:border-2 hover:border-blue-700'
-
-    const [ openCharts, setOpenCharts ] = useState(false)
-    const toggleCharts = () => setOpenCharts(!openCharts)
-    const chartZone = openCharts ? 'block' : 'hidden'
-    const chartZoneClasses = openCharts ? 'bg-blue-700 text-white' : 'hover:border-2 hover:border-blue-700'
 
     if (!user) { return null }
 
@@ -95,23 +103,17 @@ const FeedbackReceived = ()=> {
                 <div className='md:flex md:justify-between md:items-center'>
                     <h2 className='my-2'>Feedback</h2>
                     <div className='flex my-2'>
-                        <button onClick={toggleManageTags} className={`mr-2 flex items-center border border-gray-border rounded-lg px-4 py-2 border border-gray-border focus:outline-none ${manageTagsClasses}`}>
-                            <p className='text-sm'>Manage Tags</p>
-                        </button>
-                        <button onClick={toggleFilters} className={`mr-2 flex items-center border border-gray-border rounded-lg px-4 py-2 focus:outline-none ${filterZoneClasses}`}>
-                            <p className='text-sm'>Filters</p>
-                        </button>
-                        <button onClick={toggleCharts} className={`flex items-center border border-gray-border rounded-lg px-4 py-2 focus:outline-none ${chartZoneClasses}`}>
-                            <p className='text-sm'>Charts</p>
-                        </button>
+                        <ManageTagsButton />
+                        <FilterButton />
+                        <ChartsButton />
                     </div>
                 </div>
 
-                <div className={`${manageTagsZone} my-4`}>
+                <ManageTagsZone className='my-4'>
                     <ManageTags user={user} feedback_tag_groups={user.feedback_tag_groups} />
-                </div>
+                </ManageTagsZone>
 
-                <div className={`${filterZone} grid grid-cols-2 gap-x-4 gap-y-4`}>
+                <FilterZone className='grid grid-cols-2 gap-x-4 gap-y-4'>
                     <div className='col-span-2 md:col-span-1 bg-white shadow-lg rounded-lg p-4'>
                         <h2 className='text-center my-2'>Filter by Tag</h2>
                         <TagGroups groups={user.feedback_tag_groups} tags={tags} setTags={setTags} tagCounts={tagCounts} />
@@ -120,9 +122,9 @@ const FeedbackReceived = ()=> {
                         <DateSelect date={date} setDate={setDate} />
                     </div>
                     <div className='col-span-2 border-b-2 border-gray-border my-4' />
-                </div>
+                </FilterZone>
 
-                <div className={`${chartZone}`}>
+                <ChartsZone>
                     <div className='bg-white rounded-lg shadow-lg my-4'>
                         <h2 className='text-center pt-4'>Tag Radar</h2>
                         <RadarChartRecharts data={radarData} maxSize={maxSize} />
@@ -132,7 +134,7 @@ const FeedbackReceived = ()=> {
                         <h2 className='text-center pt-4'>Tags By Date</h2>
                         <SimpleScatterChart data={scatterData} />
                     </div>
-                </div>
+                </ChartsZone>
 
                 <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-4'>
                     {filteredFeedback.map((feedback) => <FeedbackCard key={feedback.id} feedback={feedback} groups={user.feedback_tag_groups}/>) }
