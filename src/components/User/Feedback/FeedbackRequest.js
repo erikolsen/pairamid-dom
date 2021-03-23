@@ -71,7 +71,7 @@ export const FeedbackRequest = () => {
                                     </div>
                                 </div>
                                 { errors.message && <p className='text-red'>Please add a short message to your feedback. Thanks.</p> }
-                                <p className='text-sm font-bold'>Message<span className='text-xs text-gray ml-2'>( Checkout the tags for targeted feedback areas. )</span></p>
+                                <p className='text-sm font-bold'>Message<span className='text-xs text-gray ml-2'>( Check out the tags for targeted feedback areas. )</span></p>
                                 <textarea 
                                     name='message' 
                                     className='h-32 border border-gray-border w-full my-2' 

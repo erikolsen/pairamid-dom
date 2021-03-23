@@ -10,13 +10,12 @@ const TagGroups = ({groups, tagCounts, tags, setTags, defaultExpand}) => {
     const collpaseIcon = open ? faMinusSquare : faPlusSquare
     const collpaseText = open ? 'Collapse All' : 'Expand All'
     const totalCount = Object.values(tagCounts).reduce(SUM, 0)
-    const tagHintText = '( Hover over tag for description. )'
     const title = totalCount ? `Tags-${totalCount}` : `Tags`
 
     return (
         <div className=''>
             <div className='flex items-center justify-between text-sm'>
-                <p className='font-bold'>{title}<span className='text-xs text-gray ml-2 hidden sm:inline-block'>{tagHintText}</span></p>
+                <p className='font-bold'>{title}</p>
                 <div className='cursor-pointer' onClick={toggle}><span>{collpaseText}</span><FontAwesomeIcon className='ml-2' icon={collpaseIcon} size='xs' /></div>
             </div>
             <div className='border-b-2 border-gray-border my-2' />
