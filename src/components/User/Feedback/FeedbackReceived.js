@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { useHistory } from "react-router-dom";
+import { useParams, useHistory } from 'react-router-dom'
 import _ from 'lodash'
-import RadarChartRecharts from '../../charts/RadarChart'
+// import RadarChartRecharts from '../../charts/RadarChart'
 import SimpleScatterChart from '../../charts/BubbleChart'
+import PositiveNegativeBar from '../../charts/PositiveNegativeBar'
+import FeedbackCardEdit from './FeedbackCardEdit'
 import FeedbackCard from './FeedbackCard'
 import TagGroups from './TagGroups'
 import DateSelect from './DateSelect'
@@ -11,6 +12,18 @@ import { subMonths, addDays } from 'date-fns'
 import ManageTags from './ManageTags'
 import axios from 'axios'
 import { API_URL } from '../../../constants'
+
+const DisplayCard = ({feedback, groups}) => {
+    const [editing, setEditing] = useState(false)
+    const [ updated, setUpdated ] = useState(false)
+    const [updatedFeedback, setUpdatedFeedback] = useState(feedback)
+
+    if(editing){
+        return <FeedbackCardEdit setUpdatedFeedback={setUpdatedFeedback} feedback={feedback} groups={groups} setEditing={setEditing} setUpdated={setUpdated} />
+    } else {
+        return <FeedbackCard feedback={updatedFeedback} groups={groups} setEditing={setEditing} updated={updated} />
+    }
+}
 
 export function authHeader() {
     // return authorization header with jwt token
@@ -53,9 +66,9 @@ const FeedbackReceived = ()=> {
     const { userId } = useParams()
     const history = useHistory()
     const [user, setUser] = useState()
-    const [ManageTagsButton, ManageTagsZone] = useToggleZone('Manage Tags', true)
+    const [ManageTagsButton, ManageTagsZone] = useToggleZone('Manage Tags')
     const [FilterButton, FilterZone] = useToggleZone('Filters')
-    const [ChartsButton, ChartsZone] = useToggleZone('Charts')
+    const [ChartsButton, ChartsZone] = useToggleZone('Charts', true)
 
     useEffect(()=> {
         axios.get(`${API_URL}/users/${userId}`, {headers: authHeader()})
@@ -80,14 +93,25 @@ const FeedbackReceived = ()=> {
     const tagUnion = fb => _.difference(tags.map(t=> t.id), fb.tags.map(t=> t.id)).length === 0
     const filteredFeedback = user.feedback_received.filter(dateFilter).filter(tagUnion)
 
-    const tagCounts = filteredFeedback.flatMap(feedback => feedback.tags.map(tag => tag.name)).reduce(getCount, {}) 
+    const feedbackTags = filteredFeedback.flatMap(feedback => feedback.tags.map(tag => tag.name))
+    const tagCounts = feedbackTags.reduce(getCount, {}) 
 
-    const maxSize = Math.max(...Object.values(tagCounts))
-    const radarData = Object.entries(tagCounts).map(([name, value]) => ({
-        tag: name,
-        tagCount: value,
-        fullMark: maxSize,
-    }))
+    // const maxSize = Math.max(...Object.values(tagCounts))
+    // const radarData = Object.entries(tagCounts).map(([name, value]) => ({
+    //     tag: name,
+    //     tagCount: value,
+    //     fullMark: maxSize,
+    // }))
+
+    const notGrow = tag => tag !== 'Grow'
+    const notGlow = tag => tag !== 'Glow'
+    const byName = name => fb => fb.tags.map(t => t.name).includes(name)
+
+    const glowGrowData = _.uniq(feedbackTags.filter(notGlow).filter(notGrow)).map(tagName => ({
+        name: tagName,
+        glow: filteredFeedback.filter(byName('Glow')).filter(byName(tagName)).length,
+        grow: filteredFeedback.filter(byName('Grow')).filter(byName(tagName)).length,
+    })) 
 
     const JOINER = '<->'
     const scatterFeedback = filteredFeedback.flatMap(feedback => feedback.tags.map(tag => `${tag.name}${JOINER}${feedback.created_at}`)).reduce(getCount, {}) 
@@ -126,8 +150,9 @@ const FeedbackReceived = ()=> {
 
                 <ChartsZone>
                     <div className='bg-white rounded-lg shadow-lg my-4'>
-                        <h2 className='text-center pt-4'>Tag Radar</h2>
-                        <RadarChartRecharts data={radarData} maxSize={maxSize} />
+                        <h2 className='text-center pt-4'>Glows and Grows</h2>
+                        <PositiveNegativeBar data={glowGrowData} />
+                        {/* <RadarChartRecharts data={radarData} maxSize={maxSize} /> */}
                     </div>
 
                     <div className='bg-white rounded-lg shadow-lg my-4'>
@@ -137,7 +162,7 @@ const FeedbackReceived = ()=> {
                 </ChartsZone>
 
                 <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-4'>
-                    {filteredFeedback.map((feedback) => <FeedbackCard key={feedback.id} feedback={feedback} groups={user.feedback_tag_groups}/>) }
+                    {filteredFeedback.map((feedback) => <DisplayCard key={feedback.id} feedback={feedback} groups={user.feedback_tag_groups}/>) }
                 </div>
             </section>
         </main>
