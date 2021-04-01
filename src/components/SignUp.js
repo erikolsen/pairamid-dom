@@ -51,7 +51,7 @@ const SignUpUser = ({email}) => {
     return (
         <form onSubmit={handleSubmit(onUpdate)}>
             <div className='flex flex-col items-center justify-center p-4'>
-                <input className={`text-lg w-full md:w-3/5 outline-none rounded-md px-2 py-1 my-2 ${emailError}`}
+                <input className={`text-lg w-full md:w-4/5 outline-none rounded-md px-2 py-1 my-2 ${emailError}`}
                         id='email'
                         type='text'
                         name='email'
@@ -62,7 +62,7 @@ const SignUpUser = ({email}) => {
                             pattern: EMAIL_PATTERN
                         })} />
                 { errors.email && <p className='text-red'>Email is required</p> }
-                <input className={`text-lg w-full md:w-3/5 outline-none border border-gray-border rounded-md px-2 py-1 my-2 `}
+                <input className={`text-lg w-full md:w-4/5 outline-none border border-gray-border rounded-md px-2 py-1 my-2 `}
                         id='fullName'
                         type='text'
                         name='fullName'
@@ -73,7 +73,7 @@ const SignUpUser = ({email}) => {
                             minLength: 1 
                         })} />
                 { errors.fullName && <p className='text-red'>Minimum 1 character required</p> }
-                <div className='w-full md:w-3/5 relative appearance-none my-2'>
+                <div className='w-full md:w-4/5 relative appearance-none my-2'>
                     <input 
                         className={`w-full text-lg outline-none rounded-md px-2 py-1 ${initialsError}`}
                         id='password'
@@ -88,7 +88,7 @@ const SignUpUser = ({email}) => {
                     </div>
                 </div>
                 { errors.password && <p className='text-red'>Password is required</p> }
-                <div className='w-full md:w-3/5 md:flex md:justify-between md:items-center'>
+                <div className='w-full md:w-4/5 md:flex md:justify-between md:items-center'>
                     <Link className='text-green-icon' to={`/login`} >Already have an account? Log In</Link>
                     <input type='submit' value='Sign up' className={`rounded-md bg-green-icon w-full md:w-2/5 md:mx-2 p-3 text-white font-bold my-4`} />
                 </div>
