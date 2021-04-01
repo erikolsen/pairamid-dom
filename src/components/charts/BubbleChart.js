@@ -12,10 +12,16 @@ import {
 import { format } from 'date-fns'
 
 const formatXAxis = (tickItem) => {
+    if (!tickItem) {
+        console.log('Date failure formating')
+    }
     return format(new Date(tickItem), 'MM/dd')
   }
 
 const dateToInt = (date) => {
+    if (!date) {
+        console.log('Date failure')
+    }
     return new Date(date).getTime()
 }
 
