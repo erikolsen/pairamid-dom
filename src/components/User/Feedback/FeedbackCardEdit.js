@@ -3,28 +3,35 @@ import { useForm } from "react-hook-form";
 import TagGroups from './TagGroups'
 import axios from 'axios'
 import { API_URL } from '../../../constants'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 
 const getCount = (acc, el) => {
     acc[el] = (acc[el] + 1) || 1;
     return acc
 };
 
-const FeedbackCardEdit = ({setUpdatedFeedback, feedback, groups, setEditing, setUpdated}) => {
+const FeedbackCardEdit = ({updateFeedback, feedback, groups, setEditing, deleteFeedback, duplicateFeedback }) => {
     const [ selectedTags, setSelectedTags ] = useState(feedback.tags)
     const tagCounts = selectedTags.map(tag => tag.name).reduce(getCount, {}) 
+    const [ open, setOpen ] = useState(false)
+    const toggleOpen = (e) => { 
+        e.preventDefault()
+        setOpen(!open)
+    }
+    const toggleZone = open ? 'grid grid-cols-4' : 'grid grid-cols-2'
+    const extraButtons = open ? 'block' : 'hidden'
 
     const { register, handleSubmit, errors } = useForm()
 
     const onSave = (data, e) => {
         let payload = { ...data, tags: selectedTags.map(tag => tag.id) }
-        setEditing(false)
         axios.post(`${API_URL}/feedbacks/${feedback.id}`, payload)
             .then((response) => {
                 e.target.reset()
-                setUpdatedFeedback(response.data)
-                setUpdated(true)
+                updateFeedback(response.data)
+                setEditing({inProgress: false, updated: true})
             })
-        setUpdated(false)
     }
 
     if(!feedback) return null
@@ -33,7 +40,7 @@ const FeedbackCardEdit = ({setUpdatedFeedback, feedback, groups, setEditing, set
             <div className='relative h-full p-4'>
                 <form className='' onSubmit={handleSubmit(onSave)}>
                     <div className=''>
-                        <div className='grid grid-cols-2 gap-x-4 items-center my-4'>
+                        <div className='flex justify-between items-center mb-4'>
                             <div className='col-span-2 md:col-span-1 flex items-center'>
                                 <p className='text-sm font-bold'>From </p>
                                 <input className={`border-b border-gray-border p-2 outline-none text-center text-sm`}
@@ -45,6 +52,10 @@ const FeedbackCardEdit = ({setUpdatedFeedback, feedback, groups, setEditing, set
                                     ref={register} 
                                 />
                             </div>
+
+                            <button onClick={toggleOpen} className='focus:outline-none'>
+                                <FontAwesomeIcon icon={faEllipsisH} />
+                            </button>
                         </div>
                         { errors.message && <p className='text-red'>Please add a short message to your feedback. Thanks.</p> }
                         <p className='text-sm font-bold'>Message</p>
@@ -58,11 +69,21 @@ const FeedbackCardEdit = ({setUpdatedFeedback, feedback, groups, setEditing, set
                         <TagGroups groups={groups} tags={selectedTags} setTags={setSelectedTags} tagCounts={tagCounts} />
                         <div className='h-10'/>
                         <div className='absolute bottom-0 left-0 w-full'>
-                            <div className={`grid grid-cols-2 gap-2`}>
-                                <p onClick={()=>setEditing(false)} className='hover:bg-gray-border border border-gray-border py-2 col-span-1 cursor-pointer font-bold text-xs text-center' >
+                            <div className='border-b border-gray-border w-full mx-4'/>
+                            <div className={`${toggleZone}`}>
+                                <p onClick={() => deleteFeedback(feedback.id)} className={`hover:bg-red py-2 col-span-1 cursor-pointer font-bold text-xs text-center ${extraButtons}`}>
+                                    Delete
+                                </p>
+
+                                <p onClick={() => duplicateFeedback(feedback) } className={`hover:bg-gray-border py-2 col-span-1 cursor-pointer font-bold text-xs text-center ${extraButtons}`}>
+                                    Duplicate
+                                </p>
+
+                                <p onClick={()=>setEditing({inProgress: false, updated: false})} className='hover:bg-gray-border py-2 col-span-1 cursor-pointer font-bold text-xs text-center' >
                                     Cancel
                                 </p>
-                                <input type='submit' value='Save' className='hover:bg-gray-border border border-gray-border py-2 col-span-1 cursor-pointer font-bold text-xs text-center' />
+
+                                <input type='submit' value='Save' className='hover:bg-green py-2 col-span-1 cursor-pointer font-bold text-xs text-center' />
                             </div>
                         </div>
                     </div>

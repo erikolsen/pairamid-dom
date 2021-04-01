@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import React, { useState } from 'react'
 import _ from 'lodash'
-// import RadarChartRecharts from '../../charts/RadarChart'
+import RadarChartRecharts from '../../charts/RadarChart'
 import SimpleScatterChart from '../../charts/BubbleChart'
 import PositiveNegativeBar from '../../charts/PositiveNegativeBar'
 import FeedbackCardEdit from './FeedbackCardEdit'
@@ -10,28 +9,30 @@ import TagGroups from './TagGroups'
 import DateSelect from './DateSelect'
 import { subMonths, addDays } from 'date-fns'
 import ManageTags from './ManageTags'
-import axios from 'axios'
-import { API_URL } from '../../../constants'
 
-const DisplayCard = ({feedback, groups}) => {
-    const [editing, setEditing] = useState(false)
-    const [ updated, setUpdated ] = useState(false)
-    const [updatedFeedback, setUpdatedFeedback] = useState(feedback)
+const DisplayCard = ({feedback, groups, updateFeedback, deleteFeedback, duplicateFeedback}) => {
+    const [editing, setEditing] = useState({inProgress: false, updated: false})
 
-    if(editing){
-        return <FeedbackCardEdit setUpdatedFeedback={setUpdatedFeedback} feedback={feedback} groups={groups} setEditing={setEditing} setUpdated={setUpdated} />
+    if(editing.inProgress || feedback.updated){
+        return (
+            <FeedbackCardEdit 
+                updateFeedback={updateFeedback} 
+                feedback={feedback} 
+                groups={groups} 
+                setEditing={setEditing} 
+                deleteFeedback={deleteFeedback} 
+                duplicateFeedback={duplicateFeedback}
+            />
+        )
     } else {
-        return <FeedbackCard feedback={updatedFeedback} groups={groups} setEditing={setEditing} updated={updated} />
-    }
-}
-
-export function authHeader() {
-    // return authorization header with jwt token
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser && currentUser.access_token) {
-        return { 'Authorization': `Bearer ${currentUser.access_token}` };
-    } else {
-        return {};
+        return (
+            <FeedbackCard 
+                feedback={feedback} 
+                groups={groups} 
+                updated={editing.updated} 
+                setEditing={setEditing} 
+            />
+        )
     }
 }
 
@@ -62,24 +63,10 @@ const useToggleZone = (name, initialOpen=false) => {
     return [ToggleButton, ToggleZone]
 }
 
-const FeedbackReceived = ()=> {
-    const { userId } = useParams()
-    const history = useHistory()
-    const [user, setUser] = useState()
+const FeedbackReceived = ({user, updateFeedback, deleteFeedback, duplicateFeedback})=> {
     const [ManageTagsButton, ManageTagsZone] = useToggleZone('Manage Tags')
     const [FilterButton, FilterZone] = useToggleZone('Filters')
-    const [ChartsButton, ChartsZone] = useToggleZone('Charts', true)
-
-    useEffect(()=> {
-        axios.get(`${API_URL}/users/${userId}`, {headers: authHeader()})
-            .then((response)=> {
-                setUser(response.data)
-            })
-            .catch((error)=> {
-                console.log('error: ', error)
-                history.push('/login')
-            })
-    }, [setUser, userId, history])
+    const [ChartsButton, ChartsZone] = useToggleZone('Charts')
 
     const [ tags, setTags ] = useState([])
 
@@ -96,18 +83,18 @@ const FeedbackReceived = ()=> {
     const feedbackTags = filteredFeedback.flatMap(feedback => feedback.tags.map(tag => tag.name))
     const tagCounts = feedbackTags.reduce(getCount, {}) 
 
-    // const maxSize = Math.max(...Object.values(tagCounts))
-    // const radarData = Object.entries(tagCounts).map(([name, value]) => ({
-    //     tag: name,
-    //     tagCount: value,
-    //     fullMark: maxSize,
-    // }))
+    const maxSize = Math.max(...Object.values(tagCounts))
+    const radarData = Object.entries(tagCounts).map(([name, value]) => ({
+        tag: name,
+        tagCount: value,
+        fullMark: maxSize,
+    }))
 
-    const notGrow = tag => tag !== 'Grow'
-    const notGlow = tag => tag !== 'Glow'
+    const GLOWS_AND_GROWS_GROUP = user.feedback_tag_groups.filter(group => group.name === 'Glows/Grows')[0]
+    const filterGroup = (group) => tag => !group.tags.map(t=> t.name).includes(tag)
     const byName = name => fb => fb.tags.map(t => t.name).includes(name)
 
-    const glowGrowData = _.uniq(feedbackTags.filter(notGlow).filter(notGrow)).map(tagName => ({
+    const glowGrowData = _.uniq(feedbackTags.filter(filterGroup(GLOWS_AND_GROWS_GROUP))).map(tagName => ({
         name: tagName,
         glow: filteredFeedback.filter(byName('Glow')).filter(byName(tagName)).length,
         grow: filteredFeedback.filter(byName('Grow')).filter(byName(tagName)).length,
@@ -151,8 +138,7 @@ const FeedbackReceived = ()=> {
                 <ChartsZone>
                     <div className='bg-white rounded-lg shadow-lg my-4'>
                         <h2 className='text-center pt-4'>Glows and Grows</h2>
-                        <PositiveNegativeBar data={glowGrowData} />
-                        {/* <RadarChartRecharts data={radarData} maxSize={maxSize} /> */}
+                        { GLOWS_AND_GROWS_GROUP ? <PositiveNegativeBar data={glowGrowData} /> :  <RadarChartRecharts data={radarData} maxSize={maxSize} /> }
                     </div>
 
                     <div className='bg-white rounded-lg shadow-lg my-4'>
@@ -160,9 +146,17 @@ const FeedbackReceived = ()=> {
                         <SimpleScatterChart data={scatterData} />
                     </div>
                 </ChartsZone>
-
-                <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-4'>
-                    {filteredFeedback.map((feedback) => <DisplayCard key={feedback.id} feedback={feedback} groups={user.feedback_tag_groups}/>) }
+                <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4'>
+                    {filteredFeedback.map((feedback) => 
+                        <DisplayCard 
+                            key={feedback.id} 
+                            feedback={feedback} 
+                            groups={user.feedback_tag_groups} 
+                            updateFeedback={updateFeedback} 
+                            deleteFeedback={deleteFeedback} 
+                            duplicateFeedback={duplicateFeedback} 
+                        />)
+                    }
                 </div>
             </section>
         </main>

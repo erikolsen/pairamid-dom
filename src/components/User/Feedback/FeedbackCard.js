@@ -16,7 +16,7 @@ const FeedbackTagGiven = ({tag}) => {
     )
 }
 
-const FeedbackCard = ({feedback, setEditing, updated}) => {
+const FeedbackCard = ({feedback, updated, setEditing}) => {
     const updatedNotification = updated ? 
         <Faded duration={10} isOut={true}><p className='ml-4 text-green font-bold'>Updated</p></Faded> : <div />
 
@@ -45,15 +45,9 @@ const FeedbackCard = ({feedback, setEditing, updated}) => {
                 </div>
                 <div className='h-10'/>
                 <div className='absolute bottom-0 left-0 w-full'>
-                    <div className='grid grid-cols-3 gap-2'>
-                        <p onClick={() => setEditing(true)} className={`hover:bg-gray-border border border-gray-border py-2 col-span-1 cursor-pointer font-bold text-xs text-center`}>
-                            Delete
-                        </p>
-                        <p onClick={() => setEditing(true)} className={`hover:bg-gray-border border border-gray-border py-2 col-span-1 cursor-pointer font-bold text-xs text-center`}>
+                    <div className='flex justify-center'>
+                        <p onClick={() => setEditing({inProgress: true, updated: false})} className={`mx-4 border-t border-gray-border w-full py-2 col-span-1 cursor-pointer font-bold text-xs text-center`}>
                             Edit
-                        </p>
-                        <p onClick={() => setEditing(true)} className={`hover:bg-gray-border border border-gray-border py-2 col-span-1 cursor-pointer font-bold text-xs text-center`}>
-                            Duplicate
                         </p>
                     </div>
                 </div>
