@@ -27,8 +27,9 @@ const User = () => {
                 setUser(response.data)
             })
             .catch((error) => {
-                console.log('error: ', error)
-                history.push('/login')
+                if(error.response.status === 401){
+                    history.push('/login')
+                }
             })
     }, [setUser, userId, history])
 
