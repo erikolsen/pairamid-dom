@@ -1,10 +1,7 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { format } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faQuoteLeft, faQuoteRight, faMinus, faPlus, faBan} from '@fortawesome/free-solid-svg-icons'
-import TagGroups from './TagGroups'
-import axios from 'axios'
-import { API_URL } from '../../../constants'
+import { faQuoteLeft, faQuoteRight, faMinus} from '@fortawesome/free-solid-svg-icons'
 import Faded from '../../shared/Faded'
 
 const FeedbackTagGiven = ({tag}) => {
@@ -19,59 +16,15 @@ const FeedbackTagGiven = ({tag}) => {
     )
 }
 
-const getCount = (acc, el) => {
-    acc[el] = (acc[el] + 1) || 1;
-    return acc
-};
-
-const AddTags = ({toggleFilters}) => {
-    return (
-        <p onClick={toggleFilters} className={`cursor-pointer w-full font-bold text-xs text-center`}>
-            Add Tags
-            <FontAwesomeIcon className='mx-2' icon={faPlus} />
-        </p>
-    )
-}
-
-const TagFooter = ({toggleFilters, onSave}) => {
-    return (
-        <div className={`flex justify-between items-center`}>
-            <p onClick={toggleFilters} className={`cursor-pointer font-bold text-xs text-center`}>
-                <FontAwesomeIcon icon={faBan} size='lg' />
-            </p>
-
-            <p onClick={onSave} className='cursor-pointer px-2 border border-green rounded text-white bg-green text-xs font-bold' >
-                Save
-            </p>
-        </div>
-    )
-}
-
-const FeedbackCard = ({feedback, groups}) => {
-    const [ selectedTags, setSelectedTags ] = useState(feedback.tags)
-    const tagCounts = selectedTags.map(tag => tag.name).reduce(getCount, {}) 
-
-    const [ openFilters, setOpenFilters] = useState(false)
-    const toggleFilters = () => setOpenFilters(!openFilters)
-    const filterZone = openFilters ? 'block' : 'hidden'
-
-    const [ updated, setUpdated ] = useState(false)
+const FeedbackCard = ({feedback, updated, setEditing}) => {
     const updatedNotification = updated ? 
         <Faded duration={10} isOut={true}><p className='ml-4 text-green font-bold'>Updated</p></Faded> : <div />
-    const onSave = () => { 
-        let payload = {tags: selectedTags.map(tag=> tag.id)}
-        axios.post(`${API_URL}/feedbacks/${feedback.id}`, payload)
-             .then(() => {
-                 setUpdated(true)
-                 setOpenFilters(false)
-             })
-        setUpdated(false)
-    }
+
 
     if(!feedback) return null
     return (
-        <div className='col-span-1 bg-white shadow-lg rounded-lg p-4'>
-            <div className='relative h-full'>
+        <div className='col-span-1 bg-white shadow-lg rounded-lg'>
+            <div className='h-full relative p-4'>
                 <div className='flex justify-between'>
                     {updatedNotification}
                     <p className='mb-2 mr-4 text-sm'>{format(new Date(feedback.created_at), 'MM/dd/yyyy')}</p>
@@ -87,16 +40,16 @@ const FeedbackCard = ({feedback, groups}) => {
                 </div>
                 <div className='mx-8 mt-1'>
                     <ul className='flex flex-wrap'>
-                        { selectedTags.map((tag) => <FeedbackTagGiven key={tag.id} tag={tag} />)}
+                        { feedback.tags.map((tag) => <FeedbackTagGiven key={tag.id} tag={tag} />)}
                     </ul>
                 </div>
-                <div className={`${filterZone} m-4`}>
-                    <TagGroups groups={groups} tags={selectedTags} setTags={setSelectedTags} tagCounts={tagCounts} />
-                </div>
                 <div className='h-10'/>
-                <div className='absolute bottom-0 left-0 w-full px-4'>
-                    <div className='border-b-2 border-gray-border mb-2' />
-                    {openFilters ? <TagFooter toggleFilters={toggleFilters} onSave={onSave} /> : <AddTags toggleFilters={toggleFilters} />}
+                <div className='absolute bottom-0 left-0 w-full'>
+                    <div className='flex justify-center'>
+                        <p onClick={() => setEditing({inProgress: true, updated: false})} className={`mx-4 border-t border-gray-border w-full py-2 col-span-1 cursor-pointer font-bold text-xs text-center`}>
+                            Edit
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

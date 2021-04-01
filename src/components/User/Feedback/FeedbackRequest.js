@@ -74,7 +74,7 @@ export const FeedbackRequest = () => {
                                 <p className='text-sm font-bold'>Message<span className='text-xs text-gray ml-2'>( Check out the tags for targeted feedback areas. )</span></p>
                                 <textarea 
                                     name='message' 
-                                    className='h-32 border border-gray-border w-full my-2' 
+                                    className='h-32 border border-gray-border w-full my-2 p-2' 
                                     placeholder='Situation-Behavior-Impact...'
                                     defaultValue={''}
                                     ref={register({required: true})} 
