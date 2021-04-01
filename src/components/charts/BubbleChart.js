@@ -11,8 +11,11 @@ import {
 } from 'recharts';
 import { format } from 'date-fns'
 
+const initialMapping = (tickItem) => {
+    return format(new Date(tickItem), 'MM/dd/yyyy')
+  }
+
 const formatXAxis = (tickItem) => {
-    if (!tickItem) return ''
     return format(new Date(tickItem), 'MM/dd')
   }
 
@@ -23,7 +26,7 @@ const dateToInt = (date) => {
 const SimpleScatterChart = ({data}) => {
     if(data.length === 0) return null
     const nonBreakingWhiteSpace = val => val && val.replace(/ /g, '\u00a0')
-    data =  data.map(d => ({...d, date: formatXAxis(d.date)}))
+    data =  data.map(d => ({...d, date: initialMapping(d.date)}))
     data = data.map(d => ({...d, date: dateToInt(d.date)}))
     const min = Math.min(...data.map(d => d.z))
     const max = Math.max(...data.map(d => d.z))
