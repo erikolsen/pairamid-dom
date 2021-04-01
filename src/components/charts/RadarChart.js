@@ -7,6 +7,7 @@ import {
 
 
 const RadarChartRecharts = ({ data, maxSize }) => {
+  if(data.length === 0) return null
   return (
     <ResponsiveContainer width='100%' height={400}>
       <RadarChart outerRadius={150} data={data}>

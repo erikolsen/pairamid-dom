@@ -20,6 +20,7 @@ const dateToInt = (date) => {
 }
 
 const SimpleScatterChart = ({data}) => {
+    if(data.length === 0) return null
     const nonBreakingWhiteSpace = val => val && val.replace(/ /g, '\u00a0')
     data =  data.map(d => ({...d, date: formatXAxis(d.date)}))
     data = data.map(d => ({...d, date: dateToInt(d.date)}))

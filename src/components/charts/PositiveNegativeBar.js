@@ -11,6 +11,7 @@ import {
 } from "recharts";
 
 const PositiveNegativeBar = ({data}) => {
+    if(data.length === 0) return null
     const minRowHeight = 200
     const pixelHeightBase = 50
     const pixelLengthBase = 7

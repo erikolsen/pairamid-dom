@@ -28,7 +28,7 @@ const User = () => {
             })
             .catch((error) => {
                 console.log('error: ', error)
-                // history.push('/login')
+                history.push('/login')
             })
     }, [setUser, userId, history])
 
