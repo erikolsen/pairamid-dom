@@ -37,8 +37,8 @@ const PositiveNegativeBar = ({data}) => {
                 <YAxis type="category" dataKey="name" tickFormatter={nonBreakingWhiteSpace} />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="glow" fill="#EDAB3B" stackId='a' />
-                <Bar dataKey="grow" fill="#00BB85" stackId='a' />
+                <Bar dataKey="glow" fill="#F67C01" stackId='a' />
+                <Bar dataKey="grow" fill="#1870CB" stackId='a' />
             </BarChart>
         </ResponsiveContainer>
     );

@@ -3,8 +3,6 @@ import { useForm } from "react-hook-form";
 import TagGroups from './TagGroups'
 import axios from 'axios'
 import { API_URL } from '../../../constants'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 
 const getCount = (acc, el) => {
     acc[el] = (acc[el] + 1) || 1;
@@ -14,13 +12,6 @@ const getCount = (acc, el) => {
 const FeedbackCardEdit = ({updateFeedback, feedback, groups, setEditing, deleteFeedback, duplicateFeedback }) => {
     const [ selectedTags, setSelectedTags ] = useState(feedback.tags)
     const tagCounts = selectedTags.map(tag => tag.name).reduce(getCount, {}) 
-    const [ open, setOpen ] = useState(false)
-    const toggleOpen = (e) => { 
-        e.preventDefault()
-        setOpen(!open)
-    }
-    const toggleZone = open ? 'grid grid-cols-4' : 'grid grid-cols-2'
-    const extraButtons = open ? 'block' : 'hidden'
 
     const { register, handleSubmit, errors } = useForm()
 
@@ -52,16 +43,12 @@ const FeedbackCardEdit = ({updateFeedback, feedback, groups, setEditing, deleteF
                                     ref={register} 
                                 />
                             </div>
-
-                            <button onClick={toggleOpen} className='focus:outline-none'>
-                                <FontAwesomeIcon icon={faEllipsisH} />
-                            </button>
                         </div>
                         { errors.message && <p className='text-red'>Please add a short message to your feedback. Thanks.</p> }
                         <p className='text-sm font-bold'>Message</p>
                         <textarea 
                             name='message' 
-                            className='h-32 border border-gray-border w-full my-2' 
+                            className='h-32 border border-gray-border w-full my-2 p-2' 
                             placeholder='Situation-Behavior-Impact...'
                             defaultValue={feedback.message}
                             ref={register({required: true})} 
@@ -70,12 +57,12 @@ const FeedbackCardEdit = ({updateFeedback, feedback, groups, setEditing, deleteF
                         <div className='h-10'/>
                         <div className='absolute bottom-0 left-0 w-full'>
                             <div className='border-b border-gray-border w-full mx-4'/>
-                            <div className={`${toggleZone}`}>
-                                <p onClick={() => deleteFeedback(feedback.id)} className={`hover:bg-red py-2 col-span-1 cursor-pointer font-bold text-xs text-center ${extraButtons}`}>
+                            <div className='grid grid-cols-4'>
+                                <p onClick={() => deleteFeedback(feedback.id)} className={`hover:bg-red py-2 col-span-1 cursor-pointer font-bold text-xs text-center`}>
                                     Delete
                                 </p>
 
-                                <p onClick={() => duplicateFeedback(feedback) } className={`hover:bg-gray-border py-2 col-span-1 cursor-pointer font-bold text-xs text-center ${extraButtons}`}>
+                                <p onClick={() => duplicateFeedback(feedback) } className={`hover:bg-gray-border py-2 col-span-1 cursor-pointer font-bold text-xs text-center`}>
                                     Duplicate
                                 </p>
 
