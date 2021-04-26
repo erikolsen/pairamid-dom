@@ -32,9 +32,9 @@ const Teams = () => {
     let teamIds = localStorage.getItem('pairamid-teams') || ''
 
     useEffect(()=> {
-        axios.get(`${API_URL}/teams`)
+        axios.get(`${API_URL}/teams?teamIds=${teamIds}`)
             .then((response)=> {
-                setTeams(response.data.filter((team)=> teamIds.includes(team.uuid)))
+                setTeams(response.data)
             })
     }, [setTeams, teamIds])
 
