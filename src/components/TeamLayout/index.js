@@ -30,8 +30,8 @@ const TeamLayout = ({match}) => {
         }
         const termsAccepted = localStorage.getItem('pairamid-terms')
         return (showTerms && !termsAccepted) && (
-            <footer className='z-50 fixed bottom-0 col-span-8 flex justify-between'>
-                <div className='bg-white shadow-lg rounded-lg border border-black m-2 p-4'>
+            <footer className='z-50 fixed bottom-0 col-span-8 flex justify-between m-2'>
+                <div className='bg-blue-100 shadow-lg rounded-lg border border-black p-4'>
                     <div className='flex'>
                         <p>
                             By accessing or using Pairamid, 
