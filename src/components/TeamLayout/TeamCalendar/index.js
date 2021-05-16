@@ -51,7 +51,7 @@ const EditCard = ({onUpdate, team, date, onDelete}) => {
                         className="block appearance-none w-full bg-white border border-gray-border pl-2 py-2 pr-8 rounded leading-tight"
                     >
                         <option value=''>Select a User</option>
-                        { team.users.map((user) => <option style={{'backgroundColor': 'red'}} key={user.id} className='' value={user.id}>{user.username}</option> ) }
+                        { team.users.map((user) => <option key={user.id} className='' value={user.id}>{user.username}</option> ) }
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 py-2 text-gray-700">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -181,8 +181,10 @@ const DisplayReminders = ({startDate, endDate, reminders, setReminders, team}) =
                             {spanOfDays(startDate, endDate) && <span>-{localDate(endDate)}</span>}
                         </p>
                         <button className='flex items-center m-2 focus:outline-none' onClick={() => setAddable(!addable)}>
-                            <p>Add Reminder</p>
-                            <p className='text-3xl text-gray ml-2'>&#8853;</p> 
+                            <p className='mr-1'>Add Reminder</p>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
                         </button>
                     </div>
                     <div className='flex justify-between'>
