@@ -17,7 +17,7 @@ const UserProfile = () => {
             })
     }, [setUser, teamId, userId])
 
-    if (!user) { return null }
+    if (!user) { return <h1 className='m-12'>Loading...</h1> }
 
     const allSessions = user.active_pairing_sessions
     const totalUsers  = new Set(allSessions.flatMap(ps => ps.users.map(u => u.username)))
