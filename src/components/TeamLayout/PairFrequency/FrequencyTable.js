@@ -14,15 +14,15 @@ const getColor = (primary, secondary, totalPairs) => {
   const totalPerUser = primary.frequencies[secondary] || 0;
 
   if (primary.username === secondary) {
-    return "gray-med";
+    return "bg-gray-med";
   }
   if (totalPerUser === 0 || totalPerUser < Math.round(average / 2)) {
-    return "yellow";
+    return "bg-yellow";
   }
   if (totalPerUser > Math.round(average * 2)) {
-    return "red";
+    return "bg-red";
   }
-  return "green";
+  return "bg-green";
 };
 
 const FrequencyTable = ({ startDate, endDate, primary, secondary }) => {
@@ -80,7 +80,7 @@ const FrequencyTable = ({ startDate, endDate, primary, secondary }) => {
             </td>
             {XUsers.map((u) => (
               <td
-                className={`border border-black text-center text-xl bg-${getColor(
+                className={`border border-black text-center text-xl ${getColor(
                   user,
                   u.username,
                   XUsers.length
