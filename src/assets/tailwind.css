@@ -1,47 +1,47 @@
 @tailwind base;
 
 html {
-    @apply font-arimo text-gray-dark;
+  @apply font-arimo text-gray-dark;
 }
 
 h1 {
-    @apply text-3xl font-bold text-teal-dark;
+  @apply text-3xl font-bold text-teal-dark;
 }
 
 h2 {
-    @apply text-xl font-bold text-teal-dark;
+  @apply text-xl font-bold text-teal-dark;
 }
 
 .label-floating input:placeholder-shown {
-    @apply pt-4 pb-1;
+  @apply pt-4 pb-1;
 }
 
 .label-floating input:placeholder-shown ~ label {
-    @apply pt-4 pb-1;
+  @apply pt-4 pb-1;
 }
 
 .label-floating input:not(:placeholder-shown) {
-    padding-top: 1.4rem;
+  padding-top: 1.4rem;
 }
 
 .label-floating input:not(:placeholder-shown) ~ label {
-    @apply text-sm text-green-icon;
-    transition: all 0.2s ease-in-out;
+  @apply text-sm text-green-icon;
+  transition: all 0.2s ease-in-out;
 }
 
 input:checked + svg {
-    display: block;
+  display: block;
 }
 
 input:disabled {
-    opacity: .50;
+  opacity: 0.5;
 }
 
 .profile-edit-icon {
-    @apply bg-white p-1 border border-gray-border rounded-full flex items-center justify-center;
-    position: absolute;
-    right: 0px;
-    bottom: -5px;
+  @apply bg-white p-1 border border-gray-border rounded-full flex items-center justify-center;
+  position: absolute;
+  right: 0px;
+  bottom: -5px;
 }
 
 @tailwind components;
