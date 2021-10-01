@@ -4,36 +4,11 @@ import { API_URL } from "../../../constants";
 import { formatISO } from "date-fns";
 import { useParams } from "react-router-dom";
 
-const getColor = (primary, secondary, totalPairs) => {
-  const frequencies = Object.values(primary.frequencies);
-  const average = Math.round(
-    frequencies.reduce((total, count) => {
-      return (total += count);
-    }, 0) / totalPairs
-  );
-  const totalPerUser = primary.frequencies[secondary] || 0;
-
-  if (primary.username === secondary) {
-    return "bg-gray-med";
-  }
-  if (totalPerUser === 0 || totalPerUser < Math.round(average / 2)) {
-    return "bg-yellow";
-  }
-  if (totalPerUser > Math.round(average * 2)) {
-    return "bg-red";
-  }
-  return "bg-green";
-};
-
-const FrequencyTable = ({ startDate, endDate, primary, secondary }) => {
+const FrequencyTable = ({ startDate, endDate, roles, TableComponent }) => {
   const { teamId } = useParams();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const fDate = (date) => formatISO(date, { representation: "date" });
-  const totalsForUser = (user) =>
-    Object.values(user.frequencies).reduce((total, count) => {
-      return (total += count);
-    }, 0);
 
   useEffect(() => {
     setLoading(true);
@@ -49,51 +24,14 @@ const FrequencyTable = ({ startDate, endDate, primary, secondary }) => {
       });
   }, [startDate, endDate]);
 
-  const XUsers = secondary
-    ? users.filter((user) => user.roleName === secondary)
-    : users;
-  const YUsers = primary
-    ? users.filter((user) => user.roleName === primary)
-    : users;
-
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <table className="table-auto w-full">
-      <thead>
-        <tr className="">
-          <td></td>
-          {XUsers.map((user) => (
-            <td className="text-center font-bold" key={user.username}>
-              {user.username}
-            </td>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {YUsers.map((user) => (
-          <tr key={user.username}>
-            <td className="text-left font-bold">
-              {user.username}: {totalsForUser(user)}
-            </td>
-            {XUsers.map((u) => (
-              <td
-                className={`border border-black text-center text-xl ${getColor(
-                  user,
-                  u.username,
-                  XUsers.length
-                )}`}
-                key={u.username}
-              >
-                {user.frequencies[u.username] || 0}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="">
+      <TableComponent users={users} roles={roles} />
+    </div>
   );
 };
 
