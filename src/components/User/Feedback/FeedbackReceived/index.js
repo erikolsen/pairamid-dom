@@ -22,8 +22,8 @@ const hasGlowsAndGrowsTags = (user) =>
 const FilterButton = ({ name, onClick, active }) => (
   <button
     onClick={onClick}
-    className={`ml-2 flex items-center border border-gray-border rounded-lg px-4 py-2 focus:outline-none hover:border-blue-700 ${
-      active && "bg-blue-700 text-white"
+    className={`ml-2 flex items-center border border-gray-border rounded-lg px-4 py-2 focus:outline-none hover:border-green-icon ${
+      active && "bg-green-icon text-white"
     }`}
   >
     <p className="text-sm">{name}</p>

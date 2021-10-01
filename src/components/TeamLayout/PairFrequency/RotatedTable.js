@@ -29,7 +29,7 @@ const RotatedTable = ({ XUsers, YUsers }) => {
                   className={`border border-black text-center text-xl h-10 w-10 ${frequencyColor(
                     user,
                     user.frequencies[u.username],
-                    XUsers
+                    XUsers.map((u) => u.username)
                   )}`}
                   key={u.username}
                 >

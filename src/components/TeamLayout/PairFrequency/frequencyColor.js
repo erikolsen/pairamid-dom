@@ -1,15 +1,17 @@
 import _ from "lodash";
+export const GREEN = "bg-green";
+export const RED = "bg-red";
+export const YELLOW = "bg-yellow";
+export const GRAY = "bg-gray-med";
 
-export const frequencyColor = (target, value, allUsers) => {
+export const frequencyColor = (target, value, relevantUsers, solo) => {
   const total = _.sum(
-    allUsers.map((user) => target.frequencies[user.username])
+    relevantUsers.map((user) => target.frequencies[user] || 0)
   );
-  const average = Math.round(total / allUsers.length || 1);
-  if (!value || value < Math.round(average / 2)) {
-    return "bg-yellow";
-  }
-  if (value > Math.round(average * 2)) {
-    return "bg-red";
-  }
-  return "bg-green";
+  const average = total / relevantUsers.length || 1;
+
+  if (solo) return GRAY;
+  if (!value || value <= average / 2) return YELLOW;
+  if (value > 1 && value >= average * 2) return RED;
+  return GREEN;
 };
