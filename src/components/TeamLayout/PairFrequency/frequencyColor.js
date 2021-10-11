@@ -5,7 +5,7 @@ export const GRAY = "bg-gray-med";
 
 export const frequencyColor = (target, value, relevantUsers, solo) => {
   const total = relevantUsers.reduce(
-    (memo, user) => (memo += target.frequencies[user]),
+    (memo, user) => (memo += target.frequencies[user] || 0),
     0
   );
   const average = total / relevantUsers.length || 1;
