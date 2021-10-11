@@ -65,7 +65,7 @@ const PairamidTable = ({ users, roles, primary, setPrimary, setSecondary }) => {
                 style={{ backgroundColor: colorOfRole(user.roleName) }}
                 className={`border-l-2 border-t-2 h-8 w-8 md:h-10 md:w-10 flex items-center justify-center`}
               >
-                <span className="text-xs md:text-lg text-center transform -rotate-45">
+                <span className="text-white text-xs md:text-lg text-center transform -rotate-45">
                   {user.username}
                 </span>
               </div>

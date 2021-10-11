@@ -35,6 +35,7 @@ const FrequencyTable = ({ startDate, endDate, roles, TableComponent }) => {
         )}&endDate=${fDate(endDate)}`
       )
       .then((response) => {
+        console.log("response.data: ", response.data);
         setUsers(response.data);
         setPrimary(largestRole(response.data.map((u) => u.roleName)));
         setSecondary(largestRole(response.data.map((u) => u.roleName)));

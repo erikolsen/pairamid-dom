@@ -68,7 +68,7 @@ const StandardTable = ({
                   className={`border border-black text-center text-xl ${frequencyColor(
                     user,
                     user.frequencies[u.username],
-                    XUsers.map((u) => u.username),
+                    XUsers.map((xu) => xu.username),
                     user == u
                   )}`}
                   key={u.username}
