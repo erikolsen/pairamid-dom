@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { frequencyColor } from "./frequencyColor";
 import RoleSelect from "./RoleSelect";
 
@@ -9,20 +9,14 @@ const totalsForUser = (user, relevantUsers) =>
       return (total += count);
     }, 0);
 
-const largestRole = (roles) =>
-  roles
-    .sort(
-      (a, b) =>
-        roles.filter((v) => v === a).length -
-        roles.filter((v) => v === b).length
-    )
-    .pop();
-
-const StandardTable = ({ users, roles }) => {
-  const defaultRole = largestRole(users.map((u) => u.roleName));
-  const [primary, setPrimary] = useState(defaultRole);
-  const [secondary, setSecondary] = useState(defaultRole);
-
+const StandardTable = ({
+  users,
+  roles,
+  primary,
+  setPrimary,
+  secondary,
+  setSecondary,
+}) => {
   const XUsers = secondary
     ? users.filter((user) => user.roleName === secondary)
     : users;

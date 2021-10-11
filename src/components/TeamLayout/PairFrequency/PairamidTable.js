@@ -1,25 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { frequencyColor } from "./frequencyColor";
 import RoleSelect from "./RoleSelect";
 
-const largestRole = (roles) =>
-  roles
-    .sort(
-      (a, b) =>
-        roles.filter((v) => v === a).length -
-        roles.filter((v) => v === b).length
-    )
-    .pop();
-
-const PairamidTable = ({ users, roles }) => {
+const PairamidTable = ({ users, roles, primary, setPrimary, setSecondary }) => {
   if (!roles.length) {
     return null;
   }
 
-  const [role, setRole] = useState(largestRole(users.map((u) => u.roleName)));
+  const setRole = (name) => {
+    setPrimary(name);
+    setSecondary(name);
+  };
 
-  const filteredUsers = role
-    ? users.filter((user) => user.roleName === role)
+  const filteredUsers = primary
+    ? users.filter((user) => user.roleName === primary)
     : users;
 
   const names = filteredUsers.map((u) => u.username);
@@ -45,7 +39,7 @@ const PairamidTable = ({ users, roles }) => {
             label="Role"
             roles={roles}
             onSelect={setRole}
-            selected={role}
+            selected={primary}
           />
         </div>
       </form>
