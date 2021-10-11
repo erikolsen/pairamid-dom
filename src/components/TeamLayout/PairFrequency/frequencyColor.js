@@ -11,7 +11,7 @@ export const frequencyColor = (target, value, relevantUsers, solo) => {
   const average = total / relevantUsers.length || 1;
 
   if (solo) return GRAY;
-  if (!value || value <= average / 2) return YELLOW;
-  if (value > 1 && value >= average * 2) return RED;
+  if (!value || value < average / 2) return YELLOW;
+  if (value > 1 && value > average * 2) return RED;
   return GREEN;
 };

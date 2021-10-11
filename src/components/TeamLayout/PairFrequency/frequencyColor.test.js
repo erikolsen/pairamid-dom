@@ -42,7 +42,7 @@ describe("frequencyColor", () => {
         roleName: "role1",
         frequencies: {
           AA: 5,
-          BB: 2,
+          BB: 1,
           CC: 5,
           DD: 4,
         },
@@ -62,7 +62,7 @@ describe("frequencyColor", () => {
         roleName: "role1",
         frequencies: {
           AA: 2,
-          BB: 5,
+          BB: 6,
           CC: 1,
           DD: 1,
         },
@@ -79,10 +79,10 @@ describe("frequencyColor", () => {
         username: "AA",
         roleName: "role1",
         frequencies: {
-          AA: 2,
-          BB: 4,
+          AA: 1,
+          BB: 3,
           CC: 1,
-          DD: 1,
+          DD: 0,
         },
       };
       const value = target.frequencies["BB"];

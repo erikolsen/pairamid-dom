@@ -44,28 +44,28 @@ const PairamidTable = ({ users, roles, primary, setPrimary, setSecondary }) => {
         </div>
       </form>
       <div className="flex justify-center py-4">
-        <div className="inline-flex transform origin-bottom-left rotate-45 -translate-y-1/4 -translate-x-1/4">
+        <div className="inline-flex transform origin-bottom-left rotate-45 -translate-y-1/3 -translate-x-1/4">
           {filteredUsers.map((user) => (
             <div key={user.username} className="flex-col">
               {frequenciesForUser(user).map((data, index) => (
                 <div
                   key={`${user.username}-${index}`}
-                  className={`border-2 h-10 w-10 md:h-12 md:w-12 flex items-center justify-center ${frequencyColor(
+                  className={`border-2 h-8 w-8 md:h-10 md:w-10 flex items-center justify-center ${frequencyColor(
                     user,
                     data,
                     filteredUsers.map((u) => u.username)
                   )}`}
                 >
-                  <span className="text-xs sm:text-medium md:text-lg text-center transform -rotate-45">
+                  <span className="text-xs md:text-lg text-center transform -rotate-45">
                     {data || 0}
                   </span>
                 </div>
               ))}
               <div
                 style={{ backgroundColor: colorOfRole(user.roleName) }}
-                className={`border-l-2 border-t-2 h-10 w-10 md:h-12 md:w-12 flex items-center justify-center`}
+                className={`border-l-2 border-t-2 h-8 w-8 md:h-10 md:w-10 flex items-center justify-center`}
               >
-                <span className="text-xs sm:text-medium md:text-lg text-center transform -rotate-45">
+                <span className="text-xs md:text-lg text-center transform -rotate-45">
                   {user.username}
                 </span>
               </div>
