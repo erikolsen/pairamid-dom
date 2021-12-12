@@ -59,9 +59,11 @@ const FeedbackReceived = ({
   duplicateFeedback,
 }) => {
   const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
   const [selectedRange, setSelectedRange, dateFilter] = useDateRangeSelector(
-    subYears(today, 1),
-    today
+    subYears(tomorrow, 1),
+    tomorrow
   );
 
   const [tags, setTags] = useState([]);
