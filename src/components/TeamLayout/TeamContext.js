@@ -16,7 +16,7 @@ export const TeamContextProvider = ({ children }) => {
   const [team, setTeam] = useState(defaultValue.team);
   const [frequency, setFrequency] = useState(null);
   const [pairs, setPairs] = useState(null);
-  console.log("team: ", team);
+
   useEffect(() => {
     const initialize = () => {
       axios.get(`${API_URL}/team/${teamId}`).then((response) => {

@@ -30,8 +30,10 @@ const Pair = ({ pair, updatePairInfo, onDelete }) => {
   return (
     <div className="bg-white shadow-lg rounded-lg flex">
       <div
-        className={`bg-${tagColor(pair.streak)} w-2 rounded-lg rounded-r-none`}
-      ></div>
+        className={`bg-${tagColor(
+          pair.streak
+        )} w-2 rounded-lg rounded-r-none mr-2`}
+      />
       <Droppable droppableId={pair.uuid} direction="horizontal">
         {(provided, _) => {
           return (

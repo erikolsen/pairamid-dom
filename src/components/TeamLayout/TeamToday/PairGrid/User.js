@@ -14,7 +14,7 @@ const User = ({ user, index }) => {
           >
             <div
               style={{ backgroundColor: user.role.color }}
-              className={`bg-gray-med w-12 h-12 mr-3 m-2 border-gray-border rounded-full flex items-center justify-center`}
+              className={`bg-gray-med w-12 h-12 mr-3 my-2 border-gray-border rounded-full flex items-center justify-center`}
             >
               <p className="text-white font-bold text-xs">{user.username}</p>
             </div>

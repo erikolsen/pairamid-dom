@@ -7,7 +7,7 @@ const UserRecomendation = ({ username }) => {
   return (
     <div
       title="Recomended Pair"
-      className={`w-12 h-12 mr-3 m-2 border-4 border-dashed border-gray-med rounded-full bg-white flex items-center justify-center`}
+      className={`w-12 h-12 mr-3 my-2 border-4 border-dashed border-gray-med rounded-full bg-white flex items-center justify-center`}
     >
       <p className="text-gray-med font-bold text-sm">{username}</p>
     </div>
@@ -58,7 +58,7 @@ const EmptyPair = ({ pair, onDelete }) => {
         </svg>
       </button>
       <div
-        className={`w-12 h-12 mr-3 m-2 border-4 border-dashed border-gray-med rounded-full bg-white flex items-center justify-center`}
+        className={`w-12 h-12 mr-2 my-2 border-4 border-dashed border-gray-med rounded-full bg-white flex items-center justify-center`}
       >
         <p className="text-gray-med font-bold text-xl">+</p>
       </div>

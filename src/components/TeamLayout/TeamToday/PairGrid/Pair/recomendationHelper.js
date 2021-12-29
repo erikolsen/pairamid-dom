@@ -29,7 +29,6 @@ export const leastPairedWith = (user, frequency, excluded) => {
   const userData = frequency.find((ud) => ud.username === user.username);
   const roles = roleMapping(frequency);
   const keyRole = mostPairedWithRole(userData, roles);
-  console.log("keyRole: ", keyRole);
 
   return Object.entries(userData.frequencies)
     .filter(([username, _]) => keyRole === roles[username])
