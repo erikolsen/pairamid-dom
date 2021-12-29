@@ -1,10 +1,10 @@
 import React from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import Pair from "./Pair";
-import CirclePlus from "../../../../svg/CirclePlus";
+import CirclePlus from "../../../svg/CirclePlus";
 import ParkingLot from "./ParkingLot";
 import OutOfOffice from "./OutOfOffice";
-import { SOCKET } from "../../SocketHandler";
+import { SOCKET } from "../SocketHandler";
 import { useParams } from "react-router-dom";
 
 const getPairData = (pairs, pairUuid) => {

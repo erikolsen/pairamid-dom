@@ -24,16 +24,17 @@ export const mostPairedWithRole = (userData, roles) => {
   return largestValue(roleCounts);
 };
 
-export const leastPairedWith = (user, frequency) => {
+export const leastPairedWith = (user, frequency, excluded) => {
   const RETURN_COUNT = 2;
   const userData = frequency.find((ud) => ud.username === user.username);
   const roles = roleMapping(frequency);
   const keyRole = mostPairedWithRole(userData, roles);
+  console.log("keyRole: ", keyRole);
 
   return Object.entries(userData.frequencies)
     .filter(([username, _]) => keyRole === roles[username])
     .sort((a, b) => a[1] - b[1])
     .map((data) => data[0])
-    .filter((u) => u !== userData.username)
+    .filter((u) => ![...excluded, userData.username].includes(u))
     .slice(0, RETURN_COUNT);
 };

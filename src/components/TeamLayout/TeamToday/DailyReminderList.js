@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { API_URL } from "../../../../constants";
+import { API_URL } from "../../../constants";
 
 const Reminder = ({ reminder }) => {
   const user = reminder.user ? reminder.user.username : "Team";

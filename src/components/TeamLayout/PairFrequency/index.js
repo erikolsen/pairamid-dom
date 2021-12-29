@@ -26,7 +26,6 @@ const SOLO = "Number of times the focused person has worked solo.";
 
 const PairFrequency = () => {
   const { team } = useContext(TeamContext);
-  console.log("freq team: ", team);
 
   const [selectedTable, setSelectedTable] = useState("Pairamid");
   const [showCalendar, setShowCalendar] = useState(false);

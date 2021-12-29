@@ -7,7 +7,7 @@ const baseFrequency = [
   {
     username: "AA",
     roleName: "role3",
-    frequencies: { AA: 1, BB: 2, CC: 3, DD: 4 },
+    frequencies: { AA: 1, BB: 2, CC: 3, DD: 4, EE: 1 },
   },
   {
     username: "BB",
@@ -24,14 +24,25 @@ const baseFrequency = [
     roleName: "role1",
     frequencies: { AA: 1, BB: 2, CC: 3 },
   },
+  {
+    username: "EE",
+    roleName: "role2",
+    frequencies: { AA: 1, BB: 2, CC: 3 },
+  },
 ];
 
 describe("pair helpers", () => {
   describe("leastPairedWith", () => {
+    it("excludes active and out of office users", () => {
+      const user = { username: "AA" };
+      const subject = leastPairedWith(user, baseFrequency, ["BB", "CC"]);
+      expect(subject).toEqual(["EE"]);
+    });
+
     it("returns two people the given user has paired with the least", () => {
       const user = { username: "AA" };
-      const subject = leastPairedWith(user, baseFrequency);
-      expect(subject).toEqual(["BB", "CC"]);
+      const subject = leastPairedWith(user, baseFrequency, []);
+      expect(subject).toEqual(["EE", "BB"]);
     });
   });
 
@@ -51,6 +62,7 @@ describe("pair helpers", () => {
         BB: "role2",
         CC: "role2",
         DD: "role1",
+        EE: "role2",
       });
     });
   });

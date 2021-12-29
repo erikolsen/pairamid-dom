@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PairGrid from "./PairGrid";
 import DailyPairList from "./DailyPairList";
 import DailyReminderList from "./DailyReminderList";
 import DailyPairHeader from "./DailyPairHeader";
 import _ from "lodash";
-import { SOCKET } from "../SocketHandler";
+import { SOCKET } from "./SocketHandler";
 import { useParams } from "react-router-dom";
+import SocketHandler from "./SocketHandler";
+import { TeamContext } from "../TeamContext";
 
-const DailyView = ({ pairs, setPairs }) => {
+const TeamToday = () => {
   const { teamId } = useParams();
   const [saved, setSaved] = useState(true);
   const [error, setError] = useState("");
-  console.log("Daily view render");
+  const { pairs, setPairs } = useContext(TeamContext);
 
   useEffect(() => {
     SOCKET.emit("join", { room: teamId });
@@ -43,19 +45,21 @@ const DailyView = ({ pairs, setPairs }) => {
   }, [pairs, setPairs, teamId]);
 
   return (
-    <main className="bg-gray-light col-span-7 p-12 h-full">
-      <section>
-        <DailyPairHeader saved={saved} error={error} />
-        <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-6">
-          <PairGrid pairs={pairs} setSaved={setSaved} setError={setError} />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <DailyReminderList />
-          <DailyPairList pairs={pairs} />
-        </div>
-      </section>
-    </main>
+    <SocketHandler requestedData={pairs?.length}>
+      <main className="bg-gray-light col-span-7 p-12 h-full">
+        <section>
+          <DailyPairHeader saved={saved} error={error} />
+          <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-6">
+            <PairGrid pairs={pairs} setSaved={setSaved} setError={setError} />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <DailyReminderList />
+            <DailyPairList pairs={pairs} />
+          </div>
+        </section>
+      </main>
+    </SocketHandler>
   );
 };
 
-export default DailyView;
+export default TeamToday;

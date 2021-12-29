@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import User from "../User";
-import { TeamContext } from "../../../../TeamContext";
+import { TeamContext } from "../../../TeamContext";
 import { leastPairedWith } from "./recomendationHelper";
 
 const UserRecomendation = ({ username }) => {
@@ -21,10 +21,14 @@ const MultiUserPair = ({ pair }) => {
 };
 
 const SingleUserPair = ({ pair }) => {
-  const { frequency } = useContext(TeamContext);
+  const { frequency, pairs } = useContext(TeamContext);
+  const excluded = pairs
+    .filter((p) => p.info !== "UNPAIRED")
+    .flatMap((pair) => pair.users.map((u) => u.username));
+
   return [
     <User index={0} user={pair.users[0]} key={pair.users[0].uuid} />,
-    leastPairedWith(pair.users[0], frequency).map((username) => (
+    leastPairedWith(pair.users[0], frequency, excluded).map((username) => (
       <UserRecomendation username={username} key={username} />
     )),
   ];

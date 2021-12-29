@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useContext } from "react";
-import { TeamContext } from "../../TeamContext";
+import { TeamContext } from "../TeamContext";
 
 const getTodaysDate = () => {
   const today = new Date();
@@ -33,7 +33,6 @@ const ErrorMessage = ({ message }) => {
 
 const DailyPairHeader = ({ saved, error }) => {
   const { team } = useContext(TeamContext);
-  console.log("daily team: ", team);
   return (
     <div>
       <p className="text-2xl font-bold">{team?.name}</p>

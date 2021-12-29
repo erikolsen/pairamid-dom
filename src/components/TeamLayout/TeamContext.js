@@ -6,6 +6,7 @@ import { API_URL } from "../../constants";
 const defaultValue = {
   team: null,
   frequency: null,
+  pairs: null,
 };
 
 export const TeamContext = React.createContext(defaultValue);
@@ -14,6 +15,8 @@ export const TeamContextProvider = ({ children }) => {
   const { teamId } = useParams();
   const [team, setTeam] = useState(defaultValue.team);
   const [frequency, setFrequency] = useState(null);
+  const [pairs, setPairs] = useState(null);
+  console.log("team: ", team);
   useEffect(() => {
     const initialize = () => {
       axios.get(`${API_URL}/team/${teamId}`).then((response) => {
@@ -22,15 +25,24 @@ export const TeamContextProvider = ({ children }) => {
       axios.get(`${API_URL}/team/${teamId}/frequency`).then((response) => {
         setFrequency(response.data);
       });
+      axios
+        .get(`${API_URL}/team/${teamId}/pairing_sessions/daily`)
+        .then((response) => {
+          setPairs(response.data);
+        });
     };
+
     initialize();
-  }, [teamId, setTeam]);
-  console.log("frequency: ", frequency);
+  }, [teamId]);
+
   if (!team) {
     return <div>Loading...</div>;
   }
+
   return (
-    <TeamContext.Provider value={{ ...defaultValue, team, frequency }}>
+    <TeamContext.Provider
+      value={{ ...defaultValue, team, frequency, pairs, setPairs }}
+    >
       {children}
     </TeamContext.Provider>
   );

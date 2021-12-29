@@ -26,6 +26,7 @@ const Pair = ({ pair, updatePairInfo, onDelete }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pair.info]);
+
   return (
     <div className="bg-white shadow-lg rounded-lg flex">
       <div
