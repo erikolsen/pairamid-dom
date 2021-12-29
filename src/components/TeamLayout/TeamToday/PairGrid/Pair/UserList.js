@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import User from "../User";
 import { TeamContext } from "../../../TeamContext";
-import { leastPairedWith } from "./recomendationHelper";
+import { leastPairedWith } from "./recommendationHelper";
 
-const UserRecomendation = ({ username }) => {
+const UserRecommendation = ({ username }) => {
   return (
     <div
-      title="Recomended Pair"
+      title="Recommended Pair"
       className={`w-12 h-12 mr-3 my-2 border-4 border-dashed border-gray-med rounded-full bg-white flex items-center justify-center`}
     >
       <p className="text-gray-med font-bold text-sm">{username}</p>
@@ -29,7 +29,7 @@ const SingleUserPair = ({ pair }) => {
   return [
     <User index={0} user={pair.users[0]} key={pair.users[0].uuid} />,
     leastPairedWith(pair.users[0], frequency, excluded).map((username) => (
-      <UserRecomendation username={username} key={username} />
+      <UserRecommendation username={username} key={username} />
     )),
   ];
 };

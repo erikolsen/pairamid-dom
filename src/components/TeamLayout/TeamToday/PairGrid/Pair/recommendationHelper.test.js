@@ -2,7 +2,7 @@ import {
   leastPairedWith,
   roleMapping,
   mostPairedWithRole,
-} from "./recomendationHelper";
+} from "./recommendationHelper";
 const baseFrequency = [
   {
     username: "AA",
@@ -33,6 +33,19 @@ const baseFrequency = [
 
 describe("pair helpers", () => {
   describe("leastPairedWith", () => {
+    it("can return multiple names", () => {
+      const user = { username: "AA" };
+      const exclusions = [];
+      const returnCount = 3;
+      const subject = leastPairedWith(
+        user,
+        baseFrequency,
+        exclusions,
+        returnCount
+      );
+      expect(subject).toEqual(["EE", "BB", "CC"]);
+    });
+
     it("excludes active and out of office users", () => {
       const user = { username: "AA" };
       const subject = leastPairedWith(user, baseFrequency, ["BB", "CC"]);
