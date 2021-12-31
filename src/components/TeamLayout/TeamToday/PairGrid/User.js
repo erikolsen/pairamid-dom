@@ -21,7 +21,7 @@ const Menu = ({ user }) => {
   const recommendedList = leastPairedWith(user, frequency, excluded, 4);
 
   return (
-    <div className="bg-white w-60 border border-gray-300 rounded-lg flex flex-col text-sm py-4 px-2 text-gray-500 shadow-lg z-100">
+    <div className="bg-white w-60 border border-gray-300 rounded-lg flex flex-col text-sm py-4 px-2 text-gray-500 shadow-lg z-50">
       <div className="flex hover:bg-gray-100 py-1 px-2 rounded">
         <Link to={`${match.url}/users/${user.uuid}`} className="text-gray-900">
           <span className="text-base font-light">View profile</span>

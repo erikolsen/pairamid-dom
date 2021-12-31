@@ -4,11 +4,12 @@ const largestValue = (obj) =>
     .map((value) => value[0])
     .slice(-1)[0];
 
-export const roleMapping = (frequency) =>
-  frequency.reduce(
+export const roleMapping = (frequency) => {
+  return frequency.reduce(
     (acc, data) => ({ ...acc, [data.username]: data.roleName }),
     {}
   );
+};
 
 export const mostPairedWithRole = (userData, roles) => {
   const roleCounts = Object.entries(userData.frequencies)
