@@ -29,7 +29,7 @@ const PyramidChart = ({ data }) => {
           <Tooltip content={<CustomTooltip />} />
           <Funnel reversed={true} dataKey="value" data={data} isAnimationActive>
             {data.map((entry, index) => (
-              <Cell key={`slice-${index}`} fill={entry.color} fontSize={10} />
+              <Cell key={`slice-${index}`} fill={entry.color} />
             ))}
             <LabelList
               position="inside"

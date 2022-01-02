@@ -32,10 +32,8 @@ const useContextMenu = () => {
       <div ref={ref} onClick={handleClick}>
         {children}
         {show && (
-          <div className="absolute -mt-6 ml-5">
-            <div style={{ top: anchorPoint.y, left: anchorPoint.x }}>
-              {menu}
-            </div>
+          <div style={{ top: anchorPoint.y, left: anchorPoint.x }}>
+            <div className="absolute -mt-6 ml-5 z-10">{menu}</div>
           </div>
         )}
       </div>
