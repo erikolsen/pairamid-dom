@@ -93,8 +93,7 @@ const MonthlyStats = ({ user }) => {
     color: frequencyColor(
       myFreq,
       myFreq.frequencies[u.username],
-      relUsers,
-      u.username === user.username
+      relUsers.map((u) => u.username)
     ),
   }));
 

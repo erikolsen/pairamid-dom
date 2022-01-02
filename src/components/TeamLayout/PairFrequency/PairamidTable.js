@@ -53,7 +53,9 @@ const PairamidTable = ({ users, roles, primary, setPrimary, setSecondary }) => {
                   className={`border-2 h-8 w-8 md:h-10 md:w-10 flex items-center justify-center ${frequencyColor(
                     user,
                     data,
-                    filteredUsers.map((u) => u.username)
+                    filteredUsers
+                      .filter((u) => u.username !== user.username)
+                      .map((u) => u.username)
                   )}`}
                 >
                   <span className="text-xs md:text-lg text-center transform -rotate-45">
