@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { API_URL } from "../../../constants";
-import { useParams } from "react-router-dom";
+import React, { useState, useContext } from "react";
 import FrequencyTable from "./FrequencyTable";
 import PairamidTable from "./PairamidTable";
 import StandardTable from "./StandardTable";
@@ -12,6 +9,7 @@ import { DateRangePicker, DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import defaultStaticRanges from "../../../constants/defaultStaticRanges";
+import { TeamContext } from "../TeamContext";
 
 const TABLE_VIEWS = {
   Pairamid: PairamidTable,
@@ -27,11 +25,11 @@ const JUST_RIGHT =
 const SOLO = "Number of times the focused person has worked solo.";
 
 const PairFrequency = () => {
-  const { teamId } = useParams();
-  const [roles, setRoles] = useState([]);
-  const [selectedTable, setSelectedTable] = useState("Pairamid");
+  const { team } = useContext(TeamContext);
 
+  const [selectedTable, setSelectedTable] = useState("Pairamid");
   const [showCalendar, setShowCalendar] = useState(false);
+
   const today = new Date();
   const [startDate, setStartDate] = useState(subDays(today, 30));
   const [endDate, setEndDate] = useState(today);
@@ -46,12 +44,6 @@ const PairFrequency = () => {
     endDate: endDate,
     key: "selection",
   };
-
-  useEffect(() => {
-    axios.get(`${API_URL}/team/${teamId}/roles`).then((response) => {
-      setRoles(response.data);
-    });
-  }, []);
 
   return (
     <main className="bg-gray-light min-h-screen col-span-7 p-2 lg:p-12">
@@ -139,7 +131,7 @@ const PairFrequency = () => {
           <FrequencyTable
             startDate={startDate}
             endDate={endDate}
-            roles={roles}
+            roles={team.roles}
             TableComponent={TABLE_VIEWS[selectedTable]}
           />
         </div>
