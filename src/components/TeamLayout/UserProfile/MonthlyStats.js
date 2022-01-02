@@ -5,6 +5,7 @@ import {
   mostPairedWithRole,
   roleMapping,
 } from "../TeamToday/PairGrid/Pair/recommendationHelper";
+import _ from "lodash";
 
 const RED = "#ED643B";
 const YELLOW = "#EDAA3B";
@@ -29,29 +30,26 @@ const MonthlyStats = ({ user }) => {
     team: { users, roles },
   } = useContext(TeamContext);
 
-  const myFreq = frequency.find((u) => u.username === user.username);
-  const roleFreq = roleMapping(frequency);
-  const defaultRoles = roles.reduce(
-    (acc, role) => ({
-      ...acc,
-      [role.name]: 0,
-    }),
-    {}
+  const activeRoles = new Set(
+    frequency
+      .filter((freq) => _.sum(Object.values(freq.frequencies)) > 0)
+      .map((role) => role.roleName)
   );
 
-  const roleCounts = {
-    ...defaultRoles,
-    ...Object.entries(myFreq.frequencies)
-      .sort((a, b) => a[1] - b[1])
-      .map(([name, count]) => [roleFreq[name], count])
-      .reduce(
-        (acc, [name, count]) => ({
-          ...acc,
-          [name]: (acc[name] || 0) + count,
-        }),
-        {}
-      ),
-  };
+  const myFreq = frequency.find((u) => u.username === user.username);
+  const roleFreq = roleMapping(frequency);
+
+  const roleCounts = Object.entries(myFreq.frequencies)
+    .sort((a, b) => a[1] - b[1])
+    .map(([name, count]) => [roleFreq[name], count])
+    .filter(([name, _]) => activeRoles.has(name))
+    .reduce(
+      (acc, [name, count]) => ({
+        ...acc,
+        [name]: (acc[name] || 0) + count,
+      }),
+      {}
+    );
 
   const roleData = Object.entries(roleCounts)
     .sort((a, b) => a[1] - b[1])
@@ -107,7 +105,7 @@ const MonthlyStats = ({ user }) => {
           <PyramidChart data={roleData.reverse()} />
         </div>
         <div className="bg-white shadow-lg rounded-lg">
-          <h2 className="mt-4 text-center">Cross Pairing Opportunities</h2>
+          <h2 className="mt-4 text-center">Cross Pairing Recommendations</h2>
           <div className="flex justify-center py-4">
             {roleRecommendations.map((role) => (
               <div
