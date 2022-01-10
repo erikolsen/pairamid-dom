@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   ResponsiveContainer,
   FunnelChart,
   Funnel,
-  Cell,
   Tooltip,
   LabelList,
 } from "recharts";
@@ -22,21 +21,20 @@ const CustomTooltip = ({ active, payload }) => {
 };
 
 const PyramidChart = ({ data }) => {
+  const [width, setWidth] = useState(0);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    setWidth(ref.current.offsetWidth);
+  }, []);
+
   return (
-    <div className="w-full">
-      <ResponsiveContainer width="100%" height={300}>
+    <div ref={ref} className="w-full">
+      <ResponsiveContainer width="100%" height={width * 0.5}>
         <FunnelChart>
           <Tooltip content={<CustomTooltip />} />
           <Funnel reversed={true} dataKey="value" data={data} isAnimationActive>
-            {data.map((entry, index) => (
-              <Cell key={`slice-${index}`} fill={entry.color} />
-            ))}
-            <LabelList
-              position="inside"
-              fill="#FFF"
-              stroke="none"
-              dataKey="name"
-            />
+            <LabelList position="right" stroke="none" dataKey="name" />
           </Funnel>
         </FunnelChart>
       </ResponsiveContainer>
