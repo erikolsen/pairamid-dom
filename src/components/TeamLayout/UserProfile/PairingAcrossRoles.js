@@ -49,11 +49,16 @@ const PairingAcrossRoles = ({ user }) => {
     .filter((role) => true || role.name !== primaryRole)
     .slice(0, 2);
 
+  const options = {
+    position: "insideBottom",
+    fill: "#fff",
+  };
+
   return (
     <div className="col-span-1">
       <div className="bg-white shadow-lg rounded-lg">
         <h2 className="mt-4 text-center">Pairing Across Roles</h2>
-        <PyramidChart data={roleData.reverse()} />
+        <PyramidChart data={roleData.reverse()} labelOptions={options} />
       </div>
       <div className="bg-white shadow-lg rounded-lg">
         <p className="mt-4 text-center font-bold">
@@ -64,7 +69,7 @@ const PairingAcrossRoles = ({ user }) => {
             <div
               key={role.name}
               style={{ backgroundColor: role.fill }}
-              className={`h-12 w-1/3 px-2 m-2 border-gray-border flex items-center justify-center`}
+              className={`h-12 w-1/3 px-2 m-2 border-gray-border flex items-center justify-center rounded-lg`}
             >
               <p className="text-white font-bold text-xs">{role.name}</p>
             </div>

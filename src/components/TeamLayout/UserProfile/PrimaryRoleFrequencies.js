@@ -64,23 +64,32 @@ const PrimaryRoleFrequencies = ({ user }) => {
   }));
 
   const recommendedList = data.slice(0, 3);
+  const options = {
+    position: "insideBottom",
+    fill: "#fff",
+  };
 
   return (
     <div className="col-span-1">
       <div className="bg-white shadow-lg rounded-lg">
         <h2 className="mt-4 text-center">Primary Role Frequencies</h2>
-        <PyramidChart data={data.reverse()} />
+        <PyramidChart data={data.reverse()} labelOptions={options} />
       </div>
       <div className="bg-white shadow-lg rounded-lg">
         <p className="mt-4 text-center font-bold">Pair Recommendations</p>
         <div className="flex justify-center p-2">
           {recommendedList.map((user) => (
             <div
+              className="rounded-md mx-2"
               key={user.name}
-              style={{ backgroundColor: user.roleColor }}
-              className={`bg-gray-med w-12 h-12 m-2 border-gray-border rounded-full flex items-center justify-center`}
+              style={{ backgroundColor: user.fill }}
             >
-              <p className="text-white font-bold text-xs">{user.name}</p>
+              <div
+                style={{ backgroundColor: user.roleColor }}
+                className={`bg-gray-med w-12 h-12 m-2 border-gray-border rounded-full flex items-center justify-center`}
+              >
+                <p className="text-white font-bold text-xs">{user.name}</p>
+              </div>
             </div>
           ))}
         </div>

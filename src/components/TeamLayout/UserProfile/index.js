@@ -7,7 +7,7 @@ import ProfileCalendar from "./ProfileCalendar";
 import PairingSessionDuration from "./PairingSessionDuration";
 import PairingAcrossRoles from "./PairingAcrossRoles";
 import PrimaryRoleFrequencies from "./PrimaryRoleFrequencies";
-// import { subDays } from "date-fns";
+import { subDays } from "date-fns";
 
 const UserProfile = () => {
   const { teamId, userId } = useParams();
@@ -22,11 +22,11 @@ const UserProfile = () => {
   if (!user) {
     return <h1 className="m-12">Loading...</h1>;
   }
-  // const today = new Date();
-  // const lastMonth = subDays(today, 30);
+  const today = new Date();
+  const lastMonth = subDays(today, 30);
 
   const allSessions = user.active_pairing_sessions;
-  // const monthly = allSessions.filter((s) => new Date(s.created_at) > lastMonth);
+  const monthly = allSessions.filter((s) => new Date(s.created_at) > lastMonth);
 
   return (
     <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
@@ -40,7 +40,7 @@ const UserProfile = () => {
 
         <h2>Monthly Stats</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-4 mb-4">
-          <PairingSessionDuration sessions={allSessions} user={user} />
+          <PairingSessionDuration sessions={monthly} user={user} />
           <PrimaryRoleFrequencies user={user} />
           <PairingAcrossRoles user={user} />
         </div>

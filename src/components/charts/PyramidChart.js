@@ -20,7 +20,7 @@ const CustomTooltip = ({ active, payload }) => {
   );
 };
 
-const PyramidChart = ({ data }) => {
+const PyramidChart = ({ data, labelOptions = {} }) => {
   const [width, setWidth] = useState(0);
   const ref = useRef(null);
 
@@ -34,7 +34,7 @@ const PyramidChart = ({ data }) => {
         <FunnelChart>
           <Tooltip content={<CustomTooltip />} />
           <Funnel reversed={true} dataKey="value" data={data} isAnimationActive>
-            <LabelList position="right" stroke="none" dataKey="name" />
+            <LabelList {...labelOptions} stroke="none" dataKey="name" />
           </Funnel>
         </FunnelChart>
       </ResponsiveContainer>

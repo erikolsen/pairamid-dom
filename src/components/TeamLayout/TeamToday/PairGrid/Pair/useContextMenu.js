@@ -13,7 +13,6 @@ const useContextMenu = () => {
     [setShow, setAnchorPoint]
   );
 
-  const handleClick = useCallback(() => (show ? setShow(false) : null), [show]);
   const closeClick = useCallback(() => show && setShow(false));
 
   const ClickZone = ({ children, menu }) => {
@@ -29,7 +28,7 @@ const useContextMenu = () => {
     }, [ref]);
 
     return (
-      <div ref={ref} onClick={handleClick}>
+      <div ref={ref}>
         {children}
         {show && (
           <div style={{ top: anchorPoint.y, left: anchorPoint.x }}>
