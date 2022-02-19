@@ -10,10 +10,11 @@ const Menu = ({ user }) => {
   const {
     frequency,
     pairs,
-    team: { users },
+    team: { team_members },
   } = useContext(TeamContext);
 
-  const roleColor = (name) => users.find((u) => u.username === name).role.color;
+  const roleColor = (name) =>
+    team_members.find((u) => u.username === name).role.color;
 
   const excluded = pairs
     .filter((p) => p.info !== "UNPAIRED")

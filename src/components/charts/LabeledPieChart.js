@@ -11,7 +11,7 @@ const customLabel = (entry) => entry.name;
 const LabeledPieChart = ({ user: { active_pairing_sessions, username } }) => {
   const roles = active_pairing_sessions
     .map((session) =>
-      session.users
+      session.team_members
         .filter((user) => user.username !== username)
         .map((user) => user.role)
     )

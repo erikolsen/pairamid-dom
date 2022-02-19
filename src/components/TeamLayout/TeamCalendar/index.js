@@ -303,7 +303,7 @@ const DisplayReminders = ({
 
 const TeamCalendar = () => {
   const { teamId } = useParams();
-  const [team, setTeam] = useState({ name: "", users: [], roles: [] });
+  const [team, setTeam] = useState({ name: "", team_members: [], roles: [] });
   const [date, setDate] = useState([new Date(), new Date()]);
   const [reminders, setReminders] = useState([]);
   const [rangeSelect, setRangeSelect] = useState(false);
