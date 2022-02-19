@@ -73,7 +73,6 @@ const PairingSessionDuration = ({ sessions, user }) => {
       max,
     ]);
 
-  console.log("stuff", pairStats(sessions));
   const sessionData = sessionColors(_.countBy(pairStats(sessions)));
 
   const options = {
