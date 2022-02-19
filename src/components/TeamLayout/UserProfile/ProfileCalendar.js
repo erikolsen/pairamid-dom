@@ -54,25 +54,12 @@ const User = (props) => {
   );
 };
 
-// const tagColor = (days) => {
-//   switch (true) {
-//     case days === 0:
-//       return "white";
-//     case days === 1 || days === 2:
-//       return "green";
-//     case days === 3 || days === 4:
-//       return "yellow";
-//     default:
-//       return "red";
-//   }
-// };
-
-const EventComponent = (props) => {
-  let users = props.event.users || [];
+const EventComponent = ({ event }) => {
+  let team_members = event.team_members || [];
   return (
     <div className="grid grid-cols-2 md:grid-cols-3">
-      {users
-        .filter((user) => props.event.username !== user.username)
+      {team_members
+        .filter((user) => event.username !== user.username)
         .map((user, i) => (
           <User key={i} user={user} />
         ))}

@@ -13,7 +13,7 @@ const getPairData = (pairs, pairUuid) => {
   return {
     pair: pair,
     index: index,
-    users: pairs[index].users,
+    users: pairs[index].team_members,
   };
 };
 
@@ -36,10 +36,12 @@ const PairGrid = ({ pairs, setSaved, setError }) => {
       destination.droppableId === source.droppableId
         ? sourceData.users
         : descData.users;
-    const user = sourceData.users.find((user) => user.uuid === draggableId);
+    const team_member = sourceData.users.find(
+      (member) => member.uuid === draggableId
+    );
 
     sourceData.users.splice(source.index, 1);
-    descUsers.splice(destination.index, 0, user);
+    descUsers.splice(destination.index, 0, team_member);
 
     setSaved(false);
     SOCKET.emit(

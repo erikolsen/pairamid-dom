@@ -51,13 +51,15 @@ const countMax = (values) => {
 
 const PairingSessionDuration = ({ sessions, user }) => {
   const {
-    team: { users },
+    team: { team_members },
   } = useContext(TeamContext);
 
-  const noSolo = sessions.filter((p) => p.users.length > 1);
+  const noSolo = sessions.filter((p) => p.team_members.length > 1);
 
   const pairs = _.groupBy(noSolo, (p) =>
-    p.users.filter((u) => u.username !== user.username).map((u) => u.username)
+    p.team_members
+      .filter((u) => u.username !== user.username)
+      .map((u) => u.username)
   );
 
   const recomendations = Object.entries(pairs)
@@ -67,10 +69,11 @@ const PairingSessionDuration = ({ sessions, user }) => {
     .reverse()
     .slice(0, 3)
     .map(([pair, max, _count]) => [
-      users.find((u) => u.username === pair),
+      team_members.find((u) => u.username === pair),
       max,
     ]);
 
+  console.log("stuff", pairStats(sessions));
   const sessionData = sessionColors(_.countBy(pairStats(sessions)));
 
   const options = {

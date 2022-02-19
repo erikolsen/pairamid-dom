@@ -17,7 +17,7 @@ const Menu = ({ user }) => {
 
   const excluded = pairs
     .filter((p) => p.info !== "UNPAIRED")
-    .flatMap((pair) => pair.users.map((u) => u.username));
+    .flatMap((pair) => pair.team_members.map((u) => u.username));
   const recommendedList = leastPairedWith(user, frequency, excluded, 4);
 
   return (

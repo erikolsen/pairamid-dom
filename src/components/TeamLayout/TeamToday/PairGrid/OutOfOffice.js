@@ -4,8 +4,10 @@ import User from "./User";
 
 const OutOfOffice = ({ ooo }) => {
   let users =
-    ooo.users.length > 0 ? (
-      ooo.users.map((user, i) => <User index={i} user={user} key={user.uuid} />)
+    ooo.team_members.length > 0 ? (
+      ooo.team_members.map((user, i) => (
+        <User index={i} user={user} key={user.uuid} />
+      ))
     ) : (
       <h1 className="text-center w-full">Full House Today</h1>
     );
