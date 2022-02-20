@@ -6,7 +6,7 @@ import PairFrequency from "./PairFrequency";
 import PairHistory from "./PairHistory";
 import TeamSettings from "./TeamSettings";
 import TeamCalendar from "./TeamCalendar";
-import UserProfile from "./UserProfile";
+import TeamMemberProfile from "./TeamMemberProfile";
 import Terms from "./Terms";
 import { TeamContextProvider } from "./TeamContext";
 
@@ -36,7 +36,10 @@ const TeamLayout = ({ match }) => {
           <Route path={`${match.path}/history`} component={PairHistory} />
           <Route path={`${match.path}/settings`} component={TeamSettings} />
           <Route path={`${match.path}/calendar`} component={TeamCalendar} />
-          <Route path={`${match.path}/users/:userId`} component={UserProfile} />
+          <Route
+            path={`${match.path}/users/:userId`}
+            component={TeamMemberProfile}
+          />
           <Route exact path={`${match.path}/`} component={TeamToday} />
         </Switch>
       </div>

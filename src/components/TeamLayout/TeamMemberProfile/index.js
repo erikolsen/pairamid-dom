@@ -9,23 +9,23 @@ import PairingAcrossRoles from "./PairingAcrossRoles";
 import PrimaryRoleFrequencies from "./PrimaryRoleFrequencies";
 import { subDays } from "date-fns";
 
-const UserProfile = () => {
+const TeamMemberProfile = () => {
   const { teamId, userId } = useParams();
-  const [user, setUser] = useState(null);
+  const [teamMember, setTeamMember] = useState(null);
 
   useEffect(() => {
     axios.get(`${API_URL}/team/${teamId}/user/${userId}`).then((response) => {
-      setUser(response.data);
+      setTeamMember(response.data);
     });
-  }, [setUser, teamId, userId]);
+  }, [setTeamMember, teamId, userId]);
 
-  if (!user) {
+  if (!teamMember) {
     return <h1 className="m-12">Loading...</h1>;
   }
   const today = new Date();
   const lastMonth = subDays(today, 30);
 
-  const allSessions = user.active_pairing_sessions;
+  const allSessions = teamMember.active_pairing_sessions;
   const monthly = allSessions.filter((s) => new Date(s.created_at) > lastMonth);
 
   return (
@@ -33,16 +33,16 @@ const UserProfile = () => {
       <section>
         <header className="border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4">
           <div className="w-full flex justify-between items-center">
-            <h1>User {user.username}</h1>
-            <h1>{user.team.name}</h1>
+            <h1>User {teamMember.username}</h1>
+            <h1>{teamMember.team.name}</h1>
           </div>
         </header>
 
         <h2>Monthly Stats</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-4 mb-4">
-          <PairingSessionDuration sessions={monthly} user={user} />
-          <PrimaryRoleFrequencies user={user} />
-          <PairingAcrossRoles user={user} />
+          <PairingSessionDuration sessions={monthly} user={teamMember} />
+          <PrimaryRoleFrequencies user={teamMember} />
+          <PairingAcrossRoles user={teamMember} />
         </div>
 
         <div className="border-b-2 border-gray-border my-4" />
@@ -50,13 +50,13 @@ const UserProfile = () => {
 
         <div className="col-span-2 bg-white shadow-lg rounded-lg mb-4">
           <h2 className="mt-4 text-center">Distribution of Pairs</h2>
-          <SimpleBarChart user={user} />
+          <SimpleBarChart user={teamMember} />
         </div>
 
         <div className="col-span-2 bg-white shadow-lg rounded-lg mb-4">
           <ProfileCalendar
             pairingSessions={allSessions}
-            username={user.username}
+            username={teamMember.username}
           />
         </div>
       </section>
@@ -64,4 +64,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default TeamMemberProfile;
