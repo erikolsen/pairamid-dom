@@ -39,14 +39,14 @@ const sessionColors = (sessions) => {
     [GREEN]: "1-2 Days",
   };
 
-  const foo = Object.entries(sessions)
+  const colorCount = Object.entries(sessions)
     .map(([day, count]) => [tagColor(parseInt(day)), count])
     .reduce(
       (acc, [color, count]) => ({ ...acc, [color]: acc[color] + count }),
       data
     );
 
-  return Object.entries(foo)
+  return Object.entries(colorCount)
     .sort((a, b) => a[1] - b[1])
     .map(([color, count], index) => ({
       value: index + 1,
@@ -59,7 +59,7 @@ const sessionColors = (sessions) => {
 
 export const frequencyColor = (target, value, relevantUsers, solo) => {
   const total = relevantUsers.reduce(
-    (memo, user) => (memo += target.frequencies[user] || 0),
+    (memo, teamMember) => (memo += target.frequencies[teamMember] || 0),
     0
   );
   const average = total / relevantUsers.length || 1;
@@ -69,10 +69,10 @@ export const frequencyColor = (target, value, relevantUsers, solo) => {
   return GREEN;
 };
 
-const MonthlyStats = ({ user, sessions }) => {
+const MonthlyStats = ({ teamMember, sessions }) => {
   const {
     frequency,
-    team: { users, roles },
+    team: { teamMembers, roles },
   } = useContext(TeamContext);
 
   const foo = sessionColors(sessions);
@@ -83,7 +83,7 @@ const MonthlyStats = ({ user, sessions }) => {
       .map((role) => role.roleName)
   );
 
-  const myFreq = frequency.find((u) => u.username === user.username);
+  const myFreq = frequency.find((m) => m.username === teamMember.username);
   const roleFreq = roleMapping(frequency);
 
   const roleCounts = Object.entries(myFreq.frequencies)
@@ -108,8 +108,8 @@ const MonthlyStats = ({ user, sessions }) => {
     }));
 
   const primaryRole = mostPairedWithRole(myFreq, roleFreq);
-  const relUsers = users
-    .filter((u) => u.username !== user.username)
+  const relUsers = teamMembers
+    .filter((u) => u.username !== teamMember.username)
     .filter((u) => u.role.name === primaryRole);
 
   const roleRecommendations = roleData
@@ -118,12 +118,12 @@ const MonthlyStats = ({ user, sessions }) => {
 
   const keyUsers = relUsers
     .reduce(
-      (acc, user) => [
+      (acc, teamMember) => [
         ...acc,
         {
-          username: user.username,
-          count: myFreq.frequencies[user.username],
-          roleColor: user.role.color,
+          username: teamMember.username,
+          count: myFreq.frequencies[teamMember.username],
+          roleColor: teamMember.role.color,
         },
       ],
       []
@@ -147,8 +147,8 @@ const MonthlyStats = ({ user, sessions }) => {
   return (
     <div className="grid grid-cols-2 gap-x-4 gap-y-4 mb-4">
       <PairingSessionDuration sessions={sessions} />
-      <PairingAcrossRoles user={user} />
-      <PrimaryRoleFrequencies user={user} />
+      <PairingAcrossRoles teamMember={teamMember} />
+      <PrimaryRoleFrequencies teamMember={teamMember} />
 
       <div className="col-span-1 md:col-span-1">
         <div className="bg-white shadow-lg rounded-lg">
@@ -200,13 +200,15 @@ const MonthlyStats = ({ user, sessions }) => {
         <div className="bg-white shadow-lg rounded-lg">
           <h2 className="mt-4 text-center">Pair Recommendations</h2>
           <div className="flex justify-center p-2">
-            {recommendedList.map((user) => (
+            {recommendedList.map((teamMember) => (
               <div
-                key={user.name}
-                style={{ backgroundColor: user.roleColor }}
+                key={teamMember.name}
+                style={{ backgroundColor: teamMember.roleColor }}
                 className={`bg-gray-med w-12 h-12 mr-3 my-2 border-gray-border rounded-full flex items-center justify-center`}
               >
-                <p className="text-white font-bold text-xs">{user.name}</p>
+                <p className="text-white font-bold text-xs">
+                  {teamMember.name}
+                </p>
               </div>
             ))}
           </div>

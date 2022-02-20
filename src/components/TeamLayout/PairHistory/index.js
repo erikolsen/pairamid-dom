@@ -37,7 +37,7 @@ const Pair = ({ pair }) => {
       ></div>
       <div>
         <div className="flex my-2 flex-wrap">
-          {pair.team_members.map((user, i) => (
+          {pair.teamMembers.map((user, i) => (
             <User key={i} user={user} />
           ))}
         </div>

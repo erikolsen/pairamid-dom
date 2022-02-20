@@ -19,7 +19,7 @@ const FrequencyTable = ({ startDate, endDate, roles, TableComponent }) => {
   }
 
   const { teamId } = useParams();
-  const [users, setUsers] = useState([]);
+  const [teamMembers, setTeamMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [primary, setPrimary] = useState();
   const [secondary, setSecondary] = useState();
@@ -35,7 +35,7 @@ const FrequencyTable = ({ startDate, endDate, roles, TableComponent }) => {
         )}&endDate=${fDate(endDate)}`
       )
       .then((response) => {
-        setUsers(response.data);
+        setTeamMembers(response.data);
         setPrimary(largestRole(response.data.map((u) => u.roleName)));
         setSecondary(largestRole(response.data.map((u) => u.roleName)));
         setLoading(false);
@@ -53,7 +53,7 @@ const FrequencyTable = ({ startDate, endDate, roles, TableComponent }) => {
         setPrimary={setPrimary}
         secondary={secondary}
         setSecondary={setSecondary}
-        users={users}
+        teamMembers={teamMembers}
         roles={roles}
       />
     </div>

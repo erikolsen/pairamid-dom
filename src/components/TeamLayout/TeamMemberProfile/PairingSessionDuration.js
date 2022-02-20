@@ -51,13 +51,13 @@ const countMax = (values) => {
 
 const PairingSessionDuration = ({ sessions, user }) => {
   const {
-    team: { team_members },
+    team: { teamMembers },
   } = useContext(TeamContext);
 
-  const noSolo = sessions.filter((p) => p.team_members.length > 1);
+  const noSolo = sessions.filter((p) => p.teamMembers.length > 1);
 
   const pairs = _.groupBy(noSolo, (p) =>
-    p.team_members
+    p.teamMembers
       .filter((u) => u.username !== user.username)
       .map((u) => u.username)
   );
@@ -69,7 +69,7 @@ const PairingSessionDuration = ({ sessions, user }) => {
     .reverse()
     .slice(0, 3)
     .map(([pair, max, _count]) => [
-      team_members.find((u) => u.username === pair),
+      teamMembers.find((u) => u.username === pair),
       max,
     ]);
 

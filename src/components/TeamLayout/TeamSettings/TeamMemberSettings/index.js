@@ -1,94 +1,94 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../../../../constants";
-import DisplayUser from "./DisplayUser";
+import DisplayTeamMember from "./DisplayTeamMember";
 import { useParams } from "react-router-dom";
 import CirclePlus from "../../../svg/CirclePlus";
 
-const UserSettings = ({ roles }) => {
+const TeamMemberSettings = ({ roles }) => {
   const { teamId } = useParams();
-  const [users, setUsers] = useState([]);
+  const [teamMembers, setTeamMembers] = useState([]);
 
   useEffect(() => {
     axios.get(`${API_URL}/team/${teamId}/users`).then((response) => {
-      setUsers(response.data);
+      setTeamMembers(response.data);
     });
   }, [roles, teamId]);
 
-  const updateUser = (data) => {
+  const updateTeamMember = (data) => {
     axios
       .put(`${API_URL}/team/${teamId}/user/${data.userId}`, data)
       .then((response) => {
-        setUsers(
-          users.map((user) =>
-            user.id === response.data.id
+        setTeamMembers(
+          teamMembers.map((teamMember) =>
+            teamMember.id === response.data.id
               ? Object.assign({}, response.data)
-              : user
+              : teamMember
           )
         );
       });
   };
 
-  const addUser = () => {
+  const addTeamMember = () => {
     axios.post(`${API_URL}/team/${teamId}/user`).then((response) => {
-      setUsers([...users, response.data]);
+      setTeamMembers([...teamMembers, response.data]);
     });
   };
 
-  const deleteUser = (id) => {
+  const deleteTeamMember = (id) => {
     axios.delete(`${API_URL}/team/${teamId}/user/${id}`).then((response) => {
-      setUsers(
-        users
-          .map((user) =>
-            user.id === response.data.id
+      setTeamMembers(
+        teamMembers
+          .map((teamMember) =>
+            teamMember.id === response.data.id
               ? Object.assign({}, response.data)
-              : user
+              : teamMember
           )
           .filter((u) => !u.hardDelete)
       );
     });
   };
 
-  const reviveUser = (id) => {
+  const reviveTeamMember = (id) => {
     axios
       .put(`${API_URL}/team/${teamId}/user/${id}/revive`)
       .then((response) => {
-        setUsers(
-          users.map((user) =>
-            user.id === response.data.id
+        setTeamMembers(
+          teamMembers.map((teamMember) =>
+            teamMember.id === response.data.id
               ? Object.assign({}, response.data)
-              : user
+              : teamMember
           )
         );
       });
   };
 
-  const usersList = users.map((user) => (
-    <DisplayUser
-      key={user.id}
-      user={user}
+  const usersList = teamMembers.map((teamMember) => (
+    <DisplayTeamMember
+      key={teamMember.id}
+      teamMember={teamMember}
       roles={roles}
-      reviveUser={reviveUser}
-      updateUser={updateUser}
-      onDelete={deleteUser}
+      reviveTeamMember={reviveTeamMember}
+      updateTeamMember={updateTeamMember}
+      onDelete={deleteTeamMember}
     />
   ));
   return (
     <div>
       <div className="my-2">
-        <h2>Users</h2>
+        <h2>Members</h2>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4">{usersList}</div>
       <button
         data-cy="add-user"
-        onClick={addUser}
+        onClick={addTeamMember}
         className="flex items-center"
       >
         <CirclePlus />
-        <span className="mx-2 text-gray">Add User</span>
+        <span className="mx-2 text-gray">Add Member</span>
       </button>
     </div>
   );
 };
 
-export default UserSettings;
+export default TeamMemberSettings;

@@ -26,14 +26,14 @@ export const frequencyColor = (target, value, relevantUsers, solo) => {
 const PrimaryRoleFrequencies = ({ user }) => {
   const {
     frequency,
-    team: { team_members },
+    team: { teamMembers },
   } = useContext(TeamContext);
 
   const myFreq = frequency.find((u) => u.username === user.username);
   const roleFreq = roleMapping(frequency);
 
   const primaryRole = mostPairedWithRole(myFreq, roleFreq);
-  const relUsers = team_members
+  const relUsers = teamMembers
     .filter((u) => u.username !== user.username)
     .filter((u) => u.role.name === primaryRole);
 

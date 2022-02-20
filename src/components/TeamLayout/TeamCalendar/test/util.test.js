@@ -11,7 +11,7 @@ describe("utils", () => {
     it("does the thing", () => {
       const role = {
         name: "DEV",
-        total_members: 2,
+        totalMembers: 2,
       };
       const startDate = new Date("1/18/2021");
       const endDate = new Date("1/18/2021");
@@ -24,7 +24,7 @@ describe("utils", () => {
     it("does another thing", () => {
       const role = {
         name: "DEV",
-        total_members: 2,
+        totalMembers: 2,
       };
       const startDate = new Date("1/18/2021");
       const endDate = new Date("1/19/2021");
@@ -40,13 +40,13 @@ describe("utils", () => {
       const reminders = [
         {
           message: "Out of Office",
-          team_member: { role: { name: "DEV" } },
-          start_date: "1/18/2021",
-          end_date: "1/30/2021",
+          teamMember: { role: { name: "DEV" } },
+          startDate: "1/18/2021",
+          endDate: "1/30/2021",
         },
         {
           message: "Out of Office",
-          team_member: false,
+          teamMember: false,
         },
       ];
       const startDate = new Date("1/18/2021");
@@ -60,13 +60,13 @@ describe("utils", () => {
       const reminders = [
         {
           message: "Out of Office",
-          team_member: { role: { name: "DEV" } },
-          start_date: "1/18/2021",
-          end_date: "1/20/2021",
+          teamMember: { role: { name: "DEV" } },
+          startDate: "1/18/2021",
+          endDate: "1/20/2021",
         },
         {
           message: "Out of Office",
-          team_member: false,
+          teamMember: false,
         },
       ];
       const startDate = new Date("1/18/2021");
@@ -89,12 +89,12 @@ describe("utils", () => {
           {
             name: "foo",
             color: "red",
-            total_members: 10,
+            totalMembers: 10,
           },
           {
             name: "bar",
             color: "blue",
-            total_members: 2,
+            totalMembers: 2,
           },
         ],
       };

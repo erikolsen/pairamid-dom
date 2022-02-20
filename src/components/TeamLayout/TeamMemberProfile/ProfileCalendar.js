@@ -39,9 +39,9 @@ class CalendarToolbar extends React.Component {
   }
 }
 
-const User = (props) => {
-  let username = props.user.username || "";
-  let color = props.user.role.color || "#64dfdfff";
+const User = ({ teamMember }) => {
+  let username = teamMember.username || "";
+  let color = teamMember.role.color || "#64dfdfff";
   return (
     <div className="mx-px">
       <div
@@ -55,13 +55,13 @@ const User = (props) => {
 };
 
 const EventComponent = ({ event }) => {
-  let team_members = event.team_members || [];
+  let teamMembers = event.teamMembers || [];
   return (
     <div className="grid grid-cols-2 md:grid-cols-3">
-      {team_members
-        .filter((user) => event.username !== user.username)
-        .map((user, i) => (
-          <User key={i} user={user} />
+      {teamMembers
+        .filter((teamMember) => event.username !== teamMember.username)
+        .map((teamMember, i) => (
+          <User key={i} teamMember={teamMember} />
         ))}
     </div>
   );
@@ -88,8 +88,8 @@ const ProfileCalendar = ({ pairingSessions, username }) => {
         views={["month"]}
         navigate={["back", "next"]}
         events={myEventsList.map((event) => ({ ...event, username: username }))}
-        startAccessor="created_at"
-        endAccessor="created_at"
+        startAccessor="createdAt"
+        endAccessor="createdAt"
         style={{ height: 600 }}
         components={{
           eventWrapper: EventComponent,

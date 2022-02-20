@@ -39,7 +39,7 @@ const FeedbackCard = ({ feedback, updated, setEditing }) => {
         <div className="flex justify-between">
           {updatedNotification}
           <p className="mb-2 mr-4 text-sm">
-            {format(new Date(feedback.created_at), "MM/dd/yyyy")}
+            {format(new Date(feedback.createdAt), "MM/dd/yyyy")}
           </p>
         </div>
         <div className="mx-4">

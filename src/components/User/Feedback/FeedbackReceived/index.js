@@ -46,8 +46,8 @@ const useDateRangeSelector = (defaultStart, defaultEnd) => {
   };
 
   const dateFilter = (feedback) =>
-    new Date(feedback.created_at) >= startDate &&
-    new Date(feedback.created_at) <= endDate;
+    new Date(feedback.createdAt) >= startDate &&
+    new Date(feedback.createdAt) <= endDate;
 
   return [selectedRange, setSelectedRange, dateFilter];
 };

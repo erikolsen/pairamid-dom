@@ -25,8 +25,8 @@ const TeamMemberProfile = () => {
   const today = new Date();
   const lastMonth = subDays(today, 30);
 
-  const allSessions = teamMember.active_pairing_sessions;
-  const monthly = allSessions.filter((s) => new Date(s.created_at) > lastMonth);
+  const allSessions = teamMember.activePairingSessions;
+  const monthly = allSessions.filter((s) => new Date(s.createdAt) > lastMonth);
 
   return (
     <main className="bg-gray-light col-span-7 p-2 lg:p-12 h-full">
@@ -50,7 +50,7 @@ const TeamMemberProfile = () => {
 
         <div className="col-span-2 bg-white shadow-lg rounded-lg mb-4">
           <h2 className="mt-4 text-center">Distribution of Pairs</h2>
-          <SimpleBarChart user={teamMember} />
+          <SimpleBarChart teamMember={teamMember} />
         </div>
 
         <div className="col-span-2 bg-white shadow-lg rounded-lg mb-4">

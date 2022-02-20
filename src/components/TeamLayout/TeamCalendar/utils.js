@@ -17,19 +17,19 @@ export const arrayFrom = (reminder, startDate, endDate) => {
   const fetchDays = overLap(
     startDate,
     endDate,
-    new Date(reminder.start_date),
-    new Date(reminder.end_date)
+    new Date(reminder.startDate),
+    new Date(reminder.endDate)
   );
   const arrayLength = businessDays(...fetchDays);
-  return Array(arrayLength).fill(reminder.team_member.role.name);
+  return Array(arrayLength).fill(reminder.teamMember.role.name);
 };
 
 export const buildReminders = (reminders, startDate, endDate) => {
   const relevant = reminders
     .filter((r) => !!r.message.match(/Out of Office/))
-    .filter((r) => r.team_member);
+    .filter((r) => r.teamMember);
   return relevant.flatMap((reminder) =>
-    arrayFrom(reminder, startDate, endDate).fill(reminder.team_member.role.name)
+    arrayFrom(reminder, startDate, endDate).fill(reminder.teamMember.role.name)
   );
 };
 
@@ -39,16 +39,14 @@ export const getPercent = (roleNames, role, startDate, endDate) => {
   }
   const totalDays = businessDays(startDate, endDate);
   const roleCount = roleNames.filter((name) => name === role.name).length;
-  return (100 - (roleCount / (role.total_members * totalDays)) * 100).toFixed(
-    2
-  );
+  return (100 - (roleCount / (role.totalMembers * totalDays)) * 100).toFixed(2);
 };
 
 const sortedTotalMembers = (a, b) => {
-  if (a.total_members > b.total_members) {
+  if (a.totalMembers > b.totalMembers) {
     return 1;
   }
-  if (a.total_members < b.total_members) {
+  if (a.totalMembers < b.totalMembers) {
     return -1;
   }
   return 0;
@@ -57,12 +55,12 @@ const sortedTotalMembers = (a, b) => {
 export const formatReminders = (reminders, team, startDate, endDate) => {
   const roleNames = buildReminders(reminders, startDate, endDate);
   return team.roles
-    .filter((role) => role.total_members > 0)
+    .filter((role) => role.totalMembers > 0)
     .sort(sortedTotalMembers)
     .map((role) => ({
       name: role.name,
       color: role.color,
-      memberCount: role.total_members,
+      memberCount: role.totalMembers,
       percent: getPercent(roleNames, role, startDate, endDate),
     }));
 };

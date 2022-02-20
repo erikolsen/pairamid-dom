@@ -12,7 +12,7 @@ export const cluster = (arr, tmp = [], result = []) => (
 
 export const pairStats = (sessions) => {
   const pairs = _.groupBy(sessions, (p) =>
-    p.team_members.map((u) => u.username)
+    p.teamMembers.map((u) => u.username)
   );
   return _.flatten(
     Object.entries(pairs).flatMap(([_, values]) =>

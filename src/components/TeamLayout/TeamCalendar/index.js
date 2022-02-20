@@ -56,9 +56,9 @@ const EditCard = ({ onUpdate, team, date, onDelete }) => {
             className="block appearance-none w-full bg-white border border-gray-border pl-2 py-2 pr-8 rounded leading-tight"
           >
             <option value="">Select a User</option>
-            {team.team_members.map((team_member) => (
-              <option key={team_member.id} className="" value={team_member.id}>
-                {team_member.username}
+            {team.teamMembers.map((teamMember) => (
+              <option key={teamMember.id} className="" value={teamMember.id}>
+                {teamMember.username}
               </option>
             ))}
           </select>
@@ -146,7 +146,7 @@ const ReminderDates = ({ startDate, endDate, recuring }) => {
 };
 
 const DisplayCard = ({ onDelete, reminder }) => {
-  const color = reminder.team_member ? reminder.team_member.role.color : "gray";
+  const color = reminder.teamMember ? reminder.teamMember.role.color : "gray";
 
   return (
     <div className="bg-white shadow-lg rounded-lg mb-4 col-span-1 flex justify-between">
@@ -156,7 +156,7 @@ const DisplayCard = ({ onDelete, reminder }) => {
           className={`my-4 bg-gray-med w-12 h-12 mx-2 border-gray-border rounded-full flex items-center justify-center`}
         >
           <p className="text-white font-bold text-xs">
-            {reminder.team_member ? reminder.team_member.username : "TEAM"}
+            {reminder.teamMember ? reminder.teamMember.username : "TEAM"}
           </p>
         </div>
         <div className="my-4">
@@ -165,8 +165,8 @@ const DisplayCard = ({ onDelete, reminder }) => {
           </p>
           <div className="text-sm mx-2 flex justify-between">
             <ReminderDates
-              startDate={reminder.start_date}
-              endDate={reminder.end_date}
+              startDate={reminder.startDate}
+              endDate={reminder.endDate}
               recuring={reminder.recuring_weekday}
             />
           </div>
@@ -303,7 +303,7 @@ const DisplayReminders = ({
 
 const TeamCalendar = () => {
   const { teamId } = useParams();
-  const [team, setTeam] = useState({ name: "", team_members: [], roles: [] });
+  const [team, setTeam] = useState({ name: "", teamMembers: [], roles: [] });
   const [date, setDate] = useState([new Date(), new Date()]);
   const [reminders, setReminders] = useState([]);
   const [rangeSelect, setRangeSelect] = useState(false);

@@ -16,7 +16,7 @@ const formatData = (filteredFeedback) => {
   const JOINER = "<->";
   const scatterFeedback = filteredFeedback
     .flatMap((feedback) =>
-      feedback.tags.map((tag) => `${tag.name}${JOINER}${feedback.created_at}`)
+      feedback.tags.map((tag) => `${tag.name}${JOINER}${feedback.createdAt}`)
     )
     .reduce(getCount, {});
   return Object.entries(scatterFeedback).map(([key, value]) => ({

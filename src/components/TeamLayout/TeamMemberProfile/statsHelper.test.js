@@ -29,9 +29,9 @@ import { pairStats } from "./statsHelper";
 const initialData = {
   "AP,DM": [
     {
-      created_at: "2022-01-03T19:42:55.889507",
+      createdAt: "2022-01-03T19:42:55.889507",
       streak: 1,
-      team_members: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -49,9 +49,9 @@ const initialData = {
       ],
     },
     {
-      created_at: "2021-12-10T15:11:45",
+      createdAt: "2021-12-10T15:11:45",
       streak: 1,
-      team_members: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -71,9 +71,9 @@ const initialData = {
   ],
   "AP,BN": [
     {
-      created_at: "2021-12-27T18:15:56.989925",
+      createdAt: "2021-12-27T18:15:56.989925",
       streak: 2,
-      team_members: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -91,9 +91,9 @@ const initialData = {
       ],
     },
     {
-      created_at: "2021-12-25T22:14:30.309211",
+      createdAt: "2021-12-25T22:14:30.309211",
       streak: 1,
-      team_members: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -113,9 +113,9 @@ const initialData = {
   ],
   AP: [
     {
-      created_at: "2021-12-23T21:02:55.062368",
+      createdAt: "2021-12-23T21:02:55.062368",
       streak: 1,
-      team_members: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -128,9 +128,9 @@ const initialData = {
   ],
   "AP,JC": [
     {
-      created_at: "2021-12-11T15:11:45",
+      createdAt: "2021-12-11T15:11:45",
       streak: 1,
-      team_members: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -148,9 +148,9 @@ const initialData = {
       ],
     },
     {
-      created_at: "2021-12-05T15:11:45",
+      createdAt: "2021-12-05T15:11:45",
       streak: 1,
-      team_members: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -170,9 +170,9 @@ const initialData = {
   ],
   "AP,RS": [
     {
-      created_at: "2021-12-09T15:11:45",
+      createdAt: "2021-12-09T15:11:45",
       streak: 1,
-      team_members: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -192,9 +192,9 @@ const initialData = {
   ],
   "AP,SMT": [
     {
-      created_at: "2021-12-08T15:11:45",
+      createdAt: "2021-12-08T15:11:45",
       streak: 1,
-      team_members: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -214,9 +214,9 @@ const initialData = {
   ],
   "AP,CT": [
     {
-      created_at: "2021-12-07T15:11:45",
+      createdAt: "2021-12-07T15:11:45",
       streak: 1,
-      team_members: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -236,9 +236,9 @@ const initialData = {
   ],
   "AP,MB": [
     {
-      created_at: "2021-12-06T15:11:45",
+      createdAt: "2021-12-06T15:11:45",
       streak: 1,
-      team_members: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -258,9 +258,9 @@ const initialData = {
   ],
   "AP,GG": [
     {
-      created_at: "2021-12-04T15:11:45",
+      createdAt: "2021-12-04T15:11:45",
       streak: 1,
-      team_members: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
