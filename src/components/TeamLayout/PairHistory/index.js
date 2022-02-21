@@ -16,14 +16,14 @@ const tagColor = (days) => {
   }
 };
 
-const User = ({ user }) => {
+const InitialsCircle = ({ teamMember }) => {
   return (
     <div
-      style={{ backgroundColor: user.role.color }}
+      style={{ backgroundColor: teamMember.role.color }}
       className={`bg-gray-med w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 md:m-1 border-gray-border rounded-full flex items-center justify-center`}
     >
       <p className="text-white font-bold text-xs">
-        {user.username.toUpperCase()}
+        {teamMember.username.toUpperCase()}
       </p>
     </div>
   );
@@ -37,8 +37,8 @@ const Pair = ({ pair }) => {
       ></div>
       <div>
         <div className="flex my-2 flex-wrap">
-          {pair.teamMembers.map((user, i) => (
-            <User key={i} user={user} />
+          {pair.teamMembers.map((teamMember, i) => (
+            <InitialsCircle key={i} teamMember={teamMember} />
           ))}
         </div>
         <p className="text-xs flex items-center m-2">Day {pair.streak}</p>

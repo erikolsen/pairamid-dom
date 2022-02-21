@@ -39,7 +39,7 @@ class CalendarToolbar extends React.Component {
   }
 }
 
-const User = ({ teamMember }) => {
+const InitialsCircle = ({ teamMember }) => {
   let username = teamMember.username || "";
   let color = teamMember.role.color || "#64dfdfff";
   return (
@@ -61,7 +61,7 @@ const EventComponent = ({ event }) => {
       {teamMembers
         .filter((teamMember) => event.username !== teamMember.username)
         .map((teamMember, i) => (
-          <User key={i} teamMember={teamMember} />
+          <InitialsCircle key={i} teamMember={teamMember} />
         ))}
     </div>
   );

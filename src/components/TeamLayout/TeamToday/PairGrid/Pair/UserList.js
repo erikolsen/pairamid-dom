@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import User from "../User";
+import TeamMember from "../TeamMember";
 import { TeamContext } from "../../../TeamContext";
 import { leastPairedWith } from "./recommendationHelper";
 
@@ -16,7 +16,7 @@ const UserRecommendation = ({ username }) => {
 
 const MultiUserPair = ({ pair }) => {
   return pair.teamMembers.map((teamMember, i) => (
-    <User index={i} teamMember={teamMember} key={teamMember.uuid} />
+    <TeamMember index={i} teamMember={teamMember} key={teamMember.uuid} />
   ));
 };
 
@@ -27,7 +27,7 @@ const SingleUserPair = ({ pair }) => {
     .flatMap((pair) => pair.teamMembers.map((u) => u.username));
 
   return [
-    <User
+    <TeamMember
       index={0}
       teamMember={pair.teamMembers[0]}
       key={pair.teamMembers[0].uuid}

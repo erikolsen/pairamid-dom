@@ -25,9 +25,14 @@ export const mostPairedWithRole = (userData, roles) => {
   return largestValue(roleCounts);
 };
 
-export const leastPairedWith = (user, frequency, excluded, returnCount) => {
+export const leastPairedWith = (
+  teamMember,
+  frequency,
+  excluded,
+  returnCount
+) => {
   const RETURN_COUNT = returnCount || 2;
-  const userData = frequency.find((ud) => ud.username === user.username);
+  const userData = frequency.find((ud) => ud.username === teamMember.username);
   const roles = roleMapping(frequency);
   const keyRole = mostPairedWithRole(userData, roles);
 

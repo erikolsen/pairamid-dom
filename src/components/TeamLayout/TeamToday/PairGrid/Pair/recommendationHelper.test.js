@@ -34,11 +34,11 @@ const baseFrequency = [
 describe("pair helpers", () => {
   describe("leastPairedWith", () => {
     it("can return multiple names", () => {
-      const user = { username: "AA" };
+      const teamMember = { username: "AA" };
       const exclusions = [];
       const returnCount = 3;
       const subject = leastPairedWith(
-        user,
+        teamMember,
         baseFrequency,
         exclusions,
         returnCount
@@ -47,20 +47,20 @@ describe("pair helpers", () => {
     });
 
     it("excludes active and out of office users", () => {
-      const user = { username: "AA" };
-      const subject = leastPairedWith(user, baseFrequency, ["BB", "CC"]);
+      const teamMember = { username: "AA" };
+      const subject = leastPairedWith(teamMember, baseFrequency, ["BB", "CC"]);
       expect(subject).toEqual(["EE"]);
     });
 
-    it("returns two people the given user has paired with the least", () => {
-      const user = { username: "AA" };
-      const subject = leastPairedWith(user, baseFrequency, []);
+    it("returns two people the given teamMember has paired with the least", () => {
+      const teamMember = { username: "AA" };
+      const subject = leastPairedWith(teamMember, baseFrequency, []);
       expect(subject).toEqual(["EE", "BB"]);
     });
   });
 
   describe("mostPairedWithRole", () => {
-    it("returns a user to role mapping", () => {
+    it("returns a teamMember to role mapping", () => {
       const roles = roleMapping(baseFrequency);
       const subject = mostPairedWithRole(baseFrequency[0], roles);
       expect(subject).toEqual("role2");
@@ -68,7 +68,7 @@ describe("pair helpers", () => {
   });
 
   describe("roleMapping", () => {
-    it("returns a user to role mapping", () => {
+    it("returns a teamMember to role mapping", () => {
       const subject = roleMapping(baseFrequency);
       expect(subject).toEqual({
         AA: "role3",

@@ -3,12 +3,12 @@ export const RED = "bg-red";
 export const YELLOW = "bg-yellow";
 export const GRAY = "bg-gray-med";
 
-export const frequencyColor = (target, value, relevantUsers, solo) => {
-  const total = relevantUsers.reduce(
-    (memo, user) => (memo += target.frequencies[user] || 0),
+export const frequencyColor = (target, value, relevantTeamMembers, solo) => {
+  const total = relevantTeamMembers.reduce(
+    (memo, member) => (memo += target.frequencies[member] || 0),
     0
   );
-  const average = total / relevantUsers.length || 1;
+  const average = total / relevantTeamMembers.length || 1;
 
   if (solo) return GRAY;
   if (!value || value < average / 2) return YELLOW;

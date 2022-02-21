@@ -55,7 +55,7 @@ const EditCard = ({ onUpdate, team, date, onDelete }) => {
             ref={register}
             className="block appearance-none w-full bg-white border border-gray-border pl-2 py-2 pr-8 rounded leading-tight"
           >
-            <option value="">Select a User</option>
+            <option value="">Select a Member</option>
             {team.teamMembers.map((teamMember) => (
               <option key={teamMember.id} className="" value={teamMember.id}>
                 {teamMember.username}
@@ -225,7 +225,7 @@ const DisplayReminders = ({
     }
   };
 
-  const teamFilter = (reminder) => showTeam || !!reminder.user;
+  const teamFilter = (reminder) => showTeam || !!reminder.teamMember;
 
   return (
     <div className="">

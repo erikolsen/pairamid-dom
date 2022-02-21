@@ -33,16 +33,16 @@ const TeamMemberProfile = () => {
       <section>
         <header className="border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-2 mb-4">
           <div className="w-full flex justify-between items-center">
-            <h1>User {teamMember.username}</h1>
+            <h1>Member {teamMember.username}</h1>
             <h1>{teamMember.team.name}</h1>
           </div>
         </header>
 
         <h2>Monthly Stats</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-4 mb-4">
-          <PairingSessionDuration sessions={monthly} user={teamMember} />
-          <PrimaryRoleFrequencies user={teamMember} />
-          <PairingAcrossRoles user={teamMember} />
+          <PairingSessionDuration sessions={monthly} teamMember={teamMember} />
+          <PrimaryRoleFrequencies teamMember={teamMember} />
+          <PairingAcrossRoles teamMember={teamMember} />
         </div>
 
         <div className="border-b-2 border-gray-border my-4" />

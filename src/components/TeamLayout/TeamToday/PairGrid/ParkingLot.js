@@ -1,12 +1,12 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
-import User from "./User";
+import TeamMember from "./TeamMember";
 
 const ParkingLot = ({ unpaired }) => {
   let teamMembers =
     unpaired.teamMembers.length > 0 ? (
       unpaired.teamMembers.map((teamMember, i) => (
-        <User index={i} teamMember={teamMember} key={teamMember.uuid} />
+        <TeamMember index={i} teamMember={teamMember} key={teamMember.uuid} />
       ))
     ) : (
       <h1 className="text-center w-full">Full House Today</h1>

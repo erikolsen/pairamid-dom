@@ -13,7 +13,7 @@ const GRAY = "#C7C7C7";
 
 export const frequencyColor = (target, value, relevantUsers, solo) => {
   const total = relevantUsers.reduce(
-    (memo, user) => (memo += target.frequencies[user] || 0),
+    (memo, teamMember) => (memo += target.frequencies[teamMember] || 0),
     0
   );
   const average = total / relevantUsers.length || 1;
@@ -23,28 +23,28 @@ export const frequencyColor = (target, value, relevantUsers, solo) => {
   return GREEN;
 };
 
-const PrimaryRoleFrequencies = ({ user }) => {
+const PrimaryRoleFrequencies = ({ teamMember }) => {
   const {
     frequency,
     team: { teamMembers },
   } = useContext(TeamContext);
 
-  const myFreq = frequency.find((u) => u.username === user.username);
+  const myFreq = frequency.find((u) => u.username === teamMember.username);
   const roleFreq = roleMapping(frequency);
 
   const primaryRole = mostPairedWithRole(myFreq, roleFreq);
   const relUsers = teamMembers
-    .filter((u) => u.username !== user.username)
+    .filter((u) => u.username !== teamMember.username)
     .filter((u) => u.role.name === primaryRole);
 
   const keyUsers = relUsers
     .reduce(
-      (acc, user) => [
+      (acc, teamMember) => [
         ...acc,
         {
-          username: user.username,
-          count: myFreq.frequencies[user.username],
-          roleColor: user.role.color,
+          username: teamMember.username,
+          count: myFreq.frequencies[teamMember.username],
+          roleColor: teamMember.role.color,
         },
       ],
       []
@@ -78,17 +78,19 @@ const PrimaryRoleFrequencies = ({ user }) => {
       <div className="bg-white shadow-lg rounded-lg">
         <p className="mt-4 text-center font-bold">Pair Recommendations</p>
         <div className="flex justify-center p-2">
-          {recommendedList.map((user) => (
+          {recommendedList.map((teamMember) => (
             <div
               className="rounded-md mx-2"
-              key={user.name}
-              style={{ backgroundColor: user.fill }}
+              key={teamMember.name}
+              style={{ backgroundColor: teamMember.fill }}
             >
               <div
-                style={{ backgroundColor: user.roleColor }}
+                style={{ backgroundColor: teamMember.roleColor }}
                 className={`bg-gray-med w-12 h-12 m-2 border-gray-border rounded-full flex items-center justify-center`}
               >
-                <p className="text-white font-bold text-xs">{user.name}</p>
+                <p className="text-white font-bold text-xs">
+                  {teamMember.name}
+                </p>
               </div>
             </div>
           ))}

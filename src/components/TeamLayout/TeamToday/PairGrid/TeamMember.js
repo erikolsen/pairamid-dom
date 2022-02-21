@@ -52,7 +52,7 @@ const Menu = ({ teamMember }) => {
   );
 };
 
-const User = ({ teamMember, index }) => {
+const TeamMember = ({ teamMember, index }) => {
   const ClickZone = useContextMenu();
 
   return (
@@ -82,4 +82,4 @@ const User = ({ teamMember, index }) => {
   );
 };
 
-export default User;
+export default TeamMember;

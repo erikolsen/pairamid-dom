@@ -1,12 +1,12 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
-import User from "./User";
+import TeamMember from "./TeamMember";
 
 const OutOfOffice = ({ ooo }) => {
   let teamMembers =
     ooo.teamMembers.length > 0 ? (
       ooo.teamMembers.map((teamMember, i) => (
-        <User index={i} teamMember={teamMember} key={teamMember.uuid} />
+        <TeamMember index={i} teamMember={teamMember} key={teamMember.uuid} />
       ))
     ) : (
       <h1 className="text-center w-full">Full House Today</h1>

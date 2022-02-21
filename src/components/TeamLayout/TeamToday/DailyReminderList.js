@@ -4,11 +4,13 @@ import axios from "axios";
 import { API_URL } from "../../../constants";
 
 const Reminder = ({ reminder }) => {
-  const user = reminder.user ? reminder.user.username : "Team";
+  const teamMember = reminder.teamMember
+    ? reminder.teamMember.username
+    : "Team";
   return (
     <div>
       <p>
-        {user} {reminder.message}
+        {teamMember} {reminder.message}
       </p>
     </div>
   );
