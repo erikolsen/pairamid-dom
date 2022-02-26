@@ -8,6 +8,19 @@ import PairingSessionDuration from "./PairingSessionDuration";
 import PairingAcrossRoles from "./PairingAcrossRoles";
 import PrimaryRoleFrequencies from "./PrimaryRoleFrequencies";
 import { subDays } from "date-fns";
+const MonthlyStats = ({ teamMember, monthly }) => {
+  return (
+    <>
+      <h2>Monthly Stats</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-4 mb-4">
+        <PairingSessionDuration sessions={monthly} teamMember={teamMember} />
+        <PrimaryRoleFrequencies teamMember={teamMember} />
+        <PairingAcrossRoles teamMember={teamMember} />
+      </div>
+      <div className="border-b-2 border-gray-border my-4" />
+    </>
+  );
+};
 
 const TeamMemberProfile = () => {
   const { teamId, userId } = useParams();
@@ -38,14 +51,10 @@ const TeamMemberProfile = () => {
           </div>
         </header>
 
-        <h2>Monthly Stats</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-4 mb-4">
-          <PairingSessionDuration sessions={monthly} teamMember={teamMember} />
-          <PrimaryRoleFrequencies teamMember={teamMember} />
-          <PairingAcrossRoles teamMember={teamMember} />
-        </div>
+        {!teamMember.deleted && (
+          <MonthlyStats teamMember={teamMember} monthly={monthly} />
+        )}
 
-        <div className="border-b-2 border-gray-border my-4" />
         <h2>All Time Stats</h2>
 
         <div className="col-span-2 bg-white shadow-lg rounded-lg mb-4">
