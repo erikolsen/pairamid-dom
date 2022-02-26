@@ -20,6 +20,7 @@ const User = () => {
   const { userId } = useParams();
   const history = useHistory();
   const [user, setUser] = useState();
+  console.log("user", user);
 
   useEffect(() => {
     axios
@@ -36,7 +37,7 @@ const User = () => {
 
   const updateFeedback = (newFeedback) => {
     let updatedUser = { ...user };
-    updatedUser.feedback_received = user.feedback_received.map((fb) =>
+    updatedUser.feedbackReceived = user.feedbackReceived.map((fb) =>
       fb.id === newFeedback.id ? newFeedback : fb
     );
     setUser(updatedUser);
@@ -45,7 +46,7 @@ const User = () => {
   const deleteFeedback = (id) => {
     axios.delete(`${API_URL}/feedbacks/${id}`).then((response) => {
       let updatedUser = { ...user };
-      updatedUser.feedback_received = user.feedback_received.filter(
+      updatedUser.feedbackReceived = user.feedbackReceived.filter(
         (fb) => fb.id !== response.data
       );
       setUser(updatedUser);
@@ -57,9 +58,9 @@ const User = () => {
       .post(`${API_URL}/feedbacks/${feedback.id}/duplicate`)
       .then((response) => {
         let updatedUser = { ...user };
-        const oldFeedbacks = user.feedback_received;
+        const oldFeedbacks = user.feedbackReceived;
         const insertIndex = oldFeedbacks.indexOf(feedback) + 1;
-        updatedUser.feedback_received = [
+        updatedUser.feedbackReceived = [
           ...oldFeedbacks.slice(0, insertIndex),
           { ...response.data, updated: true },
           ...oldFeedbacks.slice(insertIndex),
@@ -78,7 +79,7 @@ const User = () => {
         <section>
           <header className="border-b-2 border-gray-border flex flex-wrap justify-between items-baseline py-1 mb-4">
             <div className="w-full flex justify-between items-center">
-              <h1>{user.full_name || user.username}</h1>
+              <h1>{user.fullName || user.username}</h1>
             </div>
           </header>
           <div className="pb-8">

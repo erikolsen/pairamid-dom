@@ -17,7 +17,7 @@ import useToggle from "../../../../util/useToggle";
 import DisplayCard from "./DisplayCard";
 
 const hasGlowsAndGrowsTags = (user) =>
-  user.feedback_tag_groups.some((g) => g.name === "Glows/Grows");
+  user.feedbackTagGroups.some((g) => g.name === "Glows/Grows");
 
 const FilterButton = ({ name, onClick, active }) => (
   <button
@@ -80,7 +80,7 @@ const FeedbackReceived = ({
       fb.tags.map((t) => t.id)
     ).length === 0;
 
-  const filteredFeedback = user.feedback_received
+  const filteredFeedback = user.feedbackReceived
     .filter(tagUnion)
     .filter(dateFilter);
 
@@ -117,7 +117,7 @@ const FeedbackReceived = ({
           <div className={`my-4`}>
             <ManageTags
               user={user}
-              feedback_tag_groups={user.feedback_tag_groups}
+              feedbackTagGroups={user.feedbackTagGroups}
             />
           </div>
         )}
@@ -127,7 +127,7 @@ const FeedbackReceived = ({
             <div className="col-span-3 md:col-span-1 bg-white shadow-lg rounded-lg p-4">
               <h2 className="text-center my-2">Filter by Tag</h2>
               <TagGroups
-                groups={user.feedback_tag_groups}
+                groups={user.feedbackTagGroups}
                 tags={tags}
                 setTags={setTags}
                 tagCounts={tagCounts}
@@ -156,7 +156,7 @@ const FeedbackReceived = ({
                   <h2 className="text-center pt-4">Glows and Grows</h2>
                   <PositiveNegativeBar
                     filteredFeedback={filteredFeedback}
-                    feedbackTagGroups={user.feedback_tag_groups}
+                    feedbackTagGroups={user.feedbackTagGroups}
                   />
                 </>
               ) : (
@@ -179,7 +179,7 @@ const FeedbackReceived = ({
             <DisplayCard
               key={feedback.id}
               feedback={feedback}
-              groups={user.feedback_tag_groups}
+              groups={user.feedbackTagGroups}
               updateFeedback={updateFeedback}
               deleteFeedback={deleteFeedback}
               duplicateFeedback={duplicateFeedback}

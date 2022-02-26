@@ -167,7 +167,7 @@ const DisplayCard = ({ onDelete, reminder }) => {
             <ReminderDates
               startDate={reminder.startDate}
               endDate={reminder.endDate}
-              recuring={reminder.recuring_weekday}
+              recuring={reminder.recuringWeekday}
             />
           </div>
         </div>

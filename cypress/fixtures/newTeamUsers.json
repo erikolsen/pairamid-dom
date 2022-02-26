@@ -2,9 +2,9 @@
   {
     "createdAt": "2021-01-10T03:51:50.852566",
     "deleted": false,
-    "first_name": null,
+    "firstName": null,
     "id": 1,
-    "last_name": null,
+    "lastName": null,
     "role": {
       "color": "#7ff5bc",
       "createdAt": "2021-01-10T03:51:50.848638",
