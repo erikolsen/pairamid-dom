@@ -20,7 +20,6 @@ const User = () => {
   const { userId } = useParams();
   const history = useHistory();
   const [user, setUser] = useState();
-  console.log("user", user);
 
   useEffect(() => {
     axios
