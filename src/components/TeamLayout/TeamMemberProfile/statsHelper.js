@@ -11,7 +11,9 @@ export const cluster = (arr, tmp = [], result = []) => (
 );
 
 export const pairStats = (sessions) => {
-  const pairs = _.groupBy(sessions, (p) => p.users.map((u) => u.username));
+  const pairs = _.groupBy(sessions, (p) =>
+    p.teamMembers.map((u) => u.username)
+  );
   return _.flatten(
     Object.entries(pairs).flatMap(([_, values]) =>
       cluster(values.map((v) => v.streak))

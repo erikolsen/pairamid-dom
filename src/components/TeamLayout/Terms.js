@@ -21,7 +21,11 @@ const Terms = () => {
               are advised to not share organizationally identifiable
               information. <i>Effective starting: April 26th, 2021</i>
             </p>
-            <div className="cursor-pointer" onClick={() => acceptTerms()}>
+            <div
+              data-cy="accept-terms"
+              className="cursor-pointer"
+              onClick={() => acceptTerms()}
+            >
               <FontAwesomeIcon icon={faTimesCircle} />
             </div>
           </div>

@@ -8,12 +8,14 @@ const getCount = (acc, el) => {
 
 const customLabel = (entry) => entry.name;
 
-const LabeledPieChart = ({ user: { active_pairing_sessions, username } }) => {
-  const roles = active_pairing_sessions
+const LabeledPieChart = ({
+  teamMember: { activePairingSessions, username },
+}) => {
+  const roles = activePairingSessions
     .map((session) =>
-      session.users
-        .filter((user) => user.username !== username)
-        .map((user) => user.role)
+      session.teamMembers
+        .filter((teamMember) => teamMember.username !== username)
+        .map((teamMember) => teamMember.role)
     )
     .flat();
 

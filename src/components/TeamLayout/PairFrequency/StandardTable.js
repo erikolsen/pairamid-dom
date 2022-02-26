@@ -2,27 +2,27 @@ import React from "react";
 import { frequencyColor } from "./frequencyColor";
 import RoleSelect from "./RoleSelect";
 
-const totalsForUser = (user, relevantUsers) =>
-  relevantUsers
-    .map((name) => user.frequencies[name] || 0)
+const totalsForUser = (teamMember, relevantTeamMembers) =>
+  relevantTeamMembers
+    .map((name) => teamMember.frequencies[name] || 0)
     .reduce((total, count) => {
       return (total += count);
     }, 0);
 
 const StandardTable = ({
-  users,
+  teamMembers,
   roles,
   primary,
   setPrimary,
   secondary,
   setSecondary,
 }) => {
-  const XUsers = secondary
-    ? users.filter((user) => user.roleName === secondary)
-    : users;
-  const YUsers = primary
-    ? users.filter((user) => user.roleName === primary)
-    : users;
+  const XTeamMembers = secondary
+    ? teamMembers.filter((teamMember) => teamMember.roleName === secondary)
+    : teamMembers;
+  const YTeamMembers = primary
+    ? teamMembers.filter((teamMember) => teamMember.roleName === primary)
+    : teamMembers;
 
   return (
     <div>
@@ -47,33 +47,33 @@ const StandardTable = ({
         <thead>
           <tr className="">
             <td></td>
-            {XUsers.map((user) => (
-              <td className="text-center font-bold" key={user.username}>
-                {user.username}
+            {XTeamMembers.map((teamMember) => (
+              <td className="text-center font-bold" key={teamMember.username}>
+                {teamMember.username}
               </td>
             ))}
           </tr>
         </thead>
         <tbody>
-          {YUsers.map((user) => (
-            <tr key={user.username}>
+          {YTeamMembers.map((teamMember) => (
+            <tr key={teamMember.username}>
               <td className="text-left font-bold">
-                {`${user.username}: ${totalsForUser(
-                  user,
-                  XUsers.map((u) => u.username)
+                {`${teamMember.username}: ${totalsForUser(
+                  teamMember,
+                  XTeamMembers.map((u) => u.username)
                 )}`}
               </td>
-              {XUsers.map((u) => (
+              {XTeamMembers.map((u) => (
                 <td
                   className={`border border-black text-center text-xl ${frequencyColor(
-                    user,
-                    user.frequencies[u.username],
-                    XUsers.map((xu) => xu.username),
-                    user == u
+                    teamMember,
+                    teamMember.frequencies[u.username],
+                    XTeamMembers.map((xu) => xu.username),
+                    teamMember == u
                   )}`}
                   key={u.username}
                 >
-                  {user.frequencies[u.username] || 0}
+                  {teamMember.frequencies[u.username] || 0}
                 </td>
               ))}
             </tr>

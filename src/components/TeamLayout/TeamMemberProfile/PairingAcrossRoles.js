@@ -7,7 +7,7 @@ import {
 } from "../TeamToday/PairGrid/Pair/recommendationHelper";
 import _ from "lodash";
 
-const PairingAcrossRoles = ({ user }) => {
+const PairingAcrossRoles = ({ teamMember }) => {
   const {
     frequency,
     team: { roles },
@@ -19,7 +19,7 @@ const PairingAcrossRoles = ({ user }) => {
       .map((role) => role.roleName)
   );
 
-  const myFreq = frequency.find((u) => u.username === user.username);
+  const myFreq = frequency.find((u) => u.username === teamMember.username);
   const roleFreq = roleMapping(frequency);
 
   const roleCounts = Object.entries(myFreq.frequencies)

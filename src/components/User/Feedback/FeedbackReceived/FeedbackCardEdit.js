@@ -48,7 +48,7 @@ const FeedbackCardEdit = ({
                   type="text"
                   name="authorName"
                   placeholder="Anonymous"
-                  defaultValue={feedback.author_name}
+                  defaultValue={feedback.authorName}
                   ref={register}
                 />
               </div>

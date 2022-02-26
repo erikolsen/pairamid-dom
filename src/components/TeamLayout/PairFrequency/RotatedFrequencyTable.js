@@ -34,7 +34,7 @@ const RotatedFrequencyTable = ({
   roles,
 }) => {
   const { teamId } = useParams();
-  const [users, setUsers] = useState([]);
+  const [teamMembers, setTeamMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const fDate = (date) => formatISO(date, { representation: "date" });
 
@@ -47,17 +47,17 @@ const RotatedFrequencyTable = ({
         )}&endDate=${fDate(endDate)}`
       )
       .then((response) => {
-        setUsers(response.data);
+        setTeamMembers(response.data);
         setLoading(false);
       });
   }, [startDate, endDate]);
 
-  const XUsers = secondary
-    ? users.filter((user) => user.roleName === secondary)
-    : users;
-  const YUsers = primary
-    ? users.filter((user) => user.roleName === primary)
-    : users;
+  const XTeamMembers = secondary
+    ? teamMembers.filter((teamMember) => teamMember.roleName === secondary)
+    : teamMembers;
+  const YTeamMembers = primary
+    ? teamMembers.filter((teamMember) => teamMember.roleName === primary)
+    : teamMembers;
 
   if (loading) {
     return <div>Loading...</div>;
@@ -67,7 +67,7 @@ const RotatedFrequencyTable = ({
     <div>
       <div className="flex justify-center relative">
         <PairamidTable
-          users={[...new Set([...XUsers, ...YUsers])]}
+          teamMembers={[...new Set([...XTeamMembers, ...YTeamMembers])]}
           roles={roles}
         />
       </div>
@@ -76,33 +76,33 @@ const RotatedFrequencyTable = ({
           <thead>
             <tr className="">
               <td className="p-2">&nbsp;</td>
-              {XUsers.map((user) => (
+              {XTeamMembers.map((teamMember) => (
                 <td
                   className="text-center font-bold h-10 w-10"
-                  key={user.username}
+                  key={teamMember.username}
                 >
-                  {user.username}
+                  {teamMember.username}
                 </td>
               ))}
             </tr>
           </thead>
           <tbody>
-            {YUsers.map((user) => (
-              <tr key={user.username}>
+            {YTeamMembers.map((teamMember) => (
+              <tr key={teamMember.username}>
                 <td className="text-center font-bold transform -rotate-90 h-10 w-10">
-                  {user.username}
+                  {teamMember.username}
                 </td>
-                {XUsers.map((u) => (
+                {XTeamMembers.map((u) => (
                   <td
                     className={`border border-black text-center text-xl h-10 w-10 bg-${getColor(
-                      user,
+                      teamMember,
                       u.username,
-                      XUsers.length
+                      XTeamMembers.length
                     )}`}
                     key={u.username}
                   >
                     <p className="transform -rotate-45">
-                      {user.frequencies[u.username] || 0}
+                      {teamMember.frequencies[u.username] || 0}
                     </p>
                   </td>
                 ))}

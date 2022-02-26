@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import RoleSettings from "./RoleSettings";
-import UserSettings from "./UserSettings";
+import TeamMemberSettings from "./TeamMemberSettings";
 import { TeamContext } from "../TeamContext";
 
 const TeamSettings = () => {
@@ -17,7 +17,7 @@ const TeamSettings = () => {
           </div>
         </header>
         <div className="w-full">
-          <UserSettings roles={roles} />
+          <TeamMemberSettings roles={roles} />
           <div className="border-b-2 border-gray-border my-4" />
           <RoleSettings roles={roles} setRoles={setRoles} />
         </div>

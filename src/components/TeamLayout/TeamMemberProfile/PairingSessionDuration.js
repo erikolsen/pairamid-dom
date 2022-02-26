@@ -49,15 +49,17 @@ const countMax = (values) => {
   return [max, values.filter((el) => el === max).length];
 };
 
-const PairingSessionDuration = ({ sessions, user }) => {
+const PairingSessionDuration = ({ sessions, teamMember }) => {
   const {
-    team: { users },
+    team: { teamMembers },
   } = useContext(TeamContext);
 
-  const noSolo = sessions.filter((p) => p.users.length > 1);
+  const noSolo = sessions.filter((p) => p.teamMembers.length > 1);
 
   const pairs = _.groupBy(noSolo, (p) =>
-    p.users.filter((u) => u.username !== user.username).map((u) => u.username)
+    p.teamMembers
+      .filter((u) => u.username !== teamMember.username)
+      .map((u) => u.username)
   );
 
   const recomendations = Object.entries(pairs)
@@ -67,7 +69,7 @@ const PairingSessionDuration = ({ sessions, user }) => {
     .reverse()
     .slice(0, 3)
     .map(([pair, max, _count]) => [
-      users.find((u) => u.username === pair),
+      teamMembers.find((u) => u.username === pair),
       max,
     ]);
 
@@ -87,17 +89,19 @@ const PairingSessionDuration = ({ sessions, user }) => {
       <div className="bg-white shadow-lg rounded-lg">
         <p className="mt-4 text-center font-bold">Highest Durations Pairs</p>
         <div className="flex justify-center p-2">
-          {recomendations.map(([user, max]) => (
+          {recomendations.map(([teamMember, max]) => (
             <div
               className="rounded-md mx-2"
               style={{ backgroundColor: tagColor(max) }}
-              key={user.username}
+              key={teamMember.username}
             >
               <div
-                style={{ backgroundColor: user.role.color }}
+                style={{ backgroundColor: teamMember.role.color }}
                 className={`bg-gray-med w-12 h-12 m-2 border-gray-border rounded-full flex items-center justify-center`}
               >
-                <p className="text-white font-bold text-xs">{user.username}</p>
+                <p className="text-white font-bold text-xs">
+                  {teamMember.username}
+                </p>
               </div>
             </div>
           ))}

@@ -39,7 +39,7 @@ const FeedbackCard = ({ feedback, updated, setEditing }) => {
         <div className="flex justify-between">
           {updatedNotification}
           <p className="mb-2 mr-4 text-sm">
-            {format(new Date(feedback.created_at), "MM/dd/yyyy")}
+            {format(new Date(feedback.createdAt), "MM/dd/yyyy")}
           </p>
         </div>
         <div className="mx-4">
@@ -48,7 +48,7 @@ const FeedbackCard = ({ feedback, updated, setEditing }) => {
           <span className="flex justify-end items-center">
             <FontAwesomeIcon icon={faQuoteRight} size="xs" />
             <FontAwesomeIcon className="mx-2" icon={faMinus} size="xs" />
-            <span className="font-bold text-sm">{feedback.author_name}</span>
+            <span className="font-bold text-sm">{feedback.authorName}</span>
           </span>
         </div>
         <div className="mx-8 mt-1">

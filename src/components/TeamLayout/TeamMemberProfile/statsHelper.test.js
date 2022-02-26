@@ -1,36 +1,37 @@
-import { consolidateList, pairStats } from "./statsHelper";
+import { pairStats } from "./statsHelper";
 
-const initialData = [
-  ["AA", 1],
-  ["AA", 2],
-  ["AA", 3],
+// const initialData = [
+//   ["AA", 1],
+//   ["AA", 2],
+//   ["AA", 3],
 
-  ["AA", 1],
-  ["AA", 2],
+//   ["AA", 1],
+//   ["AA", 2],
 
-  ["BB", 1],
-  ["BB", 2],
-  ["BB", 3],
-  ["BB", 4],
+//   ["BB", 1],
+//   ["BB", 2],
+//   ["BB", 3],
+//   ["BB", 4],
 
-  ["CC", 1],
-  ["CC", 2],
+//   ["CC", 1],
+//   ["CC", 2],
 
-  ["DD", 1],
-  ["DD", 2],
+//   ["DD", 1],
+//   ["DD", 2],
 
-  ["EE", 1],
+//   ["EE", 1],
 
-  ["FF", 1],
+//   ["FF", 1],
 
-  ["GG", 1],
-];
-const foo = {
+//   ["GG", 1],
+// ];
+
+const initialData = {
   "AP,DM": [
     {
-      created_at: "2022-01-03T19:42:55.889507",
+      createdAt: "2022-01-03T19:42:55.889507",
       streak: 1,
-      users: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -48,9 +49,9 @@ const foo = {
       ],
     },
     {
-      created_at: "2021-12-10T15:11:45",
+      createdAt: "2021-12-10T15:11:45",
       streak: 1,
-      users: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -70,9 +71,9 @@ const foo = {
   ],
   "AP,BN": [
     {
-      created_at: "2021-12-27T18:15:56.989925",
+      createdAt: "2021-12-27T18:15:56.989925",
       streak: 2,
-      users: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -90,9 +91,9 @@ const foo = {
       ],
     },
     {
-      created_at: "2021-12-25T22:14:30.309211",
+      createdAt: "2021-12-25T22:14:30.309211",
       streak: 1,
-      users: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -112,9 +113,9 @@ const foo = {
   ],
   AP: [
     {
-      created_at: "2021-12-23T21:02:55.062368",
+      createdAt: "2021-12-23T21:02:55.062368",
       streak: 1,
-      users: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -127,9 +128,9 @@ const foo = {
   ],
   "AP,JC": [
     {
-      created_at: "2021-12-11T15:11:45",
+      createdAt: "2021-12-11T15:11:45",
       streak: 1,
-      users: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -147,9 +148,9 @@ const foo = {
       ],
     },
     {
-      created_at: "2021-12-05T15:11:45",
+      createdAt: "2021-12-05T15:11:45",
       streak: 1,
-      users: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -169,9 +170,9 @@ const foo = {
   ],
   "AP,RS": [
     {
-      created_at: "2021-12-09T15:11:45",
+      createdAt: "2021-12-09T15:11:45",
       streak: 1,
-      users: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -191,9 +192,9 @@ const foo = {
   ],
   "AP,SMT": [
     {
-      created_at: "2021-12-08T15:11:45",
+      createdAt: "2021-12-08T15:11:45",
       streak: 1,
-      users: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -213,9 +214,9 @@ const foo = {
   ],
   "AP,CT": [
     {
-      created_at: "2021-12-07T15:11:45",
+      createdAt: "2021-12-07T15:11:45",
       streak: 1,
-      users: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -235,9 +236,9 @@ const foo = {
   ],
   "AP,MB": [
     {
-      created_at: "2021-12-06T15:11:45",
+      createdAt: "2021-12-06T15:11:45",
       streak: 1,
-      users: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -257,9 +258,9 @@ const foo = {
   ],
   "AP,GG": [
     {
-      created_at: "2021-12-04T15:11:45",
+      createdAt: "2021-12-04T15:11:45",
       streak: 1,
-      users: [
+      teamMembers: [
         {
           role: {
             color: "#7f9cf5",
@@ -280,13 +281,7 @@ const foo = {
 };
 
 describe("statsHelper", () => {
-  fit("consolidateList", () => {
-    const expected = [3, 2];
-    const subject = consolidateList([3, 2, 2, 1, 1].reverse());
-    expect(subject).toBe(expected);
-  });
-
-  it("does the thing", () => {
+  xit("pairStats", () => {
     const expected = {
       1: 3,
       2: 3,

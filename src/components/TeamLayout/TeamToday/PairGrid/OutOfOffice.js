@@ -1,11 +1,13 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
-import User from "./User";
+import TeamMember from "./TeamMember";
 
 const OutOfOffice = ({ ooo }) => {
-  let users =
-    ooo.users.length > 0 ? (
-      ooo.users.map((user, i) => <User index={i} user={user} key={user.uuid} />)
+  let teamMembers =
+    ooo.teamMembers.length > 0 ? (
+      ooo.teamMembers.map((teamMember, i) => (
+        <TeamMember index={i} teamMember={teamMember} key={teamMember.uuid} />
+      ))
     ) : (
       <h1 className="text-center w-full">Full House Today</h1>
     );
@@ -22,7 +24,7 @@ const OutOfOffice = ({ ooo }) => {
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                {users}
+                {teamMembers}
                 <div className="m-2 w-full">{provided.placeholder}</div>
               </div>
             </div>

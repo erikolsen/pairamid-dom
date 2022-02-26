@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import User from "../User";
+import TeamMember from "../TeamMember";
 import { TeamContext } from "../../../TeamContext";
 import { leastPairedWith } from "./recommendationHelper";
 
@@ -15,8 +15,8 @@ const UserRecommendation = ({ username }) => {
 };
 
 const MultiUserPair = ({ pair }) => {
-  return pair.users.map((user, i) => (
-    <User index={i} user={user} key={user.uuid} />
+  return pair.teamMembers.map((teamMember, i) => (
+    <TeamMember index={i} teamMember={teamMember} key={teamMember.uuid} />
   ));
 };
 
@@ -24,13 +24,17 @@ const SingleUserPair = ({ pair }) => {
   const { frequency, pairs } = useContext(TeamContext);
   const excluded = pairs
     .filter((p) => p.info !== "UNPAIRED")
-    .flatMap((pair) => pair.users.map((u) => u.username));
+    .flatMap((pair) => pair.teamMembers.map((u) => u.username));
 
   return [
-    <User index={0} user={pair.users[0]} key={pair.users[0].uuid} />,
-    leastPairedWith(pair.users[0], frequency, excluded).map((username) => (
-      <UserRecommendation username={username} key={username} />
-    )),
+    <TeamMember
+      index={0}
+      teamMember={pair.teamMembers[0]}
+      key={pair.teamMembers[0].uuid}
+    />,
+    leastPairedWith(pair.teamMembers[0], frequency, excluded).map(
+      (username) => <UserRecommendation username={username} key={username} />
+    ),
   ];
 };
 
@@ -67,7 +71,7 @@ const EmptyPair = ({ pair, onDelete }) => {
 };
 
 const UserList = ({ pair, onDelete }) => {
-  switch (pair.users.length) {
+  switch (pair.teamMembers.length) {
     case 0:
       return <EmptyPair pair={pair} onDelete={onDelete} />;
     case 1:

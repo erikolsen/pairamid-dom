@@ -39,9 +39,9 @@ class CalendarToolbar extends React.Component {
   }
 }
 
-const User = (props) => {
-  let username = props.user.username || "";
-  let color = props.user.role.color || "#64dfdfff";
+const InitialsCircle = ({ teamMember }) => {
+  let username = teamMember.username || "";
+  let color = teamMember.role.color || "#64dfdfff";
   return (
     <div className="mx-px">
       <div
@@ -54,27 +54,14 @@ const User = (props) => {
   );
 };
 
-// const tagColor = (days) => {
-//   switch (true) {
-//     case days === 0:
-//       return "white";
-//     case days === 1 || days === 2:
-//       return "green";
-//     case days === 3 || days === 4:
-//       return "yellow";
-//     default:
-//       return "red";
-//   }
-// };
-
-const EventComponent = (props) => {
-  let users = props.event.users || [];
+const EventComponent = ({ event }) => {
+  let teamMembers = event.teamMembers || [];
   return (
     <div className="grid grid-cols-2 md:grid-cols-3">
-      {users
-        .filter((user) => props.event.username !== user.username)
-        .map((user, i) => (
-          <User key={i} user={user} />
+      {teamMembers
+        .filter((teamMember) => event.username !== teamMember.username)
+        .map((teamMember, i) => (
+          <InitialsCircle key={i} teamMember={teamMember} />
         ))}
     </div>
   );
@@ -101,8 +88,8 @@ const ProfileCalendar = ({ pairingSessions, username }) => {
         views={["month"]}
         navigate={["back", "next"]}
         events={myEventsList.map((event) => ({ ...event, username: username }))}
-        startAccessor="created_at"
-        endAccessor="created_at"
+        startAccessor="createdAt"
+        endAccessor="createdAt"
         style={{ height: 600 }}
         components={{
           eventWrapper: EventComponent,

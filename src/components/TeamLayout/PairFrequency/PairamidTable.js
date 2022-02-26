@@ -2,7 +2,13 @@ import React from "react";
 import { frequencyColor } from "./frequencyColor";
 import RoleSelect from "./RoleSelect";
 
-const PairamidTable = ({ users, roles, primary, setPrimary, setSecondary }) => {
+const PairamidTable = ({
+  teamMembers,
+  roles,
+  primary,
+  setPrimary,
+  setSecondary,
+}) => {
   if (!roles.length) {
     return null;
   }
@@ -12,18 +18,20 @@ const PairamidTable = ({ users, roles, primary, setPrimary, setSecondary }) => {
     setSecondary(name);
   };
 
-  const filteredUsers = primary
-    ? users.filter((user) => user.roleName === primary)
-    : users;
+  const filteredTeamMembers = primary
+    ? teamMembers.filter((teamMember) => teamMember.roleName === primary)
+    : teamMembers;
 
-  const names = filteredUsers.map((u) => u.username);
+  const names = filteredTeamMembers.map((u) => u.username);
 
-  const frequenciesForUser = (user) => {
-    const userToShow = names.slice(
-      names.indexOf(user.username) + 1,
+  const frequenciesForTeamMember = (teamMember) => {
+    const teamMemberToShow = names.slice(
+      names.indexOf(teamMember.username) + 1,
       names.length
     );
-    return userToShow.map((username) => user.frequencies[username]).reverse();
+    return teamMemberToShow
+      .map((username) => teamMember.frequencies[username])
+      .reverse();
   };
 
   const colorOfRole = (name) => {
@@ -45,16 +53,16 @@ const PairamidTable = ({ users, roles, primary, setPrimary, setSecondary }) => {
       </form>
       <div className="flex justify-center py-4">
         <div className="inline-flex transform origin-bottom-left rotate-45 -translate-y-1/3 -translate-x-1/4">
-          {filteredUsers.map((user) => (
-            <div key={user.username} className="flex-col">
-              {frequenciesForUser(user).map((data, index) => (
+          {filteredTeamMembers.map((teamMember) => (
+            <div key={teamMember.username} className="flex-col">
+              {frequenciesForTeamMember(teamMember).map((data, index) => (
                 <div
-                  key={`${user.username}-${index}`}
+                  key={`${teamMember.username}-${index}`}
                   className={`border-2 h-8 w-8 md:h-10 md:w-10 flex items-center justify-center ${frequencyColor(
-                    user,
+                    teamMember,
                     data,
-                    filteredUsers
-                      .filter((u) => u.username !== user.username)
+                    filteredTeamMembers
+                      .filter((u) => u.username !== teamMember.username)
                       .map((u) => u.username)
                   )}`}
                 >
@@ -64,11 +72,11 @@ const PairamidTable = ({ users, roles, primary, setPrimary, setSecondary }) => {
                 </div>
               ))}
               <div
-                style={{ backgroundColor: colorOfRole(user.roleName) }}
+                style={{ backgroundColor: colorOfRole(teamMember.roleName) }}
                 className={`border-l-2 border-t-2 h-8 w-8 md:h-10 md:w-10 flex items-center justify-center`}
               >
                 <span className="text-white text-xs md:text-lg text-center transform -rotate-45">
-                  {user.username}
+                  {teamMember.username}
                 </span>
               </div>
             </div>
