@@ -3,5 +3,6 @@
     "routes": {
         "/**": "index.html"
     },
-    "https_only": true
+    "https_only": true,
+    "canonical_host": "pairamid.com"
 }
