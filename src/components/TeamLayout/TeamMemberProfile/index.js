@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { API_URL } from "../../../constants";
 import { useParams } from "react-router-dom";
@@ -7,6 +7,7 @@ import ProfileCalendar from "./ProfileCalendar";
 import PairingSessionDuration from "./PairingSessionDuration";
 import PairingAcrossRoles from "./PairingAcrossRoles";
 import PrimaryRoleFrequencies from "./PrimaryRoleFrequencies";
+import { TeamContext } from "../TeamContext";
 import { subDays } from "date-fns";
 const MonthlyStats = ({ teamMember, monthly }) => {
   return (
@@ -23,6 +24,7 @@ const MonthlyStats = ({ teamMember, monthly }) => {
 };
 
 const TeamMemberProfile = () => {
+  const { frequency } = useContext(TeamContext);
   const { teamId, userId } = useParams();
   const [teamMember, setTeamMember] = useState(null);
 
@@ -32,7 +34,7 @@ const TeamMemberProfile = () => {
     });
   }, [setTeamMember, teamId, userId]);
 
-  if (!teamMember) {
+  if (!teamMember || !frequency) {
     return <h1 className="m-12">Loading...</h1>;
   }
   const today = new Date();

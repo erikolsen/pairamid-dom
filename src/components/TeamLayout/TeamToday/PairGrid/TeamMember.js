@@ -31,23 +31,27 @@ const Menu = ({ teamMember }) => {
           <span className="text-base font-light">View profile</span>
         </Link>
       </div>
-      <hr className="my-3 border-gray-300" />
-      <div className="py-1 px-2 rounded">
-        <div className="text-gray-900">
-          <span className="text-base text-center">Pair recommendations</span>
-        </div>
-        <div className="flex">
-          {recommendedList.map((name) => (
-            <div
-              key={name}
-              style={{ backgroundColor: roleColor(name) }}
-              className={`bg-gray-med w-8 h-8 mr-3 my-2 border-gray-border rounded-full flex items-center justify-center`}
-            >
-              <p className="text-white font-bold text-xs">{name}</p>
+      {recommendedList.length > 0 && (
+        <>
+          <hr className="my-3 border-gray-300" />
+          <div className="py-1 px-2 rounded">
+            <div className="text-gray-900">
+              <span className="text-base text-center">Pair recommendations</span>
             </div>
-          ))}
-        </div>
-      </div>
+            <div className="flex">
+              {recommendedList.map((name) => (
+                <div
+                  key={name}
+                  style={{ backgroundColor: roleColor(name) }}
+                  className={`bg-gray-med w-8 h-8 mr-3 my-2 border-gray-border rounded-full flex items-center justify-center`}
+                >
+                  <p className="text-white font-bold text-xs">{name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

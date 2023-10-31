@@ -31,6 +31,8 @@ export const leastPairedWith = (
   excluded,
   returnCount
 ) => {
+  if (!frequency) return [];
+
   const RETURN_COUNT = returnCount || 2;
   const userData = frequency.find((ud) => ud.username === teamMember.username);
   const roles = roleMapping(frequency);
