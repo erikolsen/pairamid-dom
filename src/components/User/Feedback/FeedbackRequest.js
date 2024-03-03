@@ -8,9 +8,29 @@ import Faded from "../../shared/Faded";
 import logo from "../../../assets/pairamid-logo.png";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faCheck } from "@fortawesome/free-solid-svg-icons";
+
+const SaveFeedback = ({ selected, setSelected }) => {
+  const selectedStyle = selected ? 'border border-blue-700' : 'border border-gray-border hover:border-blue-700'
+  const selectedText = selected ? 'text-blue-700' : 'text-gray-dark hover:text-blue-700'
+
+  const toggle = (e) => {
+    e.preventDefault()
+    setSelected(!selected)
+  }
+
+  return (
+    <button title='Sent feedback can be viewed on your feedback page.' onClick={toggle} className={`cursor-pointer py-1 px-5 mr-2 rounded-full flex items-center justify-center ${selectedStyle} my-1`}>
+      <p className={`${selectedText} font-semibold text-xs`}>
+        {selected ? <span className='mr-2'><FontAwesomeIcon icon={faCheck} size='sm' /></span> : null}
+        Record as sent feedback
+      </p>
+    </button>
+  )
+}
 
 export const FeedbackRequest = () => {
+  const [selected, setSelected] = useState(false)
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const { userId } = useParams();
   const [user, setUser] = useState();
@@ -81,6 +101,7 @@ export const FeedbackRequest = () => {
               <div className="">
                 <div className="flex items-center justify-between">
                   <h2 className="">Feedback for {user.fullName}</h2>
+                  {currentUser ? <SaveFeedback selected={selected} setSelected={setSelected} /> : <Link className='underline text-blue-700' to='/login'>Sign in to save sent feedback.</Link>}
                 </div>
                 <div className="grid grid-cols-2 gap-x-4 items-center my-4">
                   <div className="col-span-2 md:col-span-1 flex items-center">
@@ -91,7 +112,7 @@ export const FeedbackRequest = () => {
                       type="text"
                       name="authorName"
                       placeholder="Anonymous"
-                      defaultValue={""}
+                      defaultValue={currentUser?.full_name || ""}
                       ref={register}
                     />
                   </div>
@@ -119,6 +140,13 @@ export const FeedbackRequest = () => {
                   type="hidden"
                   name="recipientId"
                   defaultValue={user.id}
+                  ref={register}
+                />
+                <input
+                  className=""
+                  type="hidden"
+                  name="authorId"
+                  defaultValue={selected ? currentUser.uuid : ""}
                   ref={register}
                 />
                 <div className={`py-4`}>

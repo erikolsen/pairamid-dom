@@ -23,7 +23,7 @@ const FeedbackTagGiven = ({ tag }) => {
   );
 };
 
-const FeedbackCard = ({ feedback, updated, setEditing }) => {
+const FeedbackCard = ({ feedback, updated, setEditing, received }) => {
   const updatedNotification = updated ? (
     <Faded duration={10} isOut={true}>
       <p className="ml-4 text-green font-bold">Updated</p>
@@ -37,6 +37,9 @@ const FeedbackCard = ({ feedback, updated, setEditing }) => {
     <div className="col-span-1 bg-white shadow-lg rounded-lg">
       <div className="h-full relative p-4">
         <div className="flex justify-between">
+          {!received && <p className="mb-2 mr-4 text-sm">
+            To: {feedback.recipient.fullName}
+          </p>}
           {updatedNotification}
           <p className="mb-2 mr-4 text-sm">
             {format(new Date(feedback.createdAt), "MM/dd/yyyy")}
@@ -59,7 +62,7 @@ const FeedbackCard = ({ feedback, updated, setEditing }) => {
           </ul>
         </div>
         <div className="h-10" />
-        <div className="absolute bottom-0 left-0 w-full">
+        {received && <div className="absolute bottom-0 left-0 w-full">
           <div className="flex justify-center">
             <p
               onClick={() => setEditing({ inProgress: true, updated: false })}
@@ -68,7 +71,7 @@ const FeedbackCard = ({ feedback, updated, setEditing }) => {
               Edit
             </p>
           </div>
-        </div>
+        </div>}
       </div>
     </div>
   );

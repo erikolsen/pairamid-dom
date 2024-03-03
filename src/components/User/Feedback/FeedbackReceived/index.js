@@ -16,15 +16,17 @@ import { getCount } from "../../../../util/getCount";
 import useToggle from "../../../../util/useToggle";
 import DisplayCard from "./DisplayCard";
 
+const FEEDBACK_RECEIVED = 'feedbackReceived'
+const FEEDBACK_SENT = 'feedbackSent'
+
 const hasGlowsAndGrowsTags = (user) =>
   user.feedbackTagGroups.some((g) => g.name === "Glows/Grows");
 
 const FilterButton = ({ name, onClick, active }) => (
   <button
     onClick={onClick}
-    className={`ml-2 flex items-center border border-gray-border rounded-lg px-4 py-2 focus:outline-none hover:border-green-icon ${
-      active && "bg-green-icon text-white"
-    }`}
+    className={`ml-2 flex items-center border border-gray-border rounded-lg px-4 py-2 focus:outline-none hover:border-green-icon ${active && "bg-green-icon text-white"
+      }`}
   >
     <p className="text-sm">{name}</p>
   </button>
@@ -73,6 +75,7 @@ const FeedbackReceived = ({
   const [showCharts, toggleCharts] = useToggle(false);
 
   if (!user) return null;
+  const [active, setActive] = useState(FEEDBACK_RECEIVED);
 
   const tagUnion = (fb) =>
     _.difference(
@@ -80,7 +83,7 @@ const FeedbackReceived = ({
       fb.tags.map((t) => t.id)
     ).length === 0;
 
-  const filteredFeedback = user.feedbackReceived
+  const filteredFeedback = user[active]
     .filter(tagUnion)
     .filter(dateFilter);
 
@@ -93,7 +96,19 @@ const FeedbackReceived = ({
     <main className="bg-gray-lightcol-span-7 h-full">
       <section>
         <div className="md:flex md:justify-between md:items-center">
-          <h2 className="my-2">Feedback</h2>
+          <div className='flex items-center'>
+            <h2 className='my-4'>Feedback</h2>
+            <p
+              onClick={() => setActive(FEEDBACK_RECEIVED)}
+              className={`ml-2 flex items-center border border-gray-border rounded-lg px-4 py-2 focus:outline-none hover:border-green-icon ${active === FEEDBACK_RECEIVED && "bg-green-icon text-white"}`} >
+              Received
+            </p>
+            <p
+              onClick={() => setActive(FEEDBACK_SENT)}
+              className={`ml-2 flex items-center border border-gray-border rounded-lg px-4 py-2 focus:outline-none hover:border-green-icon ${active === FEEDBACK_SENT && "bg-green-icon text-white"}`}>
+              Sent
+            </p>
+          </div>
           <div className="flex my-2">
             <FilterButton
               name="Manage Tags"
@@ -113,66 +128,72 @@ const FeedbackReceived = ({
           </div>
         </div>
 
-        {showTags && (
-          <div className={`my-4`}>
-            <ManageTags
-              user={user}
-              feedbackTagGroups={user.feedbackTagGroups}
-            />
-          </div>
-        )}
-
-        {showFilters && (
-          <div className={`grid grid-cols-3 gap-x-4 gap-y-4`}>
-            <div className="col-span-3 md:col-span-1 bg-white shadow-lg rounded-lg p-4">
-              <h2 className="text-center my-2">Filter by Tag</h2>
-              <TagGroups
-                groups={user.feedbackTagGroups}
-                tags={tags}
-                setTags={setTags}
-                tagCounts={tagCounts}
+        {
+          showTags && (
+            <div className={`my-4`}>
+              <ManageTags
+                user={user}
+                feedbackTagGroups={user.feedbackTagGroups}
               />
             </div>
-            <div className="col-span-3 md:col-span-2 bg-white shadow-lg rounded-lg p-4">
-              <div className="flex justify-center">
-                <DateRangePicker
-                  ranges={[selectedRange]}
-                  maxDate={today}
-                  rangeColors={["#08697A"]}
-                  onChange={setSelectedRange}
-                  staticRanges={defaultStaticRanges}
+          )
+        }
+
+        {
+          showFilters && (
+            <div className={`grid grid-cols-3 gap-x-4 gap-y-4`}>
+              <div className="col-span-3 md:col-span-1 bg-white shadow-lg rounded-lg p-4">
+                <h2 className="text-center my-2">Filter by Tag</h2>
+                <TagGroups
+                  groups={user.feedbackTagGroups}
+                  tags={tags}
+                  setTags={setTags}
+                  tagCounts={tagCounts}
                 />
               </div>
-            </div>
-            <div className="col-span-3 border-b-2 border-gray-border mt-2 mb-4" />
-          </div>
-        )}
-
-        {showCharts && (
-          <div className={`my-4`}>
-            <div className="bg-white rounded-lg shadow-lg">
-              {hasGlowsAndGrowsTags(user) ? (
-                <>
-                  <h2 className="text-center pt-4">Glows and Grows</h2>
-                  <PositiveNegativeBar
-                    filteredFeedback={filteredFeedback}
-                    feedbackTagGroups={user.feedbackTagGroups}
+              <div className="col-span-3 md:col-span-2 bg-white shadow-lg rounded-lg p-4">
+                <div className="flex justify-center">
+                  <DateRangePicker
+                    ranges={[selectedRange]}
+                    maxDate={today}
+                    rangeColors={["#08697A"]}
+                    onChange={setSelectedRange}
+                    staticRanges={defaultStaticRanges}
                   />
-                </>
-              ) : (
-                <>
-                  <h2 className="text-center pt-4">Tag Radar</h2>
-                  <RadarChartRecharts tagCounts={tagCounts} />
-                </>
-              )}
+                </div>
+              </div>
+              <div className="col-span-3 border-b-2 border-gray-border mt-2 mb-4" />
             </div>
+          )
+        }
 
-            <div className="bg-white rounded-lg shadow-lg my-4">
-              <h2 className="text-center pt-4">Tags By Date</h2>
-              <SimpleScatterChart filteredFeedback={filteredFeedback} />
+        {
+          showCharts && (
+            <div className={`my-4`}>
+              <div className="bg-white rounded-lg shadow-lg">
+                {hasGlowsAndGrowsTags(user) ? (
+                  <>
+                    <h2 className="text-center pt-4">Glows and Grows</h2>
+                    <PositiveNegativeBar
+                      filteredFeedback={filteredFeedback}
+                      feedbackTagGroups={user.feedbackTagGroups}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <h2 className="text-center pt-4">Tag Radar</h2>
+                    <RadarChartRecharts tagCounts={tagCounts} />
+                  </>
+                )}
+              </div>
+
+              <div className="bg-white rounded-lg shadow-lg my-4">
+                <h2 className="text-center pt-4">Tags By Date</h2>
+                <SimpleScatterChart filteredFeedback={filteredFeedback} />
+              </div>
             </div>
-          </div>
-        )}
+          )
+        }
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {filteredFeedback.map((feedback) => (
@@ -183,11 +204,12 @@ const FeedbackReceived = ({
               updateFeedback={updateFeedback}
               deleteFeedback={deleteFeedback}
               duplicateFeedback={duplicateFeedback}
+              received={active === FEEDBACK_RECEIVED}
             />
           ))}
         </div>
-      </section>
-    </main>
+      </section >
+    </main >
   );
 };
 

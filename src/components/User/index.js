@@ -28,6 +28,7 @@ const User = () => {
         setUser(response.data);
       })
       .catch((error) => {
+        console.log('error', error)
         if (error.response.status === 401) {
           history.push("/login");
         }

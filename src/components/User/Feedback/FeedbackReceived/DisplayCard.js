@@ -8,6 +8,7 @@ const DisplayCard = ({
   updateFeedback,
   deleteFeedback,
   duplicateFeedback,
+  received
 }) => {
   const [editing, setEditing] = useState({ inProgress: false, updated: false });
 
@@ -29,6 +30,7 @@ const DisplayCard = ({
         groups={groups}
         updated={editing.updated}
         setEditing={setEditing}
+        received={received}
       />
     );
   }

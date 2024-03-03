@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import logo from '../../../assets/pairamid-logo.png';
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faBars, faUserPlus, faComments, faCommentDots, faShareSquare} from '@fortawesome/free-solid-svg-icons'
+import { faUser, faBars, faUserPlus, faComments, faCommentDots, faShareSquare } from '@fortawesome/free-solid-svg-icons'
 import ListIconLink from './ListIconLink'
 import SignOut from '../../SignOut'
 
@@ -15,7 +15,7 @@ const AuthLink = () => {
     }
 }
 
-const UserLinks = ({currentUser}) => {
+const UserLinks = ({ currentUser }) => {
     const userId = currentUser.uuid
     const [copySuccess, setCopySuccess] = useState('')
     const copyLink = () => {
@@ -47,7 +47,7 @@ const Header = () => {
         <div>
             <header data-cy='header' className="p-3 border-gray-border border-b-2 lg:pt-12 lg:block lg:justify-center lg:h-screen lg:border-r-2 lg:border-b-0">
                 <div className='flex items-center justify-between'>
-                    <button className='focus:outline-none lg:hidden w-full text-left' onClick={()=> setCollapsed(!collapsed)}>
+                    <button className='focus:outline-none lg:hidden w-full text-left' onClick={() => setCollapsed(!collapsed)}>
                         <FontAwesomeIcon icon={faBars} />
                     </button>
 
@@ -59,8 +59,8 @@ const Header = () => {
                         <FontAwesomeIcon icon={faUser} />
                     </Link>}
                 </div>
-                <ul onClick={()=> setCollapsed(true)} className={`lg:block lg:text-base ${classes}`}>
-                    { currentUser && <UserLinks currentUser={currentUser} /> }
+                <ul onClick={() => setCollapsed(true)} className={`lg:block lg:text-base ${classes}`}>
+                    {currentUser && <UserLinks currentUser={currentUser} />}
                     <div className='border-b-2 border-gray-border my-4' />
                     <AuthLink />
                 </ul>
